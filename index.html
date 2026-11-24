@@ -1,0 +1,2198 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Góc Học & Chơi</title>
+
+  <!-- Cấu hình PWA / Web Clip cho iPhone Safari -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Góc Học & Chơi" />
+  <meta name="theme-color" content="#FFF9F2" />
+  <link id="apple-icon-180" rel="apple-touch-icon" sizes="180x180" href="" />
+  <link id="apple-icon-512" rel="apple-touch-icon" sizes="512x512" href="" />
+  <link id="favicon" rel="icon" type="image/png" href="" />
+  <link id="app-manifest" rel="manifest" href="" />
+
+  <!-- Script đồng bộ tự động vẽ Icon màn hình chính 512x512 & 180x180 bằng HTML5 Canvas -->
+  <script>
+    (function initStudyPlayIcon() {
+      try {
+        function roundRect(ctx, x, y, w, h, r) {
+          ctx.beginPath();
+          ctx.moveTo(x + r, y);
+          ctx.lineTo(x + w - r, y);
+          ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+          ctx.lineTo(x + w, y + h - r);
+          ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+          ctx.lineTo(x + r, y + h);
+          ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+          ctx.lineTo(x, y + r);
+          ctx.quadraticCurveTo(x, y, x + r, y);
+          ctx.closePath();
+        }
+
+        function drawStar(ctx, cx, cy, spikes, outerR, innerR) {
+          var rot = (Math.PI / 2) * 3;
+          var step = Math.PI / spikes;
+          ctx.beginPath();
+          ctx.moveTo(cx, cy - outerR);
+          for (var i = 0; i < spikes; i++) {
+            ctx.lineTo(cx + Math.cos(rot) * outerR, cy + Math.sin(rot) * outerR);
+            rot += step;
+            ctx.lineTo(cx + Math.cos(rot) * innerR, cy + Math.sin(rot) * innerR);
+            rot += step;
+          }
+          ctx.closePath();
+        }
+
+        function renderIcon(size) {
+          var canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          var ctx = canvas.getContext('2d');
+          if (!ctx) return '';
+
+          var scale = size / 512;
+          ctx.scale(scale, scale);
+
+          // 1. Nền pastel ấm áp
+          var bgGrad = ctx.createLinearGradient(0, 0, 512, 512);
+          bgGrad.addColorStop(0, '#FFF4E0');
+          bgGrad.addColorStop(0.55, '#FFE2EC');
+          bgGrad.addColorStop(1, '#DDF4FF');
+          ctx.fillStyle = bgGrad;
+          ctx.fillRect(0, 0, 512, 512);
+
+          // Vòng sáng trang trí
+          ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+          ctx.beginPath();
+          ctx.arc(100, 100, 110, 0, Math.PI * 2);
+          ctx.arc(430, 420, 120, 0, Math.PI * 2);
+          ctx.fill();
+
+          // 2. Bảng tính / Sách toán dễ thương ở trung tâm
+          ctx.save();
+          ctx.translate(230, 275);
+          ctx.rotate(-0.06);
+
+          // Bóng mềm
+          roundRect(ctx, -150, -130, 290, 250, 34);
+          ctx.fillStyle = 'rgba(130, 90, 70, 0.14)';
+          ctx.fill();
+
+          // Bìa sách xanh mint pastel
+          roundRect(ctx, -158, -142, 290, 250, 34);
+          ctx.fillStyle = '#5CC8A4';
+          ctx.fill();
+          ctx.strokeStyle = '#389E7E';
+          ctx.lineWidth = 8;
+          ctx.stroke();
+
+          // Gáy sách
+          roundRect(ctx, -158, -142, 42, 250, 18);
+          ctx.fillStyle = '#3DA885';
+          ctx.fill();
+
+          // Trang bảng trắng bên trong
+          roundRect(ctx, -104, -118, 214, 202, 22);
+          ctx.fillStyle = '#FFFDF9';
+          ctx.fill();
+
+          // Ký hiệu phép toán + - × = trên bảng
+          ctx.font = '800 54px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillStyle = '#FF6B6B';
+          ctx.fillText('1+2', 3, -55);
+
+          // Thanh hạt bàn tính màu sắc
+          var barColors = ['#FF8E72', '#FFD166', '#4ECDC4'];
+          for (var r = 0; r < 3; r++) {
+            var by = 8 + r * 30;
+            ctx.strokeStyle = '#D6C7B2';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(-80, by);
+            ctx.lineTo(86, by);
+            ctx.stroke();
+
+            for (var b = 0; b < 4; b++) {
+              ctx.fillStyle = barColors[(r + b) % barColors.length];
+              ctx.beginPath();
+              ctx.arc(-55 + b * 36 + (r % 2) * 14, by, 11, 0, Math.PI * 2);
+              ctx.fill();
+            }
+          }
+          ctx.restore();
+
+          // 3. Cây bút chì màu nghiêng bên phải
+          ctx.save();
+          ctx.translate(378, 286);
+          ctx.rotate(0.45);
+
+          // Thân bút chì vàng cam
+          roundRect(ctx, -28, -140, 56, 210, 14);
+          ctx.fillStyle = '#FFB703';
+          ctx.fill();
+          ctx.strokeStyle = '#D97706';
+          ctx.lineWidth = 6;
+          ctx.stroke();
+
+          // Sọc sáng trên thân bút
+          ctx.fillStyle = '#FFD166';
+          ctx.fillRect(-10, -134, 20, 198);
+
+          // Cục tẩy hồng ở đuôi bút
+          roundRect(ctx, -28, -182, 56, 46, 16);
+          ctx.fillStyle = '#FF758F';
+          ctx.fill();
+          ctx.strokeStyle = '#E11D48';
+          ctx.lineWidth = 5;
+          ctx.stroke();
+
+          // Đai kim loại
+          ctx.fillStyle = '#E2E8F0';
+          ctx.fillRect(-29, -146, 58, 18);
+
+          // Đầu gỗ nhọn
+          ctx.beginPath();
+          ctx.moveTo(-28, 70);
+          ctx.lineTo(28, 70);
+          ctx.lineTo(0, 134);
+          ctx.closePath();
+          ctx.fillStyle = '#FDE6C4';
+          ctx.fill();
+          ctx.strokeStyle = '#D97706';
+          ctx.lineWidth = 5;
+          ctx.stroke();
+
+          // Ngòi chì tím xanh
+          ctx.beginPath();
+          ctx.moveTo(-11, 108);
+          ctx.lineTo(11, 108);
+          ctx.lineTo(0, 134);
+          ctx.closePath();
+          ctx.fillStyle = '#6366F1';
+          ctx.fill();
+          ctx.restore();
+
+          // 4. Ngôi sao vàng lấp lánh góc trên bên phải
+          ctx.save();
+          drawStar(ctx, 386, 108, 5, 58, 27);
+          ctx.fillStyle = '#FFD43B';
+          ctx.fill();
+          ctx.strokeStyle = '#F59E0B';
+          ctx.lineWidth = 7;
+          ctx.lineJoin = 'round';
+          ctx.stroke();
+
+          // Mắt cười siêu dễ thương trên ngôi sao
+          ctx.fillStyle = '#78350F';
+          ctx.beginPath();
+          ctx.arc(372, 104, 4.5, 0, Math.PI * 2);
+          ctx.arc(400, 104, 4.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.strokeStyle = '#78350F';
+          ctx.lineWidth = 3.5;
+          ctx.lineCap = 'round';
+          ctx.beginPath();
+          ctx.arc(386, 111, 8, 0.2, Math.PI - 0.2);
+          ctx.stroke();
+
+          // Ngôi sao nhỏ góc trái dưới
+          drawStar(ctx, 96, 405, 5, 24, 11);
+          ctx.fillStyle = '#FF9F1C';
+          ctx.fill();
+          ctx.restore();
+
+          return canvas.toDataURL('image/png');
+        }
+
+        var icon180 = renderIcon(180);
+        var icon512 = renderIcon(512);
+
+        if (icon180) {
+          var el180 = document.getElementById('apple-icon-180');
+          if (el180) el180.href = icon180;
+          var fav = document.getElementById('favicon');
+          if (fav) fav.href = icon180;
+        }
+        if (icon512) {
+          var el512 = document.getElementById('apple-icon-512');
+          if (el512) el512.href = icon512;
+          window.__APP_ICON_URL__ = icon180 || icon512;
+
+          var manifest = {
+            name: 'Góc Học & Chơi',
+            short_name: 'Góc Học & Chơi',
+            description: 'Luyện toán nhanh lớp 2 & Góc chơi ngoan cho bé 3 tuổi',
+            start_url: '.',
+            display: 'standalone',
+            background_color: '#FFF9F2',
+            theme_color: '#FFF9F2',
+            icons: [
+              { src: icon180, sizes: '180x180', type: 'image/png' },
+              { src: icon512, sizes: '512x512', type: 'image/png', purpose: 'any maskable' }
+            ]
+          };
+          var blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+          var manifestEl = document.getElementById('app-manifest');
+          if (manifestEl) manifestEl.href = URL.createObjectURL(blob);
+        }
+      } catch (e) {
+        // Bỏ qua an toàn nếu trình duyệt không hỗ trợ Canvas
+      }
+    })();
+  </script>
+
+  <!-- Tailwind CSS & Font Nunito thân thiện với trẻ em -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Nunito', 'Quicksand', 'system-ui', '-apple-system', 'sans-serif']
+          },
+          colors: {
+            cream: '#FFF9F2',
+            berry: {
+              50: '#FFF1F5',
+              100: '#FFE4EC',
+              400: '#FB7185',
+              500: '#F43F5E',
+              600: '#E11D48'
+            },
+            sunny: {
+              50: '#FFFBEB',
+              100: '#FEF3C7',
+              400: '#FBBF24',
+              500: '#F59E0B'
+            },
+            mint: {
+              50: '#ECFDF5',
+              100: '#D1FAE5',
+              500: '#10B981',
+              600: '#059669'
+            },
+            skykid: {
+              50: '#F0F9FF',
+              100: '#E0F2FE',
+              500: '#0EA5E9',
+              600: '#0284C7'
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    html, body {
+      background-color: #FFF9F2;
+      color: #292524;
+      -webkit-tap-highlight-color: transparent;
+      overflow-x: hidden;
+      overscroll-behavior-y: none;
+    }
+
+    .pt-safe-top {
+      padding-top: env(safe-area-inset-top, 0px);
+    }
+    .pb-safe-nav {
+      padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
+    }
+    .bottom-nav-safe {
+      padding-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    @keyframes bouncePop {
+      0% { transform: scale(1); }
+      35% { transform: scale(1.12); }
+      70% { transform: scale(0.95); }
+      100% { transform: scale(1); }
+    }
+    .animate-bounce-pop {
+      animation: bouncePop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes shakeSoft {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+    }
+    .animate-shake {
+      animation: shakeSoft 0.4s ease-in-out;
+    }
+
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tab-panel {
+      animation: fadeSlide 0.2s ease-out;
+    }
+
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+    /* Khóa cuộn trang trên vùng vẽ cảm ứng */
+    #drawing-canvas {
+      touch-action: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+  </style>
+</head>
+<body class="font-sans antialiased min-h-screen flex flex-col bg-cream text-stone-800 select-none">
+
+  <!-- Canvas Pháo Giấy Chúc Mừng -->
+  <canvas id="confetti-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-50"></canvas>
+
+  <!-- Toast Thông Báo Nhẹ Nhàng -->
+  <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2 w-[92%] max-w-sm pointer-events-none"></div>
+
+  <!-- ========================================================= -->
+  <!-- HEADER GỌN GÀNG                                           -->
+  <!-- ========================================================= -->
+  <header class="sticky top-0 z-30 bg-cream/95 backdrop-blur-md border-b border-orange-100/90 pt-safe-top">
+    <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-sunny-400 to-berry-400 flex items-center justify-center shadow-sm overflow-hidden shrink-0">
+          <img id="header-app-icon" alt="Góc Học & Chơi" class="w-full h-full object-cover hidden" />
+          <span id="header-app-fallback" class="text-xl">🎒</span>
+        </div>
+        <div class="min-w-0">
+          <h1 class="text-lg sm:text-xl font-black tracking-tight text-stone-800 leading-tight truncate">Góc Học & Chơi</h1>
+          <p class="text-[11px] font-bold text-stone-400 hidden sm:block">Chị lớn Toán Lớp 2 • Em nhỏ 3 Tuổi</p>
+        </div>
+      </div>
+
+      <!-- Điều hướng máy tính -->
+      <nav class="hidden md:flex items-center bg-orange-100/70 p-1 rounded-2xl gap-1">
+        <button type="button" onclick="switchMainTab('math')" data-desktop-tab="math"
+          class="desktop-tab-btn px-4 py-2 rounded-xl text-sm font-extrabold transition flex items-center gap-2">
+          <span>🧮</span><span>Toán Lớp 2</span>
+        </button>
+        <button type="button" onclick="switchMainTab('toddler')" data-desktop-tab="toddler"
+          class="desktop-tab-btn px-4 py-2 rounded-xl text-sm font-extrabold transition flex items-center gap-2">
+          <span>🎨</span><span>Bé 3 Tuổi</span>
+        </button>
+      </nav>
+
+      <!-- Nút Bật/Tắt Âm Thanh (Tiện tắt khi em nhỏ ngủ) -->
+      <button type="button" id="sound-toggle-btn" onclick="toggleSound()" aria-label="Bật hoặc tắt âm thanh"
+        class="h-10 px-3 rounded-2xl bg-white border-2 border-orange-100 shadow-2xs flex items-center gap-1.5 text-stone-700 hover:bg-orange-50 active:scale-95 transition shrink-0">
+        <span id="sound-icon" class="text-lg leading-none">🔊</span>
+        <span id="sound-label" class="text-xs font-extrabold hidden sm:inline">Bật tiếng</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ========================================================= -->
+  <!-- NỘI DUNG CHÍNH                                            -->
+  <!-- ========================================================= -->
+  <main class="flex-1 w-full max-w-3xl mx-auto px-4 pt-4 pb-safe-nav md:pb-10">
+
+    <!-- ======================================================= -->
+    <!-- TAB 1: TOÁN LỚP 2 (LUYỆN TOÁN NHANH)                    -->
+    <!-- ======================================================= -->
+    <section id="tab-math" class="tab-panel space-y-4">
+
+      <!-- 1. Thanh Thống Kê Nhanh -->
+      <div class="bg-gradient-to-br from-sky-500 via-indigo-500 to-violet-500 rounded-3xl p-4 sm:p-5 text-white shadow-lg shadow-indigo-500/20 space-y-3">
+        <div class="flex items-center justify-between gap-2 flex-wrap">
+          <div class="flex items-center gap-3">
+            <div class="bg-white/20 backdrop-blur-xs rounded-2xl px-3.5 py-2 flex items-center gap-2">
+              <span class="text-2xl">🔥</span>
+              <div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-sky-100">Chuỗi ngày</div>
+                <div id="math-streak-val" class="text-xl font-black leading-none">0 ngày</div>
+              </div>
+            </div>
+            <div class="bg-white/20 backdrop-blur-xs rounded-2xl px-3.5 py-2 flex items-center gap-2">
+              <span class="text-2xl">⭐</span>
+              <div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-sky-100">Tổng sao</div>
+                <div id="math-stars-val" class="text-xl font-black leading-none">0</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button type="button" onclick="openModal('modal-times-table')"
+              class="px-3 py-2 rounded-2xl bg-white/20 hover:bg-white/30 active:scale-95 transition text-xs font-extrabold flex items-center gap-1.5">
+              <span>📖</span><span>Cửu chương 2–5</span>
+            </button>
+            <button type="button" onclick="openMathHistoryModal()"
+              class="px-3 py-2 rounded-2xl bg-white/20 hover:bg-white/30 active:scale-95 transition text-xs font-extrabold flex items-center gap-1.5">
+              <span>📜</span><span>Lịch sử</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Màn Hình Chọn Chế Độ Luyện Tập -->
+      <div id="math-setup-view" class="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border-2 border-orange-100/80 space-y-5">
+        <!-- Chủ đề -->
+        <div class="space-y-2.5">
+          <h2 class="text-sm sm:text-base font-black text-stone-800 flex items-center gap-1.5">
+            <span>🎯</span> 1. Chọn dạng toán
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            <button type="button" onclick="selectMathTopic('addsub100')" data-topic="addsub100"
+              class="math-topic-btn p-3.5 rounded-2xl border-2 text-left transition active:scale-[0.98] flex items-center gap-3">
+              <span class="w-11 h-11 rounded-2xl bg-amber-100 text-2xl flex items-center justify-center shrink-0">➕</span>
+              <div>
+                <div class="font-black text-sm text-stone-800">Cộng trừ phạm vi 100</div>
+                <div class="text-xs font-semibold text-stone-500">Có nhớ & không nhớ</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectMathTopic('mul25')" data-topic="mul25"
+              class="math-topic-btn p-3.5 rounded-2xl border-2 text-left transition active:scale-[0.98] flex items-center gap-3">
+              <span class="w-11 h-11 rounded-2xl bg-rose-100 text-2xl flex items-center justify-center shrink-0">✖️</span>
+              <div>
+                <div class="font-black text-sm text-stone-800">Bảng nhân 2 – 5</div>
+                <div class="text-xs font-semibold text-stone-500">Ôn thuộc lòng bảng nhân</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectMathTopic('div25')" data-topic="div25"
+              class="math-topic-btn p-3.5 rounded-2xl border-2 text-left transition active:scale-[0.98] flex items-center gap-3">
+              <span class="w-11 h-11 rounded-2xl bg-emerald-100 text-2xl flex items-center justify-center shrink-0">➗</span>
+              <div>
+                <div class="font-black text-sm text-stone-800">Bảng chia 2 – 5</div>
+                <div class="text-xs font-semibold text-stone-500">Chia hết trong bảng 2–5</div>
+              </div>
+            </button>
+            <button type="button" onclick="selectMathTopic('mixed')" data-topic="mixed"
+              class="math-topic-btn p-3.5 rounded-2xl border-2 text-left transition active:scale-[0.98] flex items-center gap-3">
+              <span class="w-11 h-11 rounded-2xl bg-violet-100 text-2xl flex items-center justify-center shrink-0">🌈</span>
+              <div>
+                <div class="font-black text-sm text-stone-800">Tổng hợp lớp 2</div>
+                <div class="text-xs font-semibold text-stone-500">Trộn cả cộng, trừ, nhân, chia</div>
+              </div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hình thức trả lời -->
+        <div class="space-y-2.5">
+          <h2 class="text-sm sm:text-base font-black text-stone-800 flex items-center gap-1.5">
+            <span>⌨️</span> 2. Cách trả lời
+          </h2>
+          <div class="grid grid-cols-2 gap-2.5">
+            <button type="button" onclick="selectMathAnswerMode('choice')" data-ansmode="choice"
+              class="math-ansmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95">
+              <div class="text-2xl mb-0.5">🔘</div>
+              <div class="font-black text-sm">Trắc nghiệm</div>
+              <div class="text-[11px] font-semibold opacity-75">4 đáp án nút to</div>
+            </button>
+            <button type="button" onclick="selectMathAnswerMode('keypad')" data-ansmode="keypad"
+              class="math-ansmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95">
+              <div class="text-2xl mb-0.5">🔢</div>
+              <div class="font-black text-sm">Tự gõ đáp án</div>
+              <div class="text-[11px] font-semibold opacity-75">Bàn phím số 0–9</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Thời gian / Số câu -->
+        <div class="space-y-2.5">
+          <h2 class="text-sm sm:text-base font-black text-stone-800 flex items-center gap-1.5">
+            <span>⏱️</span> 3. Chế độ chơi
+          </h2>
+          <div class="grid grid-cols-2 gap-2.5">
+            <button type="button" onclick="selectMathDurationMode('10q')" data-durmode="10q"
+              class="math-durmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95">
+              <div class="text-2xl mb-0.5">📝</div>
+              <div class="font-black text-sm">Luyện 10 câu</div>
+              <div class="text-[11px] font-semibold opacity-75">Thoải mái không tính giờ</div>
+            </button>
+            <button type="button" onclick="selectMathDurationMode('3min')" data-durmode="3min"
+              class="math-durmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95">
+              <div class="text-2xl mb-0.5">⚡</div>
+              <div class="font-black text-sm">Thử thách 3 phút</div>
+              <div class="text-[11px] font-semibold opacity-75">Làm càng nhiều càng tốt</div>
+            </button>
+          </div>
+        </div>
+
+        <!-- Nút Bắt đầu -->
+        <button type="button" onclick="startMathQuiz()"
+          class="w-full py-4 rounded-2xl bg-gradient-to-r from-berry-500 via-orange-500 to-sunny-500 hover:brightness-105 text-white font-black text-lg shadow-lg shadow-orange-500/25 active:scale-[0.98] transition flex items-center justify-center gap-2">
+          <span>Bắt đầu làm bài</span>
+          <span class="text-xl">🚀</span>
+        </button>
+      </div>
+
+      <!-- 3. Màn Hình Làm Bài -->
+      <div id="math-quiz-view" class="hidden bg-white rounded-3xl p-4 sm:p-6 shadow-sm border-2 border-orange-100 space-y-4">
+        <!-- Thanh trên của bài làm -->
+        <div class="flex items-center justify-between gap-2">
+          <button type="button" onclick="exitMathQuiz()"
+            class="px-3 py-1.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-600 text-xs font-extrabold active:scale-95 transition">
+            ← Thoát
+          </button>
+
+          <div class="flex items-center gap-2">
+            <span id="quiz-progress-pill" class="px-3 py-1.5 rounded-xl bg-sky-50 text-sky-700 font-black text-xs sm:text-sm">
+              Câu 1 / 10
+            </span>
+            <span id="quiz-score-pill" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 font-black text-xs sm:text-sm">
+              ✅ 0 đúng
+            </span>
+          </div>
+        </div>
+
+        <!-- Thanh tiến độ -->
+        <div class="w-full h-3 bg-orange-100 rounded-full overflow-hidden">
+          <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-sky-400 to-indigo-500 rounded-full transition-all duration-300" style="width: 10%"></div>
+        </div>
+
+        <!-- Khung Phép Tính Siêu To -->
+        <div id="quiz-question-card" class="rounded-3xl bg-gradient-to-b from-amber-50 to-orange-50/70 border-2 border-amber-200/80 py-7 px-4 text-center space-y-2 transition-colors">
+          <div id="quiz-question-text" class="text-4xl sm:text-5xl font-black tracking-wide text-stone-800">
+            48 + 37 = ?
+          </div>
+          <div id="quiz-feedback-msg" class="min-h-[26px] text-sm sm:text-base font-extrabold"></div>
+        </div>
+
+        <!-- Vùng Trả Lời 1: Trắc Nghiệm 4 Đáp Án -->
+        <div id="quiz-choices-area" class="grid grid-cols-2 gap-3"></div>
+
+        <!-- Vùng Trả Lời 2: Bàn Phím Số 0-9 -->
+        <div id="quiz-keypad-area" class="hidden space-y-3">
+          <div class="flex items-center justify-center">
+            <div id="keypad-display" class="w-full max-w-xs h-14 rounded-2xl bg-cream border-2 border-indigo-200 flex items-center justify-center text-3xl font-black text-indigo-700 tracking-widest">
+              ?
+            </div>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2.5 max-w-sm mx-auto">
+            <button type="button" onclick="pressKeypad('1')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">1</button>
+            <button type="button" onclick="pressKeypad('2')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">2</button>
+            <button type="button" onclick="pressKeypad('3')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">3</button>
+            <button type="button" onclick="pressKeypad('4')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">4</button>
+            <button type="button" onclick="pressKeypad('5')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">5</button>
+            <button type="button" onclick="pressKeypad('6')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">6</button>
+            <button type="button" onclick="pressKeypad('7')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">7</button>
+            <button type="button" onclick="pressKeypad('8')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">8</button>
+            <button type="button" onclick="pressKeypad('9')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">9</button>
+            <button type="button" onclick="pressKeypad('DEL')" class="h-14 rounded-2xl bg-rose-50 hover:bg-rose-100 border-2 border-rose-200 text-base font-black text-rose-600 active:scale-95 transition">⌫ Xóa</button>
+            <button type="button" onclick="pressKeypad('0')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">0</button>
+            <button type="button" onclick="submitKeypadAnswer()" class="h-14 rounded-2xl bg-emerald-500 hover:bg-emerald-600 border-2 border-emerald-600 text-base font-black text-white shadow-sm active:scale-95 transition">Kiểm tra ✓</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Màn Hình Tổng Kết -->
+      <div id="math-summary-view" class="hidden bg-white rounded-3xl p-6 shadow-sm border-2 border-amber-200 text-center space-y-5">
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br from-sunny-400 to-orange-500 flex items-center justify-center text-4xl shadow-md animate-bounce-pop">
+          🏆
+        </div>
+        <div>
+          <h2 id="summary-praise" class="text-2xl font-black text-stone-800">Giỏi quá đi thôi!</h2>
+          <p id="summary-subtext" class="text-sm font-bold text-stone-500 mt-1">Con đã hoàn thành bài luyện tập hôm nay</p>
+        </div>
+
+        <div class="grid grid-cols-3 gap-2.5">
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3">
+            <div class="text-xs font-bold text-emerald-700">Câu đúng</div>
+            <div id="summary-correct" class="text-2xl font-black text-emerald-600 mt-0.5">0/10</div>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3">
+            <div class="text-xs font-bold text-amber-700">Sao thưởng</div>
+            <div id="summary-stars" class="text-2xl font-black text-amber-500 mt-0.5">+0 ⭐</div>
+          </div>
+          <div class="bg-sky-50 border border-sky-200 rounded-2xl p-3">
+            <div class="text-xs font-bold text-sky-700">Chính xác</div>
+            <div id="summary-accuracy" class="text-2xl font-black text-sky-600 mt-0.5">0%</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <button type="button" onclick="startMathQuiz()"
+            class="py-3.5 rounded-2xl bg-gradient-to-r from-berry-500 to-orange-500 text-white font-black text-base shadow-md active:scale-95 transition">
+            🔄 Làm lượt mới
+          </button>
+          <button type="button" onclick="showMathSetup()"
+            class="py-3.5 rounded-2xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-black text-base active:scale-95 transition">
+            🏠 Về chọn bài
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ======================================================= -->
+    <!-- TAB 2: GÓC BÉ 3 TUỔI (CHƠI NGOAN & NHẬN BIẾT)           -->
+    <!-- ======================================================= -->
+    <section id="tab-toddler" class="tab-panel hidden space-y-4">
+
+      <!-- 3 Nút Chuyển Mục Con To, Dễ Bấm -->
+      <div class="grid grid-cols-3 gap-2 bg-white p-1.5 rounded-3xl shadow-sm border-2 border-orange-100">
+        <button type="button" onclick="switchToddlerSubTab('explore')" id="toddler-sub-explore"
+          class="py-3 px-2 rounded-2xl font-black text-xs sm:text-sm transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5">
+          <span class="text-xl">🗣️</span><span>Khám Phá</span>
+        </button>
+        <button type="button" onclick="switchToddlerSubTab('quiz')" id="toddler-sub-quiz"
+          class="py-3 px-2 rounded-2xl font-black text-xs sm:text-sm transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5">
+          <span class="text-xl">🔍</span><span>Đố Bé Tìm</span>
+        </button>
+        <button type="button" onclick="switchToddlerSubTab('draw')" id="toddler-sub-draw"
+          class="py-3 px-2 rounded-2xl font-black text-xs sm:text-sm transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5">
+          <span class="text-xl">🎨</span><span>Tập Vẽ</span>
+        </button>
+      </div>
+
+      <!-- MỤC 2A: KHÁM PHÁ (CHẠM & ĐỌC TIẾNG VIỆT) -->
+      <div id="toddler-view-explore" class="space-y-4">
+        <!-- Bộ lọc 4 chủ đề nút to -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <button type="button" onclick="selectExploreCategory('animals')" data-exp-cat="animals"
+            class="exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5">
+            <span class="text-xl">🐾</span><span>Con vật</span>
+          </button>
+          <button type="button" onclick="selectExploreCategory('fruits')" data-exp-cat="fruits"
+            class="exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5">
+            <span class="text-xl">🍓</span><span>Hoa quả</span>
+          </button>
+          <button type="button" onclick="selectExploreCategory('vehicles')" data-exp-cat="vehicles"
+            class="exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5">
+            <span class="text-xl">🚗</span><span>Phương tiện</span>
+          </button>
+          <button type="button" onclick="selectExploreCategory('colors')" data-exp-cat="colors"
+            class="exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5">
+            <span class="text-xl">🌈</span><span>Màu & Hình</span>
+          </button>
+        </div>
+
+        <!-- Lưới thẻ to (2 cột trên điện thoại) -->
+        <div id="explore-cards-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
+      </div>
+
+      <!-- MỤC 2B: ĐỐ BÉ TÌM (TRÒ CHƠI TƯƠNG TÁC) -->
+      <div id="toddler-view-quiz" class="hidden space-y-4">
+        <!-- Thanh hỏi & loa đọc lại -->
+        <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border-2 border-pink-200 flex flex-col items-center text-center gap-3">
+          <div class="w-full flex items-center justify-between gap-2">
+            <select id="toddler-quiz-category" onchange="nextToddlerQuizRound()"
+              class="px-3 py-2 rounded-2xl bg-pink-50 border border-pink-200 text-xs sm:text-sm font-extrabold text-pink-700 focus:outline-none">
+              <option value="all">✨ Tất cả chủ đề</option>
+              <option value="animals">🐾 Con vật</option>
+              <option value="fruits">🍓 Hoa quả</option>
+              <option value="vehicles">🚗 Phương tiện</option>
+              <option value="colors">🌈 Màu & Hình</option>
+            </select>
+            <span id="toddler-quiz-stars" class="px-3 py-1.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 font-black text-sm">
+              ⭐ 0
+            </span>
+          </div>
+
+          <button type="button" onclick="speakToddlerQuizPrompt()"
+            class="w-full py-4 px-5 rounded-3xl bg-gradient-to-r from-pink-500 via-rose-500 to-orange-400 text-white shadow-md shadow-pink-500/20 active:scale-95 transition flex items-center justify-center gap-3">
+            <span class="w-12 h-12 rounded-2xl bg-white/25 flex items-center justify-center text-3xl shrink-0">🔊</span>
+            <div class="text-left">
+              <div class="text-xs font-bold text-pink-100">Bấm để nghe lại câu hỏi</div>
+              <div id="toddler-quiz-question" class="text-lg sm:text-xl font-black leading-snug">
+                Bé ơi, Con mèo ở đâu?
+              </div>
+            </div>
+          </button>
+
+          <div id="toddler-quiz-feedback" class="min-h-[28px] text-base font-black text-emerald-600"></div>
+        </div>
+
+        <!-- Lưới 2x2 gồm 4 thẻ hình siêu to -->
+        <div id="toddler-quiz-options" class="grid grid-cols-2 gap-3.5"></div>
+      </div>
+
+      <!-- MỤC 2C: TẬP VẼ (BẢNG VẼ CẢM ỨNG MƯỢT) -->
+      <div id="toddler-view-draw" class="hidden space-y-3">
+        <!-- Chọn hình nền nét mờ tập tô -->
+        <div class="bg-white rounded-3xl p-3 shadow-sm border-2 border-orange-100 space-y-2">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-xs font-black text-stone-500 uppercase tracking-wider px-1">🖍️ Hình mẫu tập tô</span>
+            <div class="flex items-center gap-1.5">
+              <button type="button" onclick="undoDrawing()" title="Hoàn tác"
+                class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-700 font-extrabold text-xs active:scale-95 transition">
+                ↩️ Hoàn tác
+              </button>
+              <button type="button" onclick="clearDrawing()" title="Xóa hết bảng"
+                class="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-extrabold text-xs active:scale-95 transition">
+                🗑️ Xóa
+              </button>
+              <button type="button" onclick="saveDrawingPng()" title="Lưu tranh PNG"
+                class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs active:scale-95 transition">
+                💾 Lưu
+              </button>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
+            <button type="button" onclick="setDrawTemplate('blank')" data-tpl="blank"
+              class="draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition">
+              📄 Trống
+            </button>
+            <button type="button" onclick="setDrawTemplate('sun')" data-tpl="sun"
+              class="draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition">
+              ☀️ Mặt trời
+            </button>
+            <button type="button" onclick="setDrawTemplate('flower')" data-tpl="flower"
+              class="draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition">
+              🌸 Bông hoa
+            </button>
+            <button type="button" onclick="setDrawTemplate('house')" data-tpl="house"
+              class="draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition">
+              🏠 Ngôi nhà
+            </button>
+            <button type="button" onclick="setDrawTemplate('butterfly')" data-tpl="butterfly"
+              class="draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition">
+              🦋 Con bướm
+            </button>
+          </div>
+        </div>
+
+        <!-- Khung Bảng Vẽ 2 Lớp (Nét mẫu mờ ở dưới, Canvas vẽ của bé ở trên) -->
+        <div id="drawing-stage" class="relative w-full h-[360px] sm:h-[430px] bg-white rounded-3xl border-4 border-orange-200 shadow-inner overflow-hidden">
+          <!-- Lớp nền nét đứt mờ (khi tẩy không bao giờ mất nét mẫu) -->
+          <div id="drawing-template-layer" class="absolute inset-0 pointer-events-none flex items-center justify-center p-4"></div>
+          <!-- Lớp Canvas vẽ của bé -->
+          <canvas id="drawing-canvas" class="relative z-10 w-full h-full block cursor-crosshair"></canvas>
+        </div>
+
+        <!-- Thanh Công Cụ Màu Sắc & Cỡ Nét -->
+        <div class="bg-white rounded-3xl p-3.5 shadow-sm border-2 border-orange-100 space-y-3">
+          <!-- 8 màu cơ bản + Bút Cầu Vồng -->
+          <div id="draw-colors-bar" class="flex items-center justify-between gap-1.5 flex-wrap"></div>
+
+          <!-- 3 Cỡ nét + Nút Tẩy -->
+          <div class="flex items-center justify-between gap-2 pt-1 border-t border-orange-50">
+            <div class="flex items-center gap-2">
+              <button type="button" onclick="setBrushSize('small')" data-bsize="small"
+                class="brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition">
+                <span class="w-2.5 h-2.5 rounded-full bg-stone-800 inline-block"></span><span>Nhỏ</span>
+              </button>
+              <button type="button" onclick="setBrushSize('medium')" data-bsize="medium"
+                class="brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition">
+                <span class="w-4 h-4 rounded-full bg-stone-800 inline-block"></span><span>Vừa</span>
+              </button>
+              <button type="button" onclick="setBrushSize('large')" data-bsize="large"
+                class="brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition">
+                <span class="w-5 h-5 rounded-full bg-stone-800 inline-block"></span><span>To</span>
+              </button>
+            </div>
+
+            <button type="button" id="draw-eraser-btn" onclick="toggleEraser()"
+              class="px-4 py-2 rounded-2xl border-2 text-xs font-black transition active:scale-95 flex items-center gap-1.5">
+              <span>🧼</span><span>Tẩy</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ========================================================= -->
+  <!-- THANH ĐIỀU HƯỚNG DƯỚI CÙNG (BOTTOM TAB BAR - 2 TAB LỚN)   -->
+  <!-- ========================================================= -->
+  <nav class="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t-2 border-orange-100 shadow-[0_-6px_24px_rgba(0,0,0,0.05)] bottom-nav-safe" aria-label="Điều hướng chính">
+    <div class="grid grid-cols-2 gap-2 h-[72px] max-w-md mx-auto px-3 py-1.5">
+      <button type="button" onclick="switchMainTab('math')" data-mobile-tab="math"
+        class="mobile-tab-btn rounded-2xl flex items-center justify-center gap-2 font-black text-sm transition-all active:scale-95">
+        <span class="text-2xl leading-none">🧮</span>
+        <span>Toán Lớp 2</span>
+      </button>
+      <button type="button" onclick="switchMainTab('toddler')" data-mobile-tab="toddler"
+        class="mobile-tab-btn rounded-2xl flex items-center justify-center gap-2 font-black text-sm transition-all active:scale-95">
+        <span class="text-2xl leading-none">🎨</span>
+        <span>Bé 3 Tuổi</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ========================================================= -->
+  <!-- MODALS: BẢNG CỬU CHƯƠNG 2-5 & LỊCH SỬ LÀM BÀI             -->
+  <!-- ========================================================= -->
+
+  <!-- Modal Bảng Cửu Chương 2–5 -->
+  <div id="modal-times-table" class="fixed inset-0 z-40 hidden items-end sm:items-center justify-center bg-stone-900/45 backdrop-blur-xs p-0 sm:p-4">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl space-y-4 max-h-[88vh] flex flex-col">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-black text-stone-800">📖 Bảng Cửu Chương 2 – 5</h3>
+        <button type="button" onclick="closeModal('modal-times-table')"
+          class="w-9 h-9 rounded-full bg-stone-100 text-stone-500 hover:bg-stone-200 flex items-center justify-center font-black">✕</button>
+      </div>
+
+      <!-- Chuyển Nhân / Chia -->
+      <div class="grid grid-cols-2 gap-2 bg-orange-50 p-1 rounded-2xl">
+        <button type="button" id="tt-mode-mul" onclick="renderTimesTable('mul')"
+          class="py-2 rounded-xl text-sm font-black transition bg-indigo-500 text-white">✖️ Bảng Nhân</button>
+        <button type="button" id="tt-mode-div" onclick="renderTimesTable('div')"
+          class="py-2 rounded-xl text-sm font-black transition text-stone-600">➗ Bảng Chia</button>
+      </div>
+
+      <!-- Nội dung 4 bảng 2, 3, 4, 5 -->
+      <div id="times-table-content" class="grid grid-cols-2 gap-3 overflow-y-auto pr-1 pb-2"></div>
+    </div>
+  </div>
+
+  <!-- Modal Lịch Sử Làm Bài Toán -->
+  <div id="modal-math-history" class="fixed inset-0 z-40 hidden items-end sm:items-center justify-center bg-stone-900/45 backdrop-blur-xs p-0 sm:p-4">
+    <div class="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl space-y-4 max-h-[85vh] flex flex-col">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-black text-stone-800">📜 Lịch sử làm bài</h3>
+        <button type="button" onclick="closeModal('modal-math-history')"
+          class="w-9 h-9 rounded-full bg-stone-100 text-stone-500 hover:bg-stone-200 flex items-center justify-center font-black">✕</button>
+      </div>
+      <div id="math-history-list" class="overflow-y-auto space-y-2.5 pr-1 flex-1"></div>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- JAVASCRIPT LOGIC TOÀN BỘ ỨNG DỤNG                         -->
+  <!-- ========================================================= -->
+  <script>
+    // =========================================================
+    // 1. TRẠNG THÁI & LOCALSTORAGE
+    // =========================================================
+    const STORAGE_KEY = 'goc_hoc_va_choi_v1';
+
+    function getTodayDateKey() {
+      const d = new Date();
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function getYesterdayDateKey() {
+      const d = new Date();
+      d.setDate(d.getDate() - 1);
+      const y = d.getFullYear();
+      const m = String(d.getMonth() + 1).padStart(2, '0');
+      const day = String(d.getDate()).padStart(2, '0');
+      return `${y}-${m}-${day}`;
+    }
+
+    function getDefaultState() {
+      return {
+        activeMainTab: 'math',
+        activeToddlerSubTab: 'explore',
+        soundEnabled: true,
+
+        // Dữ liệu Toán Lớp 2
+        mathStars: 0,
+        mathStreak: 0,
+        mathLastStudyDate: null,
+        mathTopic: 'addsub100',
+        mathAnswerMode: 'choice',
+        mathDurationMode: '10q',
+        mathHistory: [],
+
+        // Dữ liệu Bé 3 Tuổi
+        exploreCategory: 'animals',
+        toddlerQuizStars: 0
+      };
+    }
+
+    function loadState() {
+      const def = getDefaultState();
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return def;
+        const parsed = JSON.parse(raw);
+        if (!parsed || typeof parsed !== 'object') return def;
+        const merged = Object.assign({}, def, parsed);
+        if (!Array.isArray(merged.mathHistory)) merged.mathHistory = [];
+        return merged;
+      } catch (e) {
+        return def;
+      }
+    }
+
+    let state = loadState();
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    // Kiểm tra streak thực tế (nếu bỏ qua hơn 1 ngày thì hiển thị 0 nhưng không xóa tổng sao)
+    function getEffectiveStreak() {
+      if (!state.mathLastStudyDate) return 0;
+      const today = getTodayDateKey();
+      const yesterday = getYesterdayDateKey();
+      if (state.mathLastStudyDate === today || state.mathLastStudyDate === yesterday) {
+        return state.mathStreak || 0;
+      }
+      return 0;
+    }
+
+    function recordStudyDayForStreak() {
+      const today = getTodayDateKey();
+      const yesterday = getYesterdayDateKey();
+      if (state.mathLastStudyDate === today) return;
+      if (state.mathLastStudyDate === yesterday) {
+        state.mathStreak = (state.mathStreak || 0) + 1;
+      } else {
+        state.mathStreak = 1;
+      }
+      state.mathLastStudyDate = today;
+    }
+
+    // =========================================================
+    // 2. ÂM THANH (WEB AUDIO + WEB SPEECH API TIẾNG VIỆT) & PHÁO GIẤY
+    // =========================================================
+    let audioCtx = null;
+
+    function getAudioCtx() {
+      if (!audioCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (AC) audioCtx = new AC();
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume().catch(() => {});
+      }
+      return audioCtx;
+    }
+
+    function playSound(type) {
+      if (!state.soundEnabled) return;
+      try {
+        const ctx = getAudioCtx();
+        if (!ctx) return;
+        const now = ctx.currentTime;
+
+        if (type === 'ting') {
+          // Tiếng "ting ting" vui nhộn khi làm đúng
+          [659.25, 987.77].forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            const t = now + i * 0.09;
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0.001, t);
+            gain.gain.linearRampToValueAtTime(0.18, t + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + 0.3);
+          });
+        } else if (type === 'boing') {
+          // Tiếng "boing" êm dịu khi sai
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(280, now);
+          osc.frequency.exponentialRampToValueAtTime(160, now + 0.14);
+          osc.frequency.exponentialRampToValueAtTime(220, now + 0.26);
+          gain.gain.setValueAtTime(0.14, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.3);
+        } else if (type === 'pop') {
+          // Tiếng pop dễ thương khi chạm thẻ bé 3 tuổi
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(420, now);
+          osc.frequency.exponentialRampToValueAtTime(760, now + 0.09);
+          gain.gain.setValueAtTime(0.12, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.12);
+        } else if (type === 'win') {
+          // Hợp âm chiến thắng / vỗ tay vui nhộn
+          [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'triangle';
+            const t = now + i * 0.085;
+            osc.frequency.setValueAtTime(freq, t);
+            gain.gain.setValueAtTime(0.001, t);
+            gain.gain.linearRampToValueAtTime(0.16, t + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+            osc.connect(gain);
+            gain.connect(ctx.destination);
+            osc.start(t);
+            osc.stop(t + 0.38);
+          });
+        }
+      } catch (e) {}
+    }
+
+    // Đọc tiếng Việt bằng Web Speech API (ưu tiên giọng vi-VN)
+    let cachedViVoice = null;
+    function refreshVietnameseVoice() {
+      if (!('speechSynthesis' in window)) return;
+      const voices = window.speechSynthesis.getVoices() || [];
+      cachedViVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('vi')) || null;
+    }
+    if ('speechSynthesis' in window) {
+      refreshVietnameseVoice();
+      window.speechSynthesis.onvoiceschanged = refreshVietnameseVoice;
+    }
+
+    function speakVietnamese(text, fallbackSound) {
+      if (!state.soundEnabled) return;
+      try {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const utter = new SpeechSynthesisUtterance(text);
+          utter.lang = 'vi-VN';
+          utter.rate = 0.92;
+          utter.pitch = 1.12;
+          if (!cachedViVoice) refreshVietnameseVoice();
+          if (cachedViVoice) utter.voice = cachedViVoice;
+          window.speechSynthesis.speak(utter);
+        }
+      } catch (e) {}
+      if (fallbackSound) playSound(fallbackSound);
+    }
+
+    function toggleSound() {
+      state.soundEnabled = !state.soundEnabled;
+      if (!state.soundEnabled && 'speechSynthesis' in window) {
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+      }
+      saveState();
+      updateSoundUI();
+      showToast(state.soundEnabled ? '🔊 Đã bật âm thanh' : '🔇 Đã tắt tiếng (yên tĩnh cho bé ngủ)');
+    }
+
+    function updateSoundUI() {
+      const icon = document.getElementById('sound-icon');
+      const label = document.getElementById('sound-label');
+      if (icon) icon.textContent = state.soundEnabled ? '🔊' : '🔇';
+      if (label) label.textContent = state.soundEnabled ? 'Bật tiếng' : 'Đã tắt';
+    }
+
+    // Toast & Modal helpers
+    function showToast(msg, type) {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const el = document.createElement('div');
+      const cls = type === 'success'
+        ? 'bg-emerald-600 text-white'
+        : type === 'warning'
+          ? 'bg-amber-500 text-white'
+          : 'bg-stone-800 text-white';
+      el.className = `${cls} px-4 py-2.5 rounded-2xl shadow-lg text-xs sm:text-sm font-extrabold text-center transition-all duration-200 opacity-0 translate-y-2`;
+      el.textContent = msg;
+      container.appendChild(el);
+      requestAnimationFrame(() => el.classList.remove('opacity-0', 'translate-y-2'));
+      setTimeout(() => {
+        el.classList.add('opacity-0', '-translate-y-2');
+        setTimeout(() => el.remove(), 220);
+      }, 2200);
+    }
+
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.remove('hidden');
+      el.classList.add('flex');
+    }
+
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.add('hidden');
+      el.classList.remove('flex');
+    }
+
+    document.addEventListener('click', (e) => {
+      if (e.target && e.target.id && e.target.id.startsWith('modal-')) {
+        closeModal(e.target.id);
+      }
+    });
+
+    // Hiệu ứng Pháo Giấy Confetti
+    const confettiList = [];
+    let confettiRunning = false;
+
+    function launchConfetti(count) {
+      const canvas = document.getElementById('confetti-canvas');
+      if (!canvas) return;
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const colors = ['#F43F5E', '#FBBF24', '#10B981', '#0EA5E9', '#A855F7', '#FB923C'];
+
+      for (let i = 0; i < (count || 45); i++) {
+        confettiList.push({
+          x: window.innerWidth * (0.15 + Math.random() * 0.7),
+          y: window.innerHeight * 0.28,
+          vx: (Math.random() - 0.5) * 12,
+          vy: -5 - Math.random() * 8,
+          size: 7 + Math.random() * 6,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          rot: Math.random() * 360,
+          vRot: (Math.random() - 0.5) * 14,
+          life: 1
+        });
+      }
+      if (!confettiRunning) {
+        confettiRunning = true;
+        stepConfetti();
+      }
+    }
+
+    function stepConfetti() {
+      const canvas = document.getElementById('confetti-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = confettiList.length - 1; i >= 0; i--) {
+        const p = confettiList[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.32;
+        p.rot += p.vRot;
+        p.life -= 0.015;
+        if (p.life <= 0 || p.y > canvas.height + 20) {
+          confettiList.splice(i, 1);
+          continue;
+        }
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.life);
+        ctx.translate(p.x, p.y);
+        ctx.rotate((p.rot * Math.PI) / 180);
+        ctx.fillStyle = p.color;
+        ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.65);
+        ctx.restore();
+      }
+
+      if (confettiList.length > 0) {
+        requestAnimationFrame(stepConfetti);
+      } else {
+        confettiRunning = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+
+    // =========================================================
+    // 3. ĐIỀU HƯỚNG 2 TAB CHÍNH
+    // =========================================================
+    function switchMainTab(tab) {
+      state.activeMainTab = tab;
+      saveState();
+
+      document.getElementById('tab-math').classList.toggle('hidden', tab !== 'math');
+      document.getElementById('tab-toddler').classList.toggle('hidden', tab !== 'toddler');
+
+      document.querySelectorAll('.desktop-tab-btn').forEach(btn => {
+        const active = btn.getAttribute('data-desktop-tab') === tab;
+        btn.className = active
+          ? 'desktop-tab-btn px-4 py-2 rounded-xl text-sm font-black transition flex items-center gap-2 bg-white text-berry-600 shadow-xs'
+          : 'desktop-tab-btn px-4 py-2 rounded-xl text-sm font-extrabold transition flex items-center gap-2 text-stone-600 hover:text-stone-900';
+      });
+
+      document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
+        const active = btn.getAttribute('data-mobile-tab') === tab;
+        btn.className = active
+          ? 'mobile-tab-btn rounded-2xl flex items-center justify-center gap-2 font-black text-sm transition-all bg-gradient-to-r from-berry-500 to-orange-400 text-white shadow-md shadow-orange-500/20'
+          : 'mobile-tab-btn rounded-2xl flex items-center justify-center gap-2 font-black text-sm transition-all bg-orange-50/70 text-stone-500';
+      });
+
+      if (tab === 'toddler' && state.activeToddlerSubTab === 'draw') {
+        requestAnimationFrame(() => resizeDrawingCanvas(true));
+      }
+    }
+
+    // =========================================================
+    // 4. LOGIC TAB 1: TOÁN LỚP 2
+    // =========================================================
+    let quizSession = null;
+    let quizTimerInterval = null;
+    let quizLocked = false;
+
+    const TOPIC_LABELS = {
+      addsub100: 'Cộng trừ phạm vi 100',
+      mul25: 'Bảng nhân 2–5',
+      div25: 'Bảng chia 2–5',
+      mixed: 'Tổng hợp lớp 2'
+    };
+
+    function renderMathStats() {
+      document.getElementById('math-streak-val').textContent = `${getEffectiveStreak()} ngày`;
+      document.getElementById('math-stars-val').textContent = state.mathStars;
+    }
+
+    function updateMathSetupSelectionUI() {
+      document.querySelectorAll('.math-topic-btn').forEach(btn => {
+        const active = btn.getAttribute('data-topic') === state.mathTopic;
+        btn.className = active
+          ? 'math-topic-btn p-3.5 rounded-2xl border-2 text-left transition active:scale-[0.98] flex items-center gap-3 border-indigo-500 bg-indigo-50/70 shadow-xs'
+          : 'math-topic-btn p-3.5 rounded-2xl border-2 text-left transition active:scale-[0.98] flex items-center gap-3 border-orange-100 bg-cream/60 hover:border-orange-200';
+      });
+
+      document.querySelectorAll('.math-ansmode-btn').forEach(btn => {
+        const active = btn.getAttribute('data-ansmode') === state.mathAnswerMode;
+        btn.className = active
+          ? 'math-ansmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95 border-berry-500 bg-berry-50 text-berry-600 shadow-xs'
+          : 'math-ansmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95 border-orange-100 bg-cream/60 text-stone-600';
+      });
+
+      document.querySelectorAll('.math-durmode-btn').forEach(btn => {
+        const active = btn.getAttribute('data-durmode') === state.mathDurationMode;
+        btn.className = active
+          ? 'math-durmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95 border-emerald-500 bg-emerald-50 text-emerald-700 shadow-xs'
+          : 'math-durmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95 border-orange-100 bg-cream/60 text-stone-600';
+      });
+    }
+
+    function selectMathTopic(topic) {
+      state.mathTopic = topic;
+      saveState();
+      updateMathSetupSelectionUI();
+    }
+
+    function selectMathAnswerMode(mode) {
+      state.mathAnswerMode = mode;
+      saveState();
+      updateMathSetupSelectionUI();
+    }
+
+    function selectMathDurationMode(mode) {
+      state.mathDurationMode = mode;
+      saveState();
+      updateMathSetupSelectionUI();
+    }
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generateMathQuestion(topic) {
+      let actualTopic = topic;
+      if (topic === 'mixed') {
+        const pool = ['addsub100', 'mul25', 'div25'];
+        actualTopic = pool[Math.floor(Math.random() * pool.length)];
+      }
+
+      let text = '';
+      let answer = 0;
+
+      if (actualTopic === 'addsub100') {
+        const isAdd = Math.random() < 0.5;
+        if (isAdd) {
+          // 60% có nhớ, 40% không nhớ trong phạm vi 100
+          const a = randInt(12, 85);
+          const b = randInt(5, 100 - a);
+          text = `${a} + ${b} = ?`;
+          answer = a + b;
+        } else {
+          const a = randInt(20, 100);
+          const b = randInt(6, a - 1);
+          text = `${a} − ${b} = ?`;
+          answer = a - b;
+        }
+      } else if (actualTopic === 'mul25') {
+        const a = randInt(2, 5);
+        const b = randInt(1, 10);
+        text = `${a} × ${b} = ?`;
+        answer = a * b;
+      } else {
+        const divisor = randInt(2, 5);
+        const quotient = randInt(1, 10);
+        const dividend = divisor * quotient;
+        text = `${dividend} : ${divisor} = ?`;
+        answer = quotient;
+      }
+
+      // Tạo 4 đáp án trắc nghiệm hợp lý
+      const choicesSet = new Set([answer]);
+      const offsets = [-10, -5, -3, -2, -1, 1, 2, 3, 5, 10];
+      let guard = 0;
+      while (choicesSet.size < 4 && guard < 60) {
+        guard++;
+        const delta = offsets[Math.floor(Math.random() * offsets.length)];
+        const candidate = answer + delta;
+        if (candidate >= 0 && candidate <= 100) {
+          choicesSet.add(candidate);
+        }
+      }
+      while (choicesSet.size < 4) {
+        choicesSet.add(randInt(0, 50));
+      }
+
+      const choices = Array.from(choicesSet).sort(() => Math.random() - 0.5);
+      return { text, answer, choices };
+    }
+
+    function showMathSetup() {
+      stopQuizTimer();
+      document.getElementById('math-setup-view').classList.remove('hidden');
+      document.getElementById('math-quiz-view').classList.add('hidden');
+      document.getElementById('math-summary-view').classList.add('hidden');
+    }
+
+    function exitMathQuiz() {
+      showMathSetup();
+    }
+
+    function stopQuizTimer() {
+      if (quizTimerInterval) {
+        clearInterval(quizTimerInterval);
+        quizTimerInterval = null;
+      }
+    }
+
+    function startMathQuiz() {
+      stopQuizTimer();
+      quizLocked = false;
+      const isTimed = state.mathDurationMode === '3min';
+
+      quizSession = {
+        topic: state.mathTopic,
+        answerMode: state.mathAnswerMode,
+        durationMode: state.mathDurationMode,
+        totalQuestions: isTimed ? Infinity : 10,
+        answeredCount: 0,
+        correctCount: 0,
+        earnedStars: 0,
+        timeLeftSec: isTimed ? 180 : 0,
+        currentQuestion: null,
+        keypadValue: ''
+      };
+
+      document.getElementById('math-setup-view').classList.add('hidden');
+      document.getElementById('math-summary-view').classList.add('hidden');
+      document.getElementById('math-quiz-view').classList.remove('hidden');
+
+      document.getElementById('quiz-choices-area').classList.toggle('hidden', state.mathAnswerMode !== 'choice');
+      document.getElementById('quiz-keypad-area').classList.toggle('hidden', state.mathAnswerMode !== 'keypad');
+
+      if (isTimed) {
+        quizTimerInterval = setInterval(() => {
+          if (!quizSession) return;
+          quizSession.timeLeftSec--;
+          updateQuizHeader();
+          if (quizSession.timeLeftSec <= 0) {
+            finishMathQuiz();
+          }
+        }, 1000);
+      }
+
+      loadNextMathQuestion();
+    }
+
+    function formatClock(sec) {
+      const s = Math.max(0, sec);
+      const mm = String(Math.floor(s / 60)).padStart(2, '0');
+      const ss = String(s % 60).padStart(2, '0');
+      return `${mm}:${ss}`;
+    }
+
+    function updateQuizHeader() {
+      if (!quizSession) return;
+      const pill = document.getElementById('quiz-progress-pill');
+      const bar = document.getElementById('quiz-progress-bar');
+      document.getElementById('quiz-score-pill').textContent = `✅ ${quizSession.correctCount} đúng`;
+
+      if (quizSession.durationMode === '3min') {
+        pill.textContent = `⏱️ ${formatClock(quizSession.timeLeftSec)}`;
+        const pct = Math.max(0, Math.round((quizSession.timeLeftSec / 180) * 100));
+        bar.style.width = `${pct}%`;
+      } else {
+        const currentNum = Math.min(quizSession.answeredCount + 1, 10);
+        pill.textContent = `Câu ${currentNum} / 10`;
+        bar.style.width = `${Math.round((currentNum / 10) * 100)}%`;
+      }
+    }
+
+    function loadNextMathQuestion() {
+      if (!quizSession) return;
+      quizLocked = false;
+      quizSession.currentQuestion = generateMathQuestion(quizSession.topic);
+      quizSession.keypadValue = '';
+
+      updateQuizHeader();
+
+      const card = document.getElementById('quiz-question-card');
+      card.className = 'rounded-3xl bg-gradient-to-b from-amber-50 to-orange-50/70 border-2 border-amber-200/80 py-7 px-4 text-center space-y-2 transition-colors';
+      document.getElementById('quiz-question-text').textContent = quizSession.currentQuestion.text;
+      document.getElementById('quiz-feedback-msg').textContent = '';
+      document.getElementById('keypad-display').textContent = '?';
+
+      if (quizSession.answerMode === 'choice') {
+        const area = document.getElementById('quiz-choices-area');
+        area.innerHTML = quizSession.currentQuestion.choices.map(val => `
+          <button type="button" onclick="submitChoiceAnswer(${val}, this)"
+            class="quiz-choice-btn py-5 rounded-3xl bg-white hover:bg-indigo-50 border-2 border-indigo-100 text-3xl font-black text-stone-800 shadow-xs active:scale-95 transition">
+            ${val}
+          </button>
+        `).join('');
+      }
+    }
+
+    function pressKeypad(key) {
+      if (!quizSession || quizLocked) return;
+      if (key === 'DEL') {
+        quizSession.keypadValue = quizSession.keypadValue.slice(0, -1);
+      } else if (quizSession.keypadValue.length < 3) {
+        quizSession.keypadValue += key;
+      }
+      document.getElementById('keypad-display').textContent = quizSession.keypadValue || '?';
+    }
+
+    function submitKeypadAnswer() {
+      if (!quizSession || quizLocked) return;
+      if (!quizSession.keypadValue) {
+        showToast('Bé hãy bấm số để trả lời nhé!', 'warning');
+        return;
+      }
+      evaluateMathAnswer(parseInt(quizSession.keypadValue, 10), null);
+    }
+
+    function submitChoiceAnswer(val, btnEl) {
+      if (!quizSession || quizLocked) return;
+      evaluateMathAnswer(val, btnEl);
+    }
+
+    function evaluateMathAnswer(userVal, clickedBtn) {
+      if (!quizSession || quizLocked) return;
+      quizLocked = true;
+
+      const q = quizSession.currentQuestion;
+      const isCorrect = userVal === q.answer;
+      quizSession.answeredCount++;
+
+      const card = document.getElementById('quiz-question-card');
+      const feedback = document.getElementById('quiz-feedback-msg');
+
+      if (isCorrect) {
+        quizSession.correctCount++;
+        quizSession.earnedStars++;
+        state.mathStars++;
+        saveState();
+        renderMathStats();
+
+        card.className = 'rounded-3xl bg-emerald-50 border-2 border-emerald-400 py-7 px-4 text-center space-y-2 transition-colors animate-bounce-pop';
+        feedback.className = 'min-h-[26px] text-sm sm:text-base font-black text-emerald-600';
+        feedback.textContent = '🎉 Đúng rồi! +1 ⭐';
+        if (clickedBtn) {
+          clickedBtn.className = 'quiz-choice-btn py-5 rounded-3xl bg-emerald-500 border-2 border-emerald-600 text-3xl font-black text-white shadow-md transition';
+        }
+        playSound('ting');
+
+        setTimeout(() => {
+          advanceMathQuiz();
+        }, 700);
+      } else {
+        card.className = 'rounded-3xl bg-rose-50 border-2 border-rose-300 py-7 px-4 text-center space-y-2 transition-colors animate-shake';
+        feedback.className = 'min-h-[26px] text-sm sm:text-base font-black text-rose-600';
+        feedback.textContent = `💡 Đáp án đúng là ${q.answer} nhé con!`;
+        if (clickedBtn) {
+          clickedBtn.className = 'quiz-choice-btn py-5 rounded-3xl bg-rose-100 border-2 border-rose-400 text-3xl font-black text-rose-600 transition';
+        }
+        playSound('boing');
+
+        setTimeout(() => {
+          advanceMathQuiz();
+        }, 1250);
+      }
+      updateQuizHeader();
+    }
+
+    function advanceMathQuiz() {
+      if (!quizSession) return;
+      if (quizSession.durationMode === '10q' && quizSession.answeredCount >= 10) {
+        finishMathQuiz();
+      } else if (quizSession.durationMode === '3min' && quizSession.timeLeftSec <= 0) {
+        finishMathQuiz();
+      } else {
+        loadNextMathQuestion();
+      }
+    }
+
+    function finishMathQuiz() {
+      stopQuizTimer();
+      if (!quizSession) return;
+
+      const total = quizSession.answeredCount;
+      const correct = quizSession.correctCount;
+      const accuracy = total === 0 ? 0 : Math.round((correct / total) * 100);
+
+      // Thưởng thêm sao nếu làm tốt
+      let bonusStars = 0;
+      if (total > 0 && accuracy >= 80) bonusStars = 2;
+      else if (total > 0 && accuracy >= 50) bonusStars = 1;
+
+      if (bonusStars > 0) {
+        quizSession.earnedStars += bonusStars;
+        state.mathStars += bonusStars;
+      }
+
+      if (total > 0) {
+        recordStudyDayForStreak();
+        const now = new Date();
+        const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} • ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}`;
+
+        state.mathHistory.unshift({
+          id: 'mh_' + Date.now(),
+          topicLabel: TOPIC_LABELS[quizSession.topic] || 'Toán lớp 2',
+          modeLabel: quizSession.durationMode === '3min' ? 'Thử thách 3 phút' : 'Luyện 10 câu',
+          correct,
+          total,
+          stars: quizSession.earnedStars,
+          time: timeStr
+        });
+        if (state.mathHistory.length > 30) state.mathHistory.pop();
+        saveState();
+        renderMathStats();
+      }
+
+      // Hiển thị tổng kết
+      let praise = 'Cố gắng hơn lượt sau nhé con!';
+      if (accuracy >= 90 && total > 0) praise = 'Xuất sắc quá công chúa ơi! 🌟';
+      else if (accuracy >= 70 && total > 0) praise = 'Giỏi lắm! Con làm rất tốt! 🎉';
+      else if (total > 0) praise = 'Hoan hô tinh thần chăm chỉ của con! 💪';
+
+      document.getElementById('summary-praise').textContent = praise;
+      document.getElementById('summary-subtext').textContent =
+        `${TOPIC_LABELS[quizSession.topic]} • ${quizSession.durationMode === '3min' ? 'Thử thách 3 phút' : 'Luyện 10 câu'}`;
+      document.getElementById('summary-correct').textContent = `${correct}/${total}`;
+      document.getElementById('summary-stars').textContent = `+${quizSession.earnedStars} ⭐`;
+      document.getElementById('summary-accuracy').textContent = `${accuracy}%`;
+
+      document.getElementById('math-quiz-view').classList.add('hidden');
+      document.getElementById('math-summary-view').classList.remove('hidden');
+
+      playSound('win');
+      launchConfetti(70);
+    }
+
+    // Bảng Cửu Chương 2 - 5
+    function renderTimesTable(mode) {
+      const isMul = mode === 'mul';
+      document.getElementById('tt-mode-mul').className = isMul
+        ? 'py-2 rounded-xl text-sm font-black transition bg-indigo-500 text-white shadow-xs'
+        : 'py-2 rounded-xl text-sm font-black transition text-stone-600 hover:bg-orange-100';
+      document.getElementById('tt-mode-div').className = !isMul
+        ? 'py-2 rounded-xl text-sm font-black transition bg-emerald-500 text-white shadow-xs'
+        : 'py-2 rounded-xl text-sm font-black transition text-stone-600 hover:bg-orange-100';
+
+      const cardColors = [
+        'bg-rose-50 border-rose-200 text-rose-700',
+        'bg-amber-50 border-amber-200 text-amber-700',
+        'bg-emerald-50 border-emerald-200 text-emerald-700',
+        'bg-sky-50 border-sky-200 text-sky-700'
+      ];
+
+      const container = document.getElementById('times-table-content');
+      container.innerHTML = [2, 3, 4, 5].map((num, idx) => {
+        let rows = '';
+        for (let i = 1; i <= 10; i++) {
+          rows += isMul
+            ? `<div class="flex justify-between py-0.5 border-b border-black/5 last:border-0"><span>${num} × ${i}</span><span class="font-black">${num * i}</span></div>`
+            : `<div class="flex justify-between py-0.5 border-b border-black/5 last:border-0"><span>${num * i} : ${num}</span><span class="font-black">${i}</span></div>`;
+        }
+        return `
+          <div class="rounded-2xl border-2 p-3 ${cardColors[idx]}">
+            <div class="font-black text-center text-sm mb-2">Bảng ${isMul ? 'nhân' : 'chia'} ${num}</div>
+            <div class="text-xs sm:text-sm font-bold text-stone-700">${rows}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openMathHistoryModal() {
+      const list = document.getElementById('math-history-list');
+      if (state.mathHistory.length === 0) {
+        list.innerHTML = `<div class="py-10 text-center text-stone-400 text-sm font-bold">Chưa có lịch sử làm bài. Bé hãy bắt đầu lượt đầu tiên nhé!</div>`;
+      } else {
+        list.innerHTML = state.mathHistory.map(h => `
+          <div class="p-3 rounded-2xl bg-cream border border-orange-100 flex items-center justify-between gap-2">
+            <div>
+              <div class="font-black text-sm text-stone-800">${h.topicLabel}</div>
+              <div class="text-xs font-semibold text-stone-500">${h.modeLabel} • ${h.time}</div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="font-black text-sm text-emerald-600">${h.correct}/${h.total} đúng</div>
+              <div class="text-xs font-extrabold text-amber-500">+${h.stars} ⭐</div>
+            </div>
+          </div>
+        `).join('');
+      }
+      openModal('modal-math-history');
+    }
+
+    // =========================================================
+    // 5. LOGIC TAB 2: GÓC BÉ 3 TUỔI (KHÁM PHÁ + ĐỐ BÉ TÌM)
+    // =========================================================
+    const TODDLER_DATA = {
+      animals: [
+        { id: 'a1', name: 'Con mèo', emoji: '🐱', speak: 'Con mèo, meo meo!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'a2', name: 'Con chó', emoji: '🐶', speak: 'Con chó, gâu gâu!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'a3', name: 'Con vịt', emoji: '🦆', speak: 'Con vịt, cạp cạp!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'a4', name: 'Con gà trống', emoji: '🐓', speak: 'Con gà trống, ò ó o!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'a5', name: 'Con bò sữa', emoji: '🐮', speak: 'Con bò sữa, ùm bò!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'a6', name: 'Con lợn', emoji: '🐷', speak: 'Con lợn, ụt ịt!', bg: 'bg-pink-50 border-pink-200' },
+        { id: 'a7', name: 'Con voi', emoji: '🐘', speak: 'Con voi có cái vòi dài!', bg: 'bg-indigo-50 border-indigo-200' },
+        { id: 'a8', name: 'Con sư tử', emoji: '🦁', speak: 'Con sư tử, gầm gừ!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'a9', name: 'Con khỉ', emoji: '🐵', speak: 'Con khỉ, khẹc khẹc!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'a10', name: 'Con thỏ', emoji: '🐰', speak: 'Con thỏ trắng nhảy lò cò!', bg: 'bg-purple-50 border-purple-200' },
+        { id: 'a11', name: 'Con ếch', emoji: '🐸', speak: 'Con ếch, ộp ộp!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'a12', name: 'Con cá', emoji: '🐠', speak: 'Con cá bơi dưới nước!', bg: 'bg-cyan-50 border-cyan-200' }
+      ],
+      fruits: [
+        { id: 'fr1', name: 'Quả dâu tây', emoji: '🍓', speak: 'Quả dâu tây đỏ ngọt!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'fr2', name: 'Quả táo', emoji: '🍎', speak: 'Quả táo đỏ!', bg: 'bg-red-50 border-red-200' },
+        { id: 'fr3', name: 'Quả chuối', emoji: '🍌', speak: 'Quả chuối vàng!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'fr4', name: 'Quả cam', emoji: '🍊', speak: 'Quả cam mọng nước!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'fr5', name: 'Quả dưa hấu', emoji: '🍉', speak: 'Quả dưa hấu mát lành!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'fr6', name: 'Chùm nho', emoji: '🍇', speak: 'Chùm nho tím!', bg: 'bg-purple-50 border-purple-200' },
+        { id: 'fr7', name: 'Quả xoài', emoji: '🥭', speak: 'Quả xoài chín vàng!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'fr8', name: 'Quả dứa', emoji: '🍍', speak: 'Quả dứa thơm lừng!', bg: 'bg-lime-50 border-lime-200' },
+        { id: 'fr9', name: 'Quả đào', emoji: '🍑', speak: 'Quả đào hồng!', bg: 'bg-pink-50 border-pink-200' },
+        { id: 'fr10', name: 'Quả bơ', emoji: '🥑', speak: 'Quả bơ béo ngậy!', bg: 'bg-green-50 border-green-200' }
+      ],
+      vehicles: [
+        { id: 'v1', name: 'Ô tô con', emoji: '🚗', speak: 'Ô tô con, bíp bíp!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'v2', name: 'Xe buýt', emoji: '🚌', speak: 'Xe buýt chở mọi người!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'v3', name: 'Xe cứu hỏa', emoji: '🚒', speak: 'Xe cứu hỏa, ò í e!', bg: 'bg-red-50 border-red-200' },
+        { id: 'v4', name: 'Xe cảnh sát', emoji: '🚓', speak: 'Xe cảnh sát, tít tít!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'v5', name: 'Máy bay', emoji: '✈️', speak: 'Máy bay bay trên bầu trời!', bg: 'bg-indigo-50 border-indigo-200' },
+        { id: 'v6', name: 'Tàu hỏa', emoji: '🚂', speak: 'Tàu hỏa, tu tu xình xịch!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'v7', name: 'Xe đạp', emoji: '🚲', speak: 'Xe đạp, kính coong!', bg: 'bg-cyan-50 border-cyan-200' },
+        { id: 'v8', name: 'Tàu thủy', emoji: '🚢', speak: 'Tàu thủy chạy trên biển!', bg: 'bg-blue-50 border-blue-200' }
+      ],
+      colors: [
+        { id: 'c1', name: 'Màu đỏ', speak: 'Màu đỏ rực rỡ!', bg: 'bg-red-50 border-red-200', svg: '<circle cx="50" cy="50" r="36" fill="#EF4444"/>' },
+        { id: 'c2', name: 'Màu vàng', speak: 'Màu vàng tươi!', bg: 'bg-yellow-50 border-yellow-200', svg: '<circle cx="50" cy="50" r="36" fill="#FACC15"/>' },
+        { id: 'c3', name: 'Màu xanh dương', speak: 'Màu xanh dương!', bg: 'bg-sky-50 border-sky-200', svg: '<circle cx="50" cy="50" r="36" fill="#3B82F6"/>' },
+        { id: 'c4', name: 'Màu xanh lá', speak: 'Màu xanh lá cây!', bg: 'bg-emerald-50 border-emerald-200', svg: '<circle cx="50" cy="50" r="36" fill="#22C55E"/>' },
+        { id: 'c5', name: 'Màu hồng', speak: 'Màu hồng dễ thương!', bg: 'bg-pink-50 border-pink-200', svg: '<circle cx="50" cy="50" r="36" fill="#EC4899"/>' },
+        { id: 'c6', name: 'Hình tròn', speak: 'Hình tròn xoe!', bg: 'bg-orange-50 border-orange-200', svg: '<circle cx="50" cy="50" r="34" fill="#FB923C" stroke="#EA580C" stroke-width="5"/>' },
+        { id: 'c7', name: 'Hình vuông', speak: 'Hình vuông có 4 cạnh bằng nhau!', bg: 'bg-indigo-50 border-indigo-200', svg: '<rect x="18" y="18" width="64" height="64" rx="8" fill="#6366F1" stroke="#4338CA" stroke-width="5"/>' },
+        { id: 'c8', name: 'Hình tam giác', speak: 'Hình tam giác có 3 cạnh!', bg: 'bg-teal-50 border-teal-200', svg: '<polygon points="50,14 86,82 14,82" fill="#14B8A6" stroke="#0F766E" stroke-width="5" stroke-linejoin="round"/>' },
+        { id: 'c9', name: 'Hình ngôi sao', speak: 'Hình ngôi sao lấp lánh!', bg: 'bg-amber-50 border-amber-200', svg: '<polygon points="50,10 62,36 90,39 69,58 75,86 50,72 25,86 31,58 10,39 38,36" fill="#FBBF24" stroke="#D97706" stroke-width="4" stroke-linejoin="round"/>' },
+        { id: 'c10', name: 'Hình trái tim', speak: 'Hình trái tim yêu thương!', bg: 'bg-rose-50 border-rose-200', svg: '<path d="M50 84 C20 62 12 42 18 28 C24 14 42 14 50 28 C58 14 76 14 82 28 C88 42 80 62 50 84 Z" fill="#F43F5E" stroke="#BE123C" stroke-width="4"/>' }
+      ]
+    };
+
+    function getCardVisualHtml(item, sizeClass) {
+      if (item.svg) {
+        return `<svg viewBox="0 0 100 100" class="${sizeClass || 'w-16 h-16 sm:w-20 sm:h-20'} mx-auto drop-shadow-xs">${item.svg}</svg>`;
+      }
+      return `<div class="${sizeClass ? 'text-6xl sm:text-7xl' : 'text-5xl sm:text-6xl'} leading-none drop-shadow-xs">${item.emoji}</div>`;
+    }
+
+    function switchToddlerSubTab(sub) {
+      state.activeToddlerSubTab = sub;
+      saveState();
+
+      ['explore', 'quiz', 'draw'].forEach(s => {
+        document.getElementById('toddler-view-' + s).classList.toggle('hidden', s !== sub);
+        const btn = document.getElementById('toddler-sub-' + s);
+        btn.className = s === sub
+          ? 'py-3 px-2 rounded-2xl font-black text-xs sm:text-sm transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 bg-gradient-to-r from-pink-500 to-orange-400 text-white shadow-sm'
+          : 'py-3 px-2 rounded-2xl font-black text-xs sm:text-sm transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 text-stone-500 hover:bg-orange-50';
+      });
+
+      if (sub === 'quiz' && !currentToddlerTarget) {
+        nextToddlerQuizRound(false);
+      }
+      if (sub === 'draw') {
+        requestAnimationFrame(() => resizeDrawingCanvas(true));
+      }
+    }
+
+    function selectExploreCategory(cat) {
+      state.exploreCategory = cat;
+      saveState();
+
+      document.querySelectorAll('.exp-cat-btn').forEach(btn => {
+        const active = btn.getAttribute('data-exp-cat') === cat;
+        btn.className = active
+          ? 'exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5 bg-berry-500 text-white border-berry-500 shadow-sm'
+          : 'exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5 bg-white text-stone-700 border-orange-100';
+      });
+
+      const items = TODDLER_DATA[cat] || TODDLER_DATA.animals;
+      const grid = document.getElementById('explore-cards-grid');
+      grid.innerHTML = items.map(item => `
+        <button type="button" onclick="tapExploreCard('${cat}', '${item.id}', this)"
+          class="rounded-3xl p-4 sm:p-5 border-2 ${item.bg} shadow-xs hover:shadow-md active:scale-95 transition flex flex-col items-center justify-center gap-2.5 min-h-[142px]">
+          ${getCardVisualHtml(item)}
+          <span class="font-black text-base sm:text-lg text-stone-800 leading-tight">${item.name}</span>
+        </button>
+      `).join('');
+    }
+
+    function tapExploreCard(cat, itemId, btnEl) {
+      const item = (TODDLER_DATA[cat] || []).find(i => i.id === itemId);
+      if (!item) return;
+
+      btnEl.classList.remove('animate-bounce-pop');
+      void btnEl.offsetWidth;
+      btnEl.classList.add('animate-bounce-pop');
+
+      speakVietnamese(item.speak || item.name, 'pop');
+    }
+
+    // MỤC 2B: ĐỐ BÉ TÌM
+    let currentToddlerTarget = null;
+    let toddlerQuizLocked = false;
+
+    function getToddlerQuizPool() {
+      const cat = document.getElementById('toddler-quiz-category')?.value || 'all';
+      if (cat === 'all') {
+        return [
+          ...TODDLER_DATA.animals,
+          ...TODDLER_DATA.fruits,
+          ...TODDLER_DATA.vehicles,
+          ...TODDLER_DATA.colors
+        ];
+      }
+      return TODDLER_DATA[cat] || TODDLER_DATA.animals;
+    }
+
+    function nextToddlerQuizRound(autoSpeak = true) {
+      toddlerQuizLocked = false;
+      const pool = getToddlerQuizPool();
+      const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 4);
+      currentToddlerTarget = shuffled[Math.floor(Math.random() * shuffled.length)];
+
+      document.getElementById('toddler-quiz-stars').textContent = `⭐ ${state.toddlerQuizStars}`;
+      document.getElementById('toddler-quiz-question').textContent = `Bé ơi, ${currentToddlerTarget.name} ở đâu?`;
+      document.getElementById('toddler-quiz-feedback').textContent = '';
+
+      const optionsEl = document.getElementById('toddler-quiz-options');
+      optionsEl.innerHTML = shuffled.map(item => `
+        <button type="button" onclick="pickToddlerQuizOption('${item.id}', this)"
+          class="rounded-3xl p-5 sm:p-6 border-4 ${item.bg} shadow-sm active:scale-95 transition flex flex-col items-center justify-center gap-3 min-h-[168px]">
+          ${getCardVisualHtml(item, 'w-20 h-20 sm:w-24 sm:h-24')}
+          <span class="font-black text-base sm:text-lg text-stone-700">${item.name}</span>
+        </button>
+      `).join('');
+
+      if (autoSpeak) {
+        speakToddlerQuizPrompt();
+      }
+    }
+
+    function speakToddlerQuizPrompt() {
+      if (!currentToddlerTarget) return;
+      speakVietnamese(`Bé ơi, ${currentToddlerTarget.name} ở đâu?`);
+    }
+
+    function pickToddlerQuizOption(itemId, btnEl) {
+      if (!currentToddlerTarget || toddlerQuizLocked) return;
+      const fb = document.getElementById('toddler-quiz-feedback');
+
+      if (itemId === currentToddlerTarget.id) {
+        toddlerQuizLocked = true;
+        state.toddlerQuizStars++;
+        saveState();
+        document.getElementById('toddler-quiz-stars').textContent = `⭐ ${state.toddlerQuizStars}`;
+
+        btnEl.classList.add('ring-4', 'ring-emerald-400', 'animate-bounce-pop');
+        fb.className = 'min-h-[28px] text-lg font-black text-emerald-600';
+        fb.textContent = '🎉 Giỏi quá! Đúng rồi bé ơi!';
+
+        playSound('win');
+        speakVietnamese('Giỏi quá! Đúng rồi!');
+        launchConfetti(35);
+
+        setTimeout(() => {
+          nextToddlerQuizRound(true);
+        }, 1450);
+      } else {
+        btnEl.classList.remove('animate-shake');
+        void btnEl.offsetWidth;
+        btnEl.classList.add('animate-shake');
+        fb.className = 'min-h-[28px] text-base font-black text-orange-500';
+        fb.textContent = '💛 Bé thử lại nhé!';
+        playSound('boing');
+        speakVietnamese('Bé thử lại nhé!');
+      }
+    }
+
+    // =========================================================
+    // 6. MỤC 2C: BẢNG VẼ CẢM ỨNG MƯỢT (HTML5 CANVAS)
+    // =========================================================
+    const DRAW_COLORS = [
+      { id: 'red', hex: '#EF4444', name: 'Đỏ' },
+      { id: 'orange', hex: '#F97316', name: 'Cam' },
+      { id: 'yellow', hex: '#FACC15', name: 'Vàng' },
+      { id: 'green', hex: '#22C55E', name: 'Xanh lá' },
+      { id: 'sky', hex: '#0EA5E9', name: 'Xanh dương' },
+      { id: 'purple', hex: '#A855F7', name: 'Tím' },
+      { id: 'pink', hex: '#EC4899', name: 'Hồng' },
+      { id: 'black', hex: '#292524', name: 'Đen' },
+      { id: 'rainbow', hex: 'rainbow', name: 'Cầu vồng' }
+    ];
+
+    const BRUSH_SIZES = { small: 5, medium: 12, large: 24 };
+
+    let drawColor = '#EF4444';
+    let isRainbowBrush = false;
+    let rainbowHue = 0;
+    let isEraser = false;
+    let currentBrushSizeKey = 'medium';
+    let currentDrawTemplate = 'blank';
+    let isDrawing = false;
+    let lastDrawPt = null;
+    let undoStack = [];
+    const MAX_UNDO = 20;
+
+    // SVG mẫu tập tô nét đứt mờ (dùng chung cho hiển thị nền & xuất file PNG)
+    const TEMPLATE_SVGS = {
+      blank: '',
+      sun: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-[320px] max-h-[320px]">
+        <g fill="none" stroke="#CBD5E1" stroke-width="5" stroke-dasharray="10 8" stroke-linecap="round">
+          <circle cx="150" cy="150" r="64"/>
+          <line x1="150" y1="30" x2="150" y2="66"/>
+          <line x1="150" y1="234" x2="150" y2="270"/>
+          <line x1="30" y1="150" x2="66" y2="150"/>
+          <line x1="234" y1="150" x2="270" y2="150"/>
+          <line x1="65" y1="65" x2="92" y2="92"/>
+          <line x1="208" y1="208" x2="235" y2="235"/>
+          <line x1="235" y1="65" x2="208" y2="92"/>
+          <line x1="92" y1="208" x2="65" y2="235"/>
+          <path d="M126 164 Q150 186 174 164"/>
+        </g>
+        <circle cx="130" cy="136" r="6" fill="#CBD5E1"/>
+        <circle cx="170" cy="136" r="6" fill="#CBD5E1"/>
+      </svg>`,
+      flower: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-[320px] max-h-[320px]">
+        <g fill="none" stroke="#CBD5E1" stroke-width="5" stroke-dasharray="10 8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="150" cy="115" r="32"/>
+          <circle cx="150" cy="60" r="28"/>
+          <circle cx="202" cy="96" r="28"/>
+          <circle cx="184" cy="158" r="28"/>
+          <circle cx="116" cy="158" r="28"/>
+          <circle cx="98" cy="96" r="28"/>
+          <line x1="150" y1="184" x2="150" y2="278"/>
+          <path d="M150 232 Q196 204 206 238 Q174 256 150 232 Z"/>
+          <path d="M150 248 Q104 220 94 254 Q126 272 150 248 Z"/>
+        </g>
+      </svg>`,
+      house: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-[320px] max-h-[320px]">
+        <g fill="none" stroke="#CBD5E1" stroke-width="5" stroke-dasharray="10 8" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="150,40 45,135 255,135"/>
+          <rect x="70" y="135" width="160" height="125" rx="8"/>
+          <rect x="128" y="185" width="44" height="75" rx="6"/>
+          <rect x="88" y="155" width="30" height="30" rx="4"/>
+          <rect x="182" y="155" width="30" height="30" rx="4"/>
+          <rect x="195" y="55" width="24" height="44"/>
+        </g>
+      </svg>`,
+      butterfly: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-[320px] max-h-[320px]">
+        <g fill="none" stroke="#CBD5E1" stroke-width="5" stroke-dasharray="10 8" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="150" cy="160" rx="14" ry="58"/>
+          <circle cx="150" cy="88" r="16"/>
+          <path d="M142 74 Q124 44 108 54"/>
+          <path d="M158 74 Q176 44 192 54"/>
+          <path d="M138 128 C72 60, 24 128, 74 166 C94 178, 124 170, 138 158"/>
+          <path d="M162 128 C228 60, 276 128, 226 166 C206 178, 176 170, 162 158"/>
+          <path d="M138 168 C78 182, 62 246, 114 238 C128 236, 138 214, 140 198"/>
+          <path d="M162 168 C222 182, 238 246, 186 238 C172 236, 162 214, 160 198"/>
+        </g>
+      </svg>`
+    };
+
+    function renderDrawToolbar() {
+      const bar = document.getElementById('draw-colors-bar');
+      bar.innerHTML = DRAW_COLORS.map(c => {
+        const selected = !isEraser && ((c.hex === 'rainbow' && isRainbowBrush) || (!isRainbowBrush && drawColor === c.hex));
+        const style = c.hex === 'rainbow'
+          ? 'background: conic-gradient(#EF4444, #F59E0B, #22C55E, #0EA5E9, #A855F7, #EC4899, #EF4444);'
+          : `background-color: ${c.hex};`;
+        return `
+          <button type="button" onclick="selectDrawColor('${c.hex}')" title="${c.name}" aria-label="${c.name}"
+            style="${style}"
+            class="w-9 h-9 sm:w-10 sm:h-10 rounded-full transition active:scale-90 flex items-center justify-center ${
+              selected ? 'ring-4 ring-offset-2 ring-indigo-500 scale-110 shadow-md' : 'border-2 border-white shadow-xs'
+            }">
+            ${c.hex === 'rainbow' ? '<span class="text-sm drop-shadow">🌈</span>' : ''}
+          </button>
+        `;
+      }).join('');
+
+      document.querySelectorAll('.brush-size-btn').forEach(btn => {
+        const active = btn.getAttribute('data-bsize') === currentBrushSizeKey;
+        btn.className = active
+          ? 'brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-black transition border-indigo-500 bg-indigo-50 text-indigo-700'
+          : 'brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition border-orange-100 bg-cream text-stone-600';
+      });
+
+      const eraserBtn = document.getElementById('draw-eraser-btn');
+      eraserBtn.className = isEraser
+        ? 'px-4 py-2 rounded-2xl border-2 text-xs font-black transition active:scale-95 flex items-center gap-1.5 bg-pink-500 border-pink-500 text-white shadow-sm'
+        : 'px-4 py-2 rounded-2xl border-2 text-xs font-black transition active:scale-95 flex items-center gap-1.5 bg-cream border-orange-200 text-stone-700';
+
+      document.querySelectorAll('.draw-tpl-btn').forEach(btn => {
+        const active = btn.getAttribute('data-tpl') === currentDrawTemplate;
+        btn.className = active
+          ? 'draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-black border-2 whitespace-nowrap shrink-0 transition bg-indigo-500 border-indigo-500 text-white'
+          : 'draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition bg-cream border-orange-100 text-stone-600';
+      });
+    }
+
+    function selectDrawColor(hex) {
+      isEraser = false;
+      if (hex === 'rainbow') {
+        isRainbowBrush = true;
+      } else {
+        isRainbowBrush = false;
+        drawColor = hex;
+      }
+      renderDrawToolbar();
+    }
+
+    function setBrushSize(sizeKey) {
+      currentBrushSizeKey = sizeKey;
+      renderDrawToolbar();
+    }
+
+    function toggleEraser() {
+      isEraser = !isEraser;
+      renderDrawToolbar();
+    }
+
+    function setDrawTemplate(tplKey) {
+      currentDrawTemplate = tplKey;
+      document.getElementById('drawing-template-layer').innerHTML = TEMPLATE_SVGS[tplKey] || '';
+      renderDrawToolbar();
+    }
+
+    function resizeDrawingCanvas(preserveContent) {
+      const stage = document.getElementById('drawing-stage');
+      const canvas = document.getElementById('drawing-canvas');
+      if (!stage || !canvas) return;
+      const rect = stage.getBoundingClientRect();
+      if (rect.width < 10 || rect.height < 10) return;
+
+      const dpr = window.devicePixelRatio || 1;
+      const targetW = Math.floor(rect.width * dpr);
+      const targetH = Math.floor(rect.height * dpr);
+
+      if (canvas.width === targetW && canvas.height === targetH) return;
+
+      let snapshot = null;
+      if (preserveContent && canvas.width > 0 && canvas.height > 0) {
+        snapshot = document.createElement('canvas');
+        snapshot.width = canvas.width;
+        snapshot.height = canvas.height;
+        snapshot.getContext('2d').drawImage(canvas, 0, 0);
+      }
+
+      canvas.width = targetW;
+      canvas.height = targetH;
+
+      if (snapshot) {
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(snapshot, 0, 0, targetW, targetH);
+      }
+    }
+
+    function pushUndoSnapshot() {
+      const canvas = document.getElementById('drawing-canvas');
+      if (!canvas || canvas.width === 0 || canvas.height === 0) return;
+      const ctx = canvas.getContext('2d');
+      try {
+        undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        if (undoStack.length > MAX_UNDO) undoStack.shift();
+      } catch (e) {}
+    }
+
+    function undoDrawing() {
+      const canvas = document.getElementById('drawing-canvas');
+      if (!canvas || undoStack.length === 0) {
+        showToast('Chưa có nét vẽ nào để hoàn tác');
+        return;
+      }
+      const prev = undoStack.pop();
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.putImageData(prev, 0, 0);
+    }
+
+    function clearDrawing() {
+      const canvas = document.getElementById('drawing-canvas');
+      if (!canvas) return;
+      pushUndoSnapshot();
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      showToast('Đã lau sạch bảng vẽ!');
+    }
+
+    function getCanvasPointerPos(e) {
+      const canvas = document.getElementById('drawing-canvas');
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      return {
+        x: (e.clientX - rect.left) * dpr,
+        y: (e.clientY - rect.top) * dpr
+      };
+    }
+
+    function initDrawingEvents() {
+      const canvas = document.getElementById('drawing-canvas');
+      if (!canvas) return;
+
+      canvas.addEventListener('pointerdown', (e) => {
+        e.preventDefault();
+        resizeDrawingCanvas(true);
+        pushUndoSnapshot();
+        isDrawing = true;
+        canvas.setPointerCapture(e.pointerId);
+        lastDrawPt = getCanvasPointerPos(e);
+        drawSegment(lastDrawPt, lastDrawPt);
+      });
+
+      canvas.addEventListener('pointermove', (e) => {
+        if (!isDrawing) return;
+        e.preventDefault();
+        const pt = getCanvasPointerPos(e);
+        drawSegment(lastDrawPt, pt);
+        lastDrawPt = pt;
+      });
+
+      const stopDraw = () => {
+        isDrawing = false;
+        lastDrawPt = null;
+      };
+      canvas.addEventListener('pointerup', stopDraw);
+      canvas.addEventListener('pointercancel', stopDraw);
+    }
+
+    function drawSegment(p1, p2) {
+      const canvas = document.getElementById('drawing-canvas');
+      const ctx = canvas.getContext('2d');
+      const dpr = window.devicePixelRatio || 1;
+      const baseWidth = BRUSH_SIZES[currentBrushSizeKey] || 12;
+
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+
+      if (isEraser) {
+        ctx.globalCompositeOperation = 'destination-out';
+        ctx.lineWidth = baseWidth * 2.2 * dpr;
+        ctx.strokeStyle = 'rgba(0,0,0,1)';
+      } else {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.lineWidth = baseWidth * dpr;
+        if (isRainbowBrush) {
+          rainbowHue = (rainbowHue + 4) % 360;
+          ctx.strokeStyle = `hsl(${rainbowHue}, 92%, 56%)`;
+        } else {
+          ctx.strokeStyle = drawColor;
+        }
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(p1.x, p1.y);
+      ctx.lineTo(p2.x, p2.y);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // Lưu tranh (.PNG) gồm nền trắng + hình mẫu mờ (nếu có) + nét vẽ của bé
+    function saveDrawingPng() {
+      const canvas = document.getElementById('drawing-canvas');
+      if (!canvas || canvas.width === 0) return;
+
+      const exportCanvas = document.createElement('canvas');
+      exportCanvas.width = canvas.width;
+      exportCanvas.height = canvas.height;
+      const ectx = exportCanvas.getContext('2d');
+
+      // Nền trắng sạch
+      ectx.fillStyle = '#FFFFFF';
+      ectx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+
+      const finalizeDownload = () => {
+        ectx.drawImage(canvas, 0, 0);
+        try {
+          const link = document.createElement('a');
+          link.download = `tranh_cua_be_${Date.now()}.png`;
+          link.href = exportCanvas.toDataURL('image/png');
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          playSound('win');
+          showToast('🎨 Đã lưu bức tranh của bé (.PNG)!', 'success');
+        } catch (err) {
+          showToast('Không thể tải ảnh trên trình duyệt này', 'warning');
+        }
+      };
+
+      const svgMarkup = TEMPLATE_SVGS[currentDrawTemplate];
+      if (svgMarkup) {
+        const img = new Image();
+        const svgBlob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
+        const url = URL.createObjectURL(svgBlob);
+        img.onload = () => {
+          const size = Math.min(exportCanvas.width, exportCanvas.height) * 0.82;
+          ectx.drawImage(img, (exportCanvas.width - size) / 2, (exportCanvas.height - size) / 2, size, size);
+          URL.revokeObjectURL(url);
+          finalizeDownload();
+        };
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          finalizeDownload();
+        };
+        img.src = url;
+      } else {
+        finalizeDownload();
+      }
+    }
+
+    // =========================================================
+    // 7. KHỞI TẠO ỨNG DỤNG
+    // =========================================================
+    window.addEventListener('resize', () => {
+      if (state.activeMainTab === 'toddler' && state.activeToddlerSubTab === 'draw') {
+        resizeDrawingCanvas(true);
+      }
+    });
+
+    window.onload = function () {
+      // Gắn icon ứng dụng tự vẽ vào Header
+      if (window.__APP_ICON_URL__) {
+        const img = document.getElementById('header-app-icon');
+        const fb = document.getElementById('header-app-fallback');
+        if (img) {
+          img.src = window.__APP_ICON_URL__;
+          img.classList.remove('hidden');
+        }
+        if (fb) fb.classList.add('hidden');
+      }
+
+      updateSoundUI();
+      renderMathStats();
+      updateMathSetupSelectionUI();
+      renderTimesTable('mul');
+
+      selectExploreCategory(state.exploreCategory || 'animals');
+      renderDrawToolbar();
+      initDrawingEvents();
+      switchToddlerSubTab(state.activeToddlerSubTab || 'explore');
+      switchMainTab(state.activeMainTab || 'math');
+    };
+  </script>
+</body>
+</html>
