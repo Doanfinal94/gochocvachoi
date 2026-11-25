@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>Góc Học & Chơi</title>
 
-  <!-- Cấu hình PWA / Web Clip cho iPhone Safari -->
+  <!-- Cấu hình PWA / Web Clip chuẩn iPhone Safari -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="apple-mobile-web-app-title" content="Góc Học & Chơi" />
@@ -15,7 +15,7 @@
   <link id="favicon" rel="icon" type="image/png" href="" />
   <link id="app-manifest" rel="manifest" href="" />
 
-  <!-- Script đồng bộ tự động vẽ Icon màn hình chính 512x512 & 180x180 bằng HTML5 Canvas -->
+  <!-- Tự động vẽ Icon màn hình chính sắc nét (Bảng tính, Bút chì màu & Ngôi sao) -->
   <script>
     (function initStudyPlayIcon() {
       try {
@@ -54,10 +54,8 @@
           var ctx = canvas.getContext('2d');
           if (!ctx) return '';
 
-          var scale = size / 512;
-          ctx.scale(scale, scale);
+          ctx.scale(size / 512, size / 512);
 
-          // 1. Nền pastel ấm áp
           var bgGrad = ctx.createLinearGradient(0, 0, 512, 512);
           bgGrad.addColorStop(0, '#FFF4E0');
           bgGrad.addColorStop(0.55, '#FFE2EC');
@@ -65,49 +63,38 @@
           ctx.fillStyle = bgGrad;
           ctx.fillRect(0, 0, 512, 512);
 
-          // Vòng sáng trang trí
           ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
           ctx.beginPath();
           ctx.arc(100, 100, 110, 0, Math.PI * 2);
           ctx.arc(430, 420, 120, 0, Math.PI * 2);
           ctx.fill();
 
-          // 2. Bảng tính / Sách toán dễ thương ở trung tâm
+          // Bảng học xanh mint
           ctx.save();
           ctx.translate(230, 275);
           ctx.rotate(-0.06);
-
-          // Bóng mềm
           roundRect(ctx, -150, -130, 290, 250, 34);
           ctx.fillStyle = 'rgba(130, 90, 70, 0.14)';
           ctx.fill();
-
-          // Bìa sách xanh mint pastel
           roundRect(ctx, -158, -142, 290, 250, 34);
           ctx.fillStyle = '#5CC8A4';
           ctx.fill();
           ctx.strokeStyle = '#389E7E';
           ctx.lineWidth = 8;
           ctx.stroke();
-
-          // Gáy sách
           roundRect(ctx, -158, -142, 42, 250, 18);
           ctx.fillStyle = '#3DA885';
           ctx.fill();
-
-          // Trang bảng trắng bên trong
           roundRect(ctx, -104, -118, 214, 202, 22);
           ctx.fillStyle = '#FFFDF9';
           ctx.fill();
 
-          // Ký hiệu phép toán + - × = trên bảng
-          ctx.font = '800 54px sans-serif';
+          ctx.font = '800 50px sans-serif';
           ctx.textAlign = 'center';
           ctx.textBaseline = 'middle';
           ctx.fillStyle = '#FF6B6B';
-          ctx.fillText('1+2', 3, -55);
+          ctx.fillText('A B C', 3, -55);
 
-          // Thanh hạt bàn tính màu sắc
           var barColors = ['#FF8E72', '#FFD166', '#4ECDC4'];
           for (var r = 0; r < 3; r++) {
             var by = 8 + r * 30;
@@ -117,7 +104,6 @@
             ctx.moveTo(-80, by);
             ctx.lineTo(86, by);
             ctx.stroke();
-
             for (var b = 0; b < 4; b++) {
               ctx.fillStyle = barColors[(r + b) % barColors.length];
               ctx.beginPath();
@@ -127,36 +113,26 @@
           }
           ctx.restore();
 
-          // 3. Cây bút chì màu nghiêng bên phải
+          // Bút chì màu vàng cam
           ctx.save();
           ctx.translate(378, 286);
           ctx.rotate(0.45);
-
-          // Thân bút chì vàng cam
           roundRect(ctx, -28, -140, 56, 210, 14);
           ctx.fillStyle = '#FFB703';
           ctx.fill();
           ctx.strokeStyle = '#D97706';
           ctx.lineWidth = 6;
           ctx.stroke();
-
-          // Sọc sáng trên thân bút
           ctx.fillStyle = '#FFD166';
           ctx.fillRect(-10, -134, 20, 198);
-
-          // Cục tẩy hồng ở đuôi bút
           roundRect(ctx, -28, -182, 56, 46, 16);
           ctx.fillStyle = '#FF758F';
           ctx.fill();
           ctx.strokeStyle = '#E11D48';
           ctx.lineWidth = 5;
           ctx.stroke();
-
-          // Đai kim loại
           ctx.fillStyle = '#E2E8F0';
           ctx.fillRect(-29, -146, 58, 18);
-
-          // Đầu gỗ nhọn
           ctx.beginPath();
           ctx.moveTo(-28, 70);
           ctx.lineTo(28, 70);
@@ -167,8 +143,6 @@
           ctx.strokeStyle = '#D97706';
           ctx.lineWidth = 5;
           ctx.stroke();
-
-          // Ngòi chì tím xanh
           ctx.beginPath();
           ctx.moveTo(-11, 108);
           ctx.lineTo(11, 108);
@@ -178,7 +152,7 @@
           ctx.fill();
           ctx.restore();
 
-          // 4. Ngôi sao vàng lấp lánh góc trên bên phải
+          // Ngôi sao vàng cười
           ctx.save();
           drawStar(ctx, 386, 108, 5, 58, 27);
           ctx.fillStyle = '#FFD43B';
@@ -187,8 +161,6 @@
           ctx.lineWidth = 7;
           ctx.lineJoin = 'round';
           ctx.stroke();
-
-          // Mắt cười siêu dễ thương trên ngôi sao
           ctx.fillStyle = '#78350F';
           ctx.beginPath();
           ctx.arc(372, 104, 4.5, 0, Math.PI * 2);
@@ -200,11 +172,6 @@
           ctx.beginPath();
           ctx.arc(386, 111, 8, 0.2, Math.PI - 0.2);
           ctx.stroke();
-
-          // Ngôi sao nhỏ góc trái dưới
-          drawStar(ctx, 96, 405, 5, 24, 11);
-          ctx.fillStyle = '#FF9F1C';
-          ctx.fill();
           ctx.restore();
 
           return canvas.toDataURL('image/png');
@@ -212,7 +179,6 @@
 
         var icon180 = renderIcon(180);
         var icon512 = renderIcon(512);
-
         if (icon180) {
           var el180 = document.getElementById('apple-icon-180');
           if (el180) el180.href = icon180;
@@ -223,11 +189,10 @@
           var el512 = document.getElementById('apple-icon-512');
           if (el512) el512.href = icon512;
           window.__APP_ICON_URL__ = icon180 || icon512;
-
           var manifest = {
             name: 'Góc Học & Chơi',
             short_name: 'Góc Học & Chơi',
-            description: 'Luyện toán nhanh lớp 2 & Góc chơi ngoan cho bé 3 tuổi',
+            description: 'Toán & Tiếng Việt Lớp 2 + Góc chơi ngoan cho bé 3 tuổi',
             start_url: '.',
             display: 'standalone',
             background_color: '#FFF9F2',
@@ -241,13 +206,11 @@
           var manifestEl = document.getElementById('app-manifest');
           if (manifestEl) manifestEl.href = URL.createObjectURL(blob);
         }
-      } catch (e) {
-        // Bỏ qua an toàn nếu trình duyệt không hỗ trợ Canvas
-      }
+      } catch (e) {}
     })();
   </script>
 
-  <!-- Tailwind CSS & Font Nunito thân thiện với trẻ em -->
+  <!-- Tailwind CSS & Font Nunito tròn trịa thân thiện với trẻ em -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -274,18 +237,6 @@
               100: '#FEF3C7',
               400: '#FBBF24',
               500: '#F59E0B'
-            },
-            mint: {
-              50: '#ECFDF5',
-              100: '#D1FAE5',
-              500: '#10B981',
-              600: '#059669'
-            },
-            skykid: {
-              50: '#F0F9FF',
-              100: '#E0F2FE',
-              500: '#0EA5E9',
-              600: '#0284C7'
             }
           }
         }
@@ -302,25 +253,17 @@
       overscroll-behavior-y: none;
     }
 
-    .pt-safe-top {
-      padding-top: env(safe-area-inset-top, 0px);
-    }
-    .pb-safe-nav {
-      padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px));
-    }
-    .bottom-nav-safe {
-      padding-bottom: env(safe-area-inset-bottom, 0px);
-    }
+    .pt-safe-top { padding-top: env(safe-area-inset-top, 0px); }
+    .pb-safe-nav { padding-bottom: calc(6rem + env(safe-area-inset-bottom, 0px)); }
+    .bottom-nav-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
 
     @keyframes bouncePop {
       0% { transform: scale(1); }
-      35% { transform: scale(1.12); }
-      70% { transform: scale(0.95); }
+      35% { transform: scale(1.1); }
+      70% { transform: scale(0.96); }
       100% { transform: scale(1); }
     }
-    .animate-bounce-pop {
-      animation: bouncePop 0.42s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
+    .animate-bounce-pop { animation: bouncePop 0.38s cubic-bezier(0.34, 1.56, 0.64, 1); }
 
     @keyframes shakeSoft {
       0%, 100% { transform: translateX(0); }
@@ -329,22 +272,17 @@
       60% { transform: translateX(-5px); }
       80% { transform: translateX(5px); }
     }
-    .animate-shake {
-      animation: shakeSoft 0.4s ease-in-out;
-    }
+    .animate-shake { animation: shakeSoft 0.36s ease-in-out; }
 
     @keyframes fadeSlide {
       from { opacity: 0; transform: translateY(8px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    .tab-panel {
-      animation: fadeSlide 0.2s ease-out;
-    }
+    .tab-panel { animation: fadeSlide 0.2s ease-out; }
 
     .no-scrollbar::-webkit-scrollbar { display: none; }
     .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-    /* Khóa cuộn trang trên vùng vẽ cảm ứng */
     #drawing-canvas {
       touch-action: none;
       -webkit-user-select: none;
@@ -357,14 +295,14 @@
   <!-- Canvas Pháo Giấy Chúc Mừng -->
   <canvas id="confetti-canvas" class="fixed inset-0 w-full h-full pointer-events-none z-50"></canvas>
 
-  <!-- Toast Thông Báo Nhẹ Nhàng -->
+  <!-- Toast Thông Báo Nổi -->
   <div id="toast-container" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2 w-[92%] max-w-sm pointer-events-none"></div>
 
   <!-- ========================================================= -->
-  <!-- HEADER GỌN GÀNG                                           -->
+  <!-- HEADER + ĐIỀU HƯỚNG MÁY TÍNH + NÚT BẬT/TẮT ÂM THANH       -->
   <!-- ========================================================= -->
   <header class="sticky top-0 z-30 bg-cream/95 backdrop-blur-md border-b border-orange-100/90 pt-safe-top">
-    <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between gap-3">
+    <div class="max-w-3xl mx-auto px-4 h-16 flex items-center justify-between gap-2">
       <div class="flex items-center gap-2.5 min-w-0">
         <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-sunny-400 to-berry-400 flex items-center justify-center shadow-sm overflow-hidden shrink-0">
           <img id="header-app-icon" alt="Góc Học & Chơi" class="w-full h-full object-cover hidden" />
@@ -372,23 +310,27 @@
         </div>
         <div class="min-w-0">
           <h1 class="text-lg sm:text-xl font-black tracking-tight text-stone-800 leading-tight truncate">Góc Học & Chơi</h1>
-          <p class="text-[11px] font-bold text-stone-400 hidden sm:block">Chị lớn Toán Lớp 2 • Em nhỏ 3 Tuổi</p>
+          <p class="text-[11px] font-bold text-stone-400 hidden sm:block">Chị Lớp 2 (Toán & TV) • Em 3 Tuổi</p>
         </div>
       </div>
 
-      <!-- Điều hướng máy tính -->
+      <!-- Điều hướng 3 tab trên máy tính -->
       <nav class="hidden md:flex items-center bg-orange-100/70 p-1 rounded-2xl gap-1">
         <button type="button" onclick="switchMainTab('math')" data-desktop-tab="math"
-          class="desktop-tab-btn px-4 py-2 rounded-xl text-sm font-extrabold transition flex items-center gap-2">
+          class="desktop-tab-btn px-3.5 py-2 rounded-xl text-sm font-extrabold transition flex items-center gap-1.5">
           <span>🧮</span><span>Toán Lớp 2</span>
         </button>
+        <button type="button" onclick="switchMainTab('viet')" data-desktop-tab="viet"
+          class="desktop-tab-btn px-3.5 py-2 rounded-xl text-sm font-extrabold transition flex items-center gap-1.5">
+          <span>📖</span><span>Tiếng Việt</span>
+        </button>
         <button type="button" onclick="switchMainTab('toddler')" data-desktop-tab="toddler"
-          class="desktop-tab-btn px-4 py-2 rounded-xl text-sm font-extrabold transition flex items-center gap-2">
-          <span>🎨</span><span>Bé 3 Tuổi</span>
+          class="desktop-tab-btn px-3.5 py-2 rounded-xl text-sm font-extrabold transition flex items-center gap-1.5">
+          <span>🧸</span><span>Bé 3 Tuổi</span>
         </button>
       </nav>
 
-      <!-- Nút Bật/Tắt Âm Thanh (Tiện tắt khi em nhỏ ngủ) -->
+      <!-- Nút Bật/Tắt Âm Thanh -->
       <button type="button" id="sound-toggle-btn" onclick="toggleSound()" aria-label="Bật hoặc tắt âm thanh"
         class="h-10 px-3 rounded-2xl bg-white border-2 border-orange-100 shadow-2xs flex items-center gap-1.5 text-stone-700 hover:bg-orange-50 active:scale-95 transition shrink-0">
         <span id="sound-icon" class="text-lg leading-none">🔊</span>
@@ -398,31 +340,31 @@
   </header>
 
   <!-- ========================================================= -->
-  <!-- NỘI DUNG CHÍNH                                            -->
+  <!-- NỘI DUNG CHÍNH 3 TAB                                      -->
   <!-- ========================================================= -->
   <main class="flex-1 w-full max-w-3xl mx-auto px-4 pt-4 pb-safe-nav md:pb-10">
 
     <!-- ======================================================= -->
-    <!-- TAB 1: TOÁN LỚP 2 (LUYỆN TOÁN NHANH)                    -->
+    <!-- TAB 1: TOÁN LỚP 2                                       -->
     <!-- ======================================================= -->
     <section id="tab-math" class="tab-panel space-y-4">
 
-      <!-- 1. Thanh Thống Kê Nhanh -->
-      <div class="bg-gradient-to-br from-sky-500 via-indigo-500 to-violet-500 rounded-3xl p-4 sm:p-5 text-white shadow-lg shadow-indigo-500/20 space-y-3">
+      <!-- Thẻ Tổng Quan Chung Của Chị Lớn -->
+      <div class="bg-gradient-to-br from-sky-500 via-indigo-500 to-violet-500 rounded-3xl p-4 sm:p-5 text-white shadow-lg shadow-indigo-500/20">
         <div class="flex items-center justify-between gap-2 flex-wrap">
-          <div class="flex items-center gap-3">
+          <div class="flex items-center gap-2.5 sm:gap-3">
             <div class="bg-white/20 backdrop-blur-xs rounded-2xl px-3.5 py-2 flex items-center gap-2">
               <span class="text-2xl">🔥</span>
               <div>
                 <div class="text-[10px] font-bold uppercase tracking-wider text-sky-100">Chuỗi ngày</div>
-                <div id="math-streak-val" class="text-xl font-black leading-none">0 ngày</div>
+                <div class="sister-streak-val text-xl font-black leading-none">0 ngày</div>
               </div>
             </div>
             <div class="bg-white/20 backdrop-blur-xs rounded-2xl px-3.5 py-2 flex items-center gap-2">
               <span class="text-2xl">⭐</span>
               <div>
                 <div class="text-[10px] font-bold uppercase tracking-wider text-sky-100">Tổng sao</div>
-                <div id="math-stars-val" class="text-xl font-black leading-none">0</div>
+                <div class="sister-stars-val text-xl font-black leading-none">0</div>
               </div>
             </div>
           </div>
@@ -432,7 +374,7 @@
               class="px-3 py-2 rounded-2xl bg-white/20 hover:bg-white/30 active:scale-95 transition text-xs font-extrabold flex items-center gap-1.5">
               <span>📖</span><span>Cửu chương 2–5</span>
             </button>
-            <button type="button" onclick="openMathHistoryModal()"
+            <button type="button" onclick="openStudyHistoryModal()"
               class="px-3 py-2 rounded-2xl bg-white/20 hover:bg-white/30 active:scale-95 transition text-xs font-extrabold flex items-center gap-1.5">
               <span>📜</span><span>Lịch sử</span>
             </button>
@@ -440,12 +382,11 @@
         </div>
       </div>
 
-      <!-- 2. Màn Hình Chọn Chế Độ Luyện Tập -->
+      <!-- Màn Hình Chọn Dạng Toán -->
       <div id="math-setup-view" class="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border-2 border-orange-100/80 space-y-5">
-        <!-- Chủ đề -->
         <div class="space-y-2.5">
           <h2 class="text-sm sm:text-base font-black text-stone-800 flex items-center gap-1.5">
-            <span>🎯</span> 1. Chọn dạng toán
+            <span>🎯</span> 1. Chọn dạng toán lớp 2
           </h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             <button type="button" onclick="selectMathTopic('addsub100')" data-topic="addsub100"
@@ -477,13 +418,12 @@
               <span class="w-11 h-11 rounded-2xl bg-violet-100 text-2xl flex items-center justify-center shrink-0">🌈</span>
               <div>
                 <div class="font-black text-sm text-stone-800">Tổng hợp lớp 2</div>
-                <div class="text-xs font-semibold text-stone-500">Trộn cả cộng, trừ, nhân, chia</div>
+                <div class="text-xs font-semibold text-stone-500">Trộn cộng, trừ, nhân, chia</div>
               </div>
             </button>
           </div>
         </div>
 
-        <!-- Hình thức trả lời -->
         <div class="space-y-2.5">
           <h2 class="text-sm sm:text-base font-black text-stone-800 flex items-center gap-1.5">
             <span>⌨️</span> 2. Cách trả lời
@@ -504,7 +444,6 @@
           </div>
         </div>
 
-        <!-- Thời gian / Số câu -->
         <div class="space-y-2.5">
           <h2 class="text-sm sm:text-base font-black text-stone-800 flex items-center gap-1.5">
             <span>⏱️</span> 3. Chế độ chơi
@@ -520,62 +459,48 @@
               class="math-durmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95">
               <div class="text-2xl mb-0.5">⚡</div>
               <div class="font-black text-sm">Thử thách 3 phút</div>
-              <div class="text-[11px] font-semibold opacity-75">Làm càng nhiều càng tốt</div>
+              <div class="text-[11px] font-semibold opacity-75">Đếm ngược tốc độ</div>
             </button>
           </div>
         </div>
 
-        <!-- Nút Bắt đầu -->
         <button type="button" onclick="startMathQuiz()"
           class="w-full py-4 rounded-2xl bg-gradient-to-r from-berry-500 via-orange-500 to-sunny-500 hover:brightness-105 text-white font-black text-lg shadow-lg shadow-orange-500/25 active:scale-[0.98] transition flex items-center justify-center gap-2">
-          <span>Bắt đầu làm bài</span>
+          <span>Bắt đầu làm bài Toán</span>
           <span class="text-xl">🚀</span>
         </button>
       </div>
 
-      <!-- 3. Màn Hình Làm Bài -->
+      <!-- Màn Hình Làm Bài Toán -->
       <div id="math-quiz-view" class="hidden bg-white rounded-3xl p-4 sm:p-6 shadow-sm border-2 border-orange-100 space-y-4">
-        <!-- Thanh trên của bài làm -->
         <div class="flex items-center justify-between gap-2">
-          <button type="button" onclick="exitMathQuiz()"
+          <button type="button" onclick="showMathSetup()"
             class="px-3 py-1.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-600 text-xs font-extrabold active:scale-95 transition">
             ← Thoát
           </button>
-
           <div class="flex items-center gap-2">
-            <span id="quiz-progress-pill" class="px-3 py-1.5 rounded-xl bg-sky-50 text-sky-700 font-black text-xs sm:text-sm">
-              Câu 1 / 10
-            </span>
-            <span id="quiz-score-pill" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 font-black text-xs sm:text-sm">
-              ✅ 0 đúng
-            </span>
+            <span id="quiz-progress-pill" class="px-3 py-1.5 rounded-xl bg-sky-50 text-sky-700 font-black text-xs sm:text-sm">Câu 1 / 10</span>
+            <span id="quiz-score-pill" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 font-black text-xs sm:text-sm">✅ 0 đúng</span>
           </div>
         </div>
 
-        <!-- Thanh tiến độ -->
         <div class="w-full h-3 bg-orange-100 rounded-full overflow-hidden">
           <div id="quiz-progress-bar" class="h-full bg-gradient-to-r from-sky-400 to-indigo-500 rounded-full transition-all duration-300" style="width: 10%"></div>
         </div>
 
-        <!-- Khung Phép Tính Siêu To -->
         <div id="quiz-question-card" class="rounded-3xl bg-gradient-to-b from-amber-50 to-orange-50/70 border-2 border-amber-200/80 py-7 px-4 text-center space-y-2 transition-colors">
-          <div id="quiz-question-text" class="text-4xl sm:text-5xl font-black tracking-wide text-stone-800">
-            48 + 37 = ?
-          </div>
+          <div id="quiz-question-text" class="text-4xl sm:text-5xl font-black tracking-wide text-stone-800">48 + 37 = ?</div>
           <div id="quiz-feedback-msg" class="min-h-[26px] text-sm sm:text-base font-extrabold"></div>
         </div>
 
-        <!-- Vùng Trả Lời 1: Trắc Nghiệm 4 Đáp Án -->
+        <!-- Trắc nghiệm 4 đáp án -->
         <div id="quiz-choices-area" class="grid grid-cols-2 gap-3"></div>
 
-        <!-- Vùng Trả Lời 2: Bàn Phím Số 0-9 -->
+        <!-- Bàn phím số 0–9 lớn -->
         <div id="quiz-keypad-area" class="hidden space-y-3">
           <div class="flex items-center justify-center">
-            <div id="keypad-display" class="w-full max-w-xs h-14 rounded-2xl bg-cream border-2 border-indigo-200 flex items-center justify-center text-3xl font-black text-indigo-700 tracking-widest">
-              ?
-            </div>
+            <div id="keypad-display" class="w-full max-w-xs h-14 rounded-2xl bg-cream border-2 border-indigo-200 flex items-center justify-center text-3xl font-black text-indigo-700 tracking-widest">?</div>
           </div>
-
           <div class="grid grid-cols-3 gap-2.5 max-w-sm mx-auto">
             <button type="button" onclick="pressKeypad('1')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">1</button>
             <button type="button" onclick="pressKeypad('2')" class="h-14 rounded-2xl bg-stone-50 hover:bg-indigo-50 border-2 border-stone-200 text-2xl font-black text-stone-800 active:scale-95 transition">2</button>
@@ -593,16 +518,13 @@
         </div>
       </div>
 
-      <!-- 4. Màn Hình Tổng Kết -->
+      <!-- Màn Hình Tổng Kết Toán -->
       <div id="math-summary-view" class="hidden bg-white rounded-3xl p-6 shadow-sm border-2 border-amber-200 text-center space-y-5">
-        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br from-sunny-400 to-orange-500 flex items-center justify-center text-4xl shadow-md animate-bounce-pop">
-          🏆
-        </div>
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br from-sunny-400 to-orange-500 flex items-center justify-center text-4xl shadow-md animate-bounce-pop">🏆</div>
         <div>
           <h2 id="summary-praise" class="text-2xl font-black text-stone-800">Giỏi quá đi thôi!</h2>
           <p id="summary-subtext" class="text-sm font-bold text-stone-500 mt-1">Con đã hoàn thành bài luyện tập hôm nay</p>
         </div>
-
         <div class="grid grid-cols-3 gap-2.5">
           <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3">
             <div class="text-xs font-bold text-emerald-700">Câu đúng</div>
@@ -617,27 +539,161 @@
             <div id="summary-accuracy" class="text-2xl font-black text-sky-600 mt-0.5">0%</div>
           </div>
         </div>
-
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-          <button type="button" onclick="startMathQuiz()"
-            class="py-3.5 rounded-2xl bg-gradient-to-r from-berry-500 to-orange-500 text-white font-black text-base shadow-md active:scale-95 transition">
-            🔄 Làm lượt mới
-          </button>
-          <button type="button" onclick="showMathSetup()"
-            class="py-3.5 rounded-2xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-black text-base active:scale-95 transition">
-            🏠 Về chọn bài
-          </button>
+          <button type="button" onclick="startMathQuiz()" class="py-3.5 rounded-2xl bg-gradient-to-r from-berry-500 to-orange-500 text-white font-black text-base shadow-md active:scale-95 transition">🔄 Làm lượt mới</button>
+          <button type="button" onclick="showMathSetup()" class="py-3.5 rounded-2xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-black text-base active:scale-95 transition">🏠 Về chọn bài</button>
         </div>
       </div>
     </section>
 
 
     <!-- ======================================================= -->
-    <!-- TAB 2: GÓC BÉ 3 TUỔI (CHƠI NGOAN & NHẬN BIẾT)           -->
+    <!-- TAB 2: TIẾNG VIỆT LỚP 2 (MỚI BỔ SUNG)                   -->
+    <!-- ======================================================= -->
+    <section id="tab-viet" class="tab-panel hidden space-y-4">
+
+      <!-- Thẻ Tổng Quan Chung Của Chị Lớn -->
+      <div class="bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-600 rounded-3xl p-4 sm:p-5 text-white shadow-lg shadow-teal-500/20">
+        <div class="flex items-center justify-between gap-2 flex-wrap">
+          <div class="flex items-center gap-2.5 sm:gap-3">
+            <div class="bg-white/20 backdrop-blur-xs rounded-2xl px-3.5 py-2 flex items-center gap-2">
+              <span class="text-2xl">🔥</span>
+              <div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-50">Chuỗi ngày</div>
+                <div class="sister-streak-val text-xl font-black leading-none">0 ngày</div>
+              </div>
+            </div>
+            <div class="bg-white/20 backdrop-blur-xs rounded-2xl px-3.5 py-2 flex items-center gap-2">
+              <span class="text-2xl">⭐</span>
+              <div>
+                <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-50">Tổng sao</div>
+                <div class="sister-stars-val text-xl font-black leading-none">0</div>
+              </div>
+            </div>
+          </div>
+
+          <button type="button" onclick="openStudyHistoryModal()"
+            class="px-3.5 py-2 rounded-2xl bg-white/20 hover:bg-white/30 active:scale-95 transition text-xs font-extrabold flex items-center gap-1.5">
+            <span>📜</span><span>Lịch sử học</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Màn Hình Chọn Chủ Đề Tiếng Việt -->
+      <div id="viet-setup-view" class="bg-white rounded-3xl p-4 sm:p-6 shadow-sm border-2 border-emerald-100 space-y-4">
+        <div>
+          <h2 class="text-base sm:text-lg font-black text-stone-800 flex items-center gap-1.5">
+            <span>📖</span> Luyện Tiếng Việt Lớp 2
+          </h2>
+          <p class="text-xs font-bold text-stone-500 mt-0.5">Mỗi lượt 10 câu không trùng lặp, có giọng cô đọc & mẹo ghi nhớ</p>
+        </div>
+
+        <div id="viet-topic-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+
+        <button type="button" onclick="startVietQuiz()"
+          class="w-full py-4 rounded-2xl bg-gradient-to-r from-emerald-500 via-teal-500 to-sky-500 hover:brightness-105 text-white font-black text-lg shadow-lg shadow-teal-500/25 active:scale-[0.98] transition flex items-center justify-center gap-2">
+          <span>Bắt đầu luyện Tiếng Việt</span>
+          <span class="text-xl">✨</span>
+        </button>
+      </div>
+
+      <!-- Màn Hình Làm Bài Tiếng Việt -->
+      <div id="viet-quiz-view" class="hidden bg-white rounded-3xl p-4 sm:p-6 shadow-sm border-2 border-emerald-100 space-y-4">
+        <div class="flex items-center justify-between gap-2">
+          <button type="button" onclick="showVietSetup()"
+            class="px-3 py-1.5 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-600 text-xs font-extrabold active:scale-95 transition">
+            ← Thoát
+          </button>
+          <div class="flex items-center gap-2">
+            <span id="viet-progress-pill" class="px-3 py-1.5 rounded-xl bg-teal-50 text-teal-700 font-black text-xs sm:text-sm">Câu 1 / 10</span>
+            <span id="viet-score-pill" class="px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-700 font-black text-xs sm:text-sm">✅ 0 đúng</span>
+          </div>
+        </div>
+
+        <div class="w-full h-3 bg-emerald-100 rounded-full overflow-hidden">
+          <div id="viet-progress-bar" class="h-full bg-gradient-to-r from-emerald-400 to-teal-500 rounded-full transition-all duration-300" style="width: 10%"></div>
+        </div>
+
+        <!-- Khung Câu Hỏi Tiếng Việt + Nút Loa Đọc -->
+        <div id="viet-question-card" class="rounded-3xl bg-gradient-to-b from-teal-50/90 to-emerald-50/60 border-2 border-teal-200/80 p-5 sm:p-6 text-center space-y-3 transition-colors">
+          <div class="flex items-center justify-center">
+            <span id="viet-topic-badge" class="px-3 py-1 rounded-full bg-white/80 text-teal-700 text-xs font-black border border-teal-200">
+              Âm đầu
+            </span>
+          </div>
+
+          <div id="viet-question-prompt" class="text-sm sm:text-base font-extrabold text-stone-600">
+            Điền chữ cái đúng vào chỗ chấm:
+          </div>
+
+          <div id="viet-question-main" class="text-2xl sm:text-3xl font-black text-stone-800 leading-snug break-words">
+            ...ong chóng
+          </div>
+
+          <!-- Nút Loa Nghe Đọc (Nổi bật đặc biệt ở chế độ Nghe - Chọn Chính Tả) -->
+          <div class="pt-1 flex justify-center">
+            <button type="button" id="viet-speak-btn" onclick="speakCurrentVietQuestion()"
+              class="px-5 py-2.5 rounded-2xl bg-teal-500 hover:bg-teal-600 text-white font-black text-sm shadow-sm active:scale-95 transition flex items-center gap-2">
+              <span class="text-lg">🔊</span>
+              <span id="viet-speak-label">Nghe cô đọc</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Lưới Đáp Án -->
+        <div id="viet-options-grid" class="grid grid-cols-2 gap-3"></div>
+
+        <!-- Khung Giải Thích & Mẹo Nhớ Sau Khi Trả Lời -->
+        <div id="viet-explain-box" class="hidden rounded-2xl p-4 border-2 space-y-3">
+          <div class="flex items-start gap-2.5">
+            <span id="viet-explain-icon" class="text-2xl shrink-0">💡</span>
+            <div class="text-left space-y-0.5">
+              <div id="viet-explain-title" class="font-black text-sm sm:text-base">Đúng rồi! +1 ⭐</div>
+              <p id="viet-explain-text" class="text-xs sm:text-sm font-bold text-stone-700 leading-relaxed"></p>
+            </div>
+          </div>
+          <button type="button" id="viet-next-btn" onclick="advanceVietQuiz()"
+            class="w-full py-3 rounded-2xl bg-teal-600 hover:bg-teal-700 text-white font-black text-sm sm:text-base shadow-sm active:scale-95 transition">
+            Câu tiếp theo →
+          </button>
+        </div>
+      </div>
+
+      <!-- Màn Hình Tổng Kết Tiếng Việt -->
+      <div id="viet-summary-view" class="hidden bg-white rounded-3xl p-6 shadow-sm border-2 border-emerald-200 text-center space-y-5">
+        <div class="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center text-4xl shadow-md animate-bounce-pop">🌟</div>
+        <div>
+          <h2 id="viet-summary-praise" class="text-2xl font-black text-stone-800">Con giỏi Tiếng Việt quá!</h2>
+          <p id="viet-summary-subtext" class="text-sm font-bold text-stone-500 mt-1">Hoàn thành bài luyện tập</p>
+        </div>
+        <div class="grid grid-cols-3 gap-2.5">
+          <div class="bg-emerald-50 border border-emerald-200 rounded-2xl p-3">
+            <div class="text-xs font-bold text-emerald-700">Câu đúng</div>
+            <div id="viet-summary-correct" class="text-2xl font-black text-emerald-600 mt-0.5">0/10</div>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 rounded-2xl p-3">
+            <div class="text-xs font-bold text-amber-700">Sao thưởng</div>
+            <div id="viet-summary-stars" class="text-2xl font-black text-amber-500 mt-0.5">+0 ⭐</div>
+          </div>
+          <div class="bg-sky-50 border border-sky-200 rounded-2xl p-3">
+            <div class="text-xs font-bold text-sky-700">Chính xác</div>
+            <div id="viet-summary-accuracy" class="text-2xl font-black text-sky-600 mt-0.5">0%</div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+          <button type="button" onclick="startVietQuiz()" class="py-3.5 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-black text-base shadow-md active:scale-95 transition">🔄 Luyện lượt mới</button>
+          <button type="button" onclick="showVietSetup()" class="py-3.5 rounded-2xl bg-stone-100 hover:bg-stone-200 text-stone-700 font-black text-base active:scale-95 transition">🏠 Chọn chủ đề khác</button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ======================================================= -->
+    <!-- TAB 3: BÉ 3 TUỔI (170+ THẺ, 86 LOÀI VẬT, 24 MẪU TẬP VẼ) -->
     <!-- ======================================================= -->
     <section id="tab-toddler" class="tab-panel hidden space-y-4">
 
-      <!-- 3 Nút Chuyển Mục Con To, Dễ Bấm -->
+      <!-- 3 Mục Con: Khám Phá / Đố Bé Tìm / Tập Vẽ -->
       <div class="grid grid-cols-3 gap-2 bg-white p-1.5 rounded-3xl shadow-sm border-2 border-orange-100">
         <button type="button" onclick="switchToddlerSubTab('explore')" id="toddler-sub-explore"
           class="py-3 px-2 rounded-2xl font-black text-xs sm:text-sm transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5">
@@ -653,57 +709,47 @@
         </button>
       </div>
 
-      <!-- MỤC 2A: KHÁM PHÁ (CHẠM & ĐỌC TIẾNG VIỆT) -->
-      <div id="toddler-view-explore" class="space-y-4">
-        <!-- Bộ lọc 4 chủ đề nút to -->
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          <button type="button" onclick="selectExploreCategory('animals')" data-exp-cat="animals"
-            class="exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5">
-            <span class="text-xl">🐾</span><span>Con vật</span>
-          </button>
-          <button type="button" onclick="selectExploreCategory('fruits')" data-exp-cat="fruits"
-            class="exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5">
-            <span class="text-xl">🍓</span><span>Hoa quả</span>
-          </button>
-          <button type="button" onclick="selectExploreCategory('vehicles')" data-exp-cat="vehicles"
-            class="exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5">
-            <span class="text-xl">🚗</span><span>Phương tiện</span>
-          </button>
-          <button type="button" onclick="selectExploreCategory('colors')" data-exp-cat="colors"
-            class="exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5">
-            <span class="text-xl">🌈</span><span>Màu & Hình</span>
-          </button>
-        </div>
-
-        <!-- Lưới thẻ to (2 cột trên điện thoại) -->
+      <!-- MỤC 3A: KHÁM PHÁ (170 THẺ - 9 NHÓM LỌC NGANG) -->
+      <div id="toddler-view-explore" class="space-y-3.5">
+        <div id="explore-category-bar" class="flex items-center gap-2 overflow-x-auto no-scrollbar pb-1"></div>
         <div id="explore-cards-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3"></div>
       </div>
 
-      <!-- MỤC 2B: ĐỐ BÉ TÌM (TRÒ CHƠI TƯƠNG TÁC) -->
+      <!-- MỤC 3B: ĐỐ BÉ TÌM (SHUFFLE BAG CHỐNG LẶP TUYỆT ĐỐI) -->
       <div id="toddler-view-quiz" class="hidden space-y-4">
-        <!-- Thanh hỏi & loa đọc lại -->
         <div class="bg-white rounded-3xl p-4 sm:p-5 shadow-sm border-2 border-pink-200 flex flex-col items-center text-center gap-3">
-          <div class="w-full flex items-center justify-between gap-2">
-            <select id="toddler-quiz-category" onchange="nextToddlerQuizRound()"
-              class="px-3 py-2 rounded-2xl bg-pink-50 border border-pink-200 text-xs sm:text-sm font-extrabold text-pink-700 focus:outline-none">
-              <option value="all">✨ Tất cả chủ đề</option>
-              <option value="animals">🐾 Con vật</option>
-              <option value="fruits">🍓 Hoa quả</option>
-              <option value="vehicles">🚗 Phương tiện</option>
-              <option value="colors">🌈 Màu & Hình</option>
+          <div class="w-full flex items-center justify-between gap-2 flex-wrap">
+            <select id="toddler-quiz-category" onchange="onToddlerQuizCategoryChange()"
+              class="px-3 py-2 rounded-2xl bg-pink-50 border border-pink-200 text-xs sm:text-sm font-extrabold text-pink-700 focus:outline-none max-w-[230px]">
+              <option value="all_animals">🐾 Tất cả loài vật (86)</option>
+              <option value="wild">🦁 Thú rừng & Thảo nguyên (26)</option>
+              <option value="sea">🐙 Biển cả & Dưới nước (19)</option>
+              <option value="farm">🐮 Nông trại & Thú nuôi (16)</option>
+              <option value="birds_insects">🦋 Chim & Côn trùng (25)</option>
+              <option value="fruits">🍓 Hoa quả & Rau củ (28)</option>
+              <option value="vehicles">🚗 Phương tiện (20)</option>
+              <option value="colors">🌈 Màu & Hình (20)</option>
+              <option value="objects">🏠 Đồ vật & Thiên nhiên (16)</option>
+              <option value="all">✨ Tất cả mọi thứ (170)</option>
             </select>
-            <span id="toddler-quiz-stars" class="px-3 py-1.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 font-black text-sm">
-              ⭐ 0
-            </span>
+
+            <div class="flex items-center gap-1.5">
+              <span id="toddler-quiz-progress" class="px-3 py-1.5 rounded-2xl bg-indigo-50 border border-indigo-200 text-indigo-700 font-black text-xs sm:text-sm">
+                Đã tìm: 0 / 86
+              </span>
+              <span id="toddler-quiz-stars" class="px-2.5 py-1.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-600 font-black text-xs sm:text-sm">
+                ⭐ 0
+              </span>
+            </div>
           </div>
 
           <button type="button" onclick="speakToddlerQuizPrompt()"
             class="w-full py-4 px-5 rounded-3xl bg-gradient-to-r from-pink-500 via-rose-500 to-orange-400 text-white shadow-md shadow-pink-500/20 active:scale-95 transition flex items-center justify-center gap-3">
             <span class="w-12 h-12 rounded-2xl bg-white/25 flex items-center justify-center text-3xl shrink-0">🔊</span>
             <div class="text-left">
-              <div class="text-xs font-bold text-pink-100">Bấm để nghe lại câu hỏi</div>
+              <div class="text-xs font-bold text-pink-100">Bấm loa để nghe lại</div>
               <div id="toddler-quiz-question" class="text-lg sm:text-xl font-black leading-snug">
-                Bé ơi, Con mèo ở đâu?
+                Bé hãy tìm... Con mèo ở đâu nào?
               </div>
             </div>
           </button>
@@ -711,118 +757,85 @@
           <div id="toddler-quiz-feedback" class="min-h-[28px] text-base font-black text-emerald-600"></div>
         </div>
 
-        <!-- Lưới 2x2 gồm 4 thẻ hình siêu to -->
         <div id="toddler-quiz-options" class="grid grid-cols-2 gap-3.5"></div>
       </div>
 
-      <!-- MỤC 2C: TẬP VẼ (BẢNG VẼ CẢM ỨNG MƯỢT) -->
+      <!-- MỤC 3C: TẬP VẼ (24 HÌNH MẪU NÉT ĐỨT MỜ + GIẤY TRẮNG) -->
       <div id="toddler-view-draw" class="hidden space-y-3">
-        <!-- Chọn hình nền nét mờ tập tô -->
-        <div class="bg-white rounded-3xl p-3 shadow-sm border-2 border-orange-100 space-y-2">
-          <div class="flex items-center justify-between gap-2">
-            <span class="text-xs font-black text-stone-500 uppercase tracking-wider px-1">🖍️ Hình mẫu tập tô</span>
+        <div class="bg-white rounded-3xl p-3 shadow-sm border-2 border-orange-100 space-y-2.5">
+          <div class="flex items-center justify-between gap-2 flex-wrap">
+            <button type="button" onclick="openModal('modal-draw-templates')"
+              class="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-black text-xs active:scale-95 transition flex items-center gap-1.5">
+              <span>🖼️</span>
+              <span>Chọn mẫu (<span id="current-tpl-name">Giấy trắng</span>) ▾</span>
+            </button>
+
             <div class="flex items-center gap-1.5">
-              <button type="button" onclick="undoDrawing()" title="Hoàn tác"
-                class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-700 font-extrabold text-xs active:scale-95 transition">
-                ↩️ Hoàn tác
-              </button>
-              <button type="button" onclick="clearDrawing()" title="Xóa hết bảng"
-                class="px-3 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-extrabold text-xs active:scale-95 transition">
-                🗑️ Xóa
-              </button>
-              <button type="button" onclick="saveDrawingPng()" title="Lưu tranh PNG"
-                class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs active:scale-95 transition">
-                💾 Lưu
-              </button>
+              <button type="button" onclick="undoDrawing()" class="px-2.5 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-700 font-extrabold text-xs active:scale-95 transition">↩️ Hoàn tác</button>
+              <button type="button" onclick="clearDrawing()" class="px-2.5 py-1.5 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-600 font-extrabold text-xs active:scale-95 transition">🗑️ Xóa</button>
+              <button type="button" onclick="saveDrawingPng()" class="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white font-extrabold text-xs active:scale-95 transition">💾 Lưu</button>
             </div>
           </div>
 
-          <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5">
-            <button type="button" onclick="setDrawTemplate('blank')" data-tpl="blank"
-              class="draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition">
-              📄 Trống
-            </button>
-            <button type="button" onclick="setDrawTemplate('sun')" data-tpl="sun"
-              class="draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition">
-              ☀️ Mặt trời
-            </button>
-            <button type="button" onclick="setDrawTemplate('flower')" data-tpl="flower"
-              class="draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition">
-              🌸 Bông hoa
-            </button>
-            <button type="button" onclick="setDrawTemplate('house')" data-tpl="house"
-              class="draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition">
-              🏠 Ngôi nhà
-            </button>
-            <button type="button" onclick="setDrawTemplate('butterfly')" data-tpl="butterfly"
-              class="draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition">
-              🦋 Con bướm
-            </button>
-          </div>
+          <div id="draw-template-strip" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-0.5"></div>
         </div>
 
-        <!-- Khung Bảng Vẽ 2 Lớp (Nét mẫu mờ ở dưới, Canvas vẽ của bé ở trên) -->
         <div id="drawing-stage" class="relative w-full h-[360px] sm:h-[430px] bg-white rounded-3xl border-4 border-orange-200 shadow-inner overflow-hidden">
-          <!-- Lớp nền nét đứt mờ (khi tẩy không bao giờ mất nét mẫu) -->
           <div id="drawing-template-layer" class="absolute inset-0 pointer-events-none flex items-center justify-center p-4"></div>
-          <!-- Lớp Canvas vẽ của bé -->
           <canvas id="drawing-canvas" class="relative z-10 w-full h-full block cursor-crosshair"></canvas>
         </div>
 
-        <!-- Thanh Công Cụ Màu Sắc & Cỡ Nét -->
         <div class="bg-white rounded-3xl p-3.5 shadow-sm border-2 border-orange-100 space-y-3">
-          <!-- 8 màu cơ bản + Bút Cầu Vồng -->
           <div id="draw-colors-bar" class="flex items-center justify-between gap-1.5 flex-wrap"></div>
 
-          <!-- 3 Cỡ nét + Nút Tẩy -->
-          <div class="flex items-center justify-between gap-2 pt-1 border-t border-orange-50">
+          <div class="flex items-center justify-between gap-2 pt-1.5 border-t border-orange-50 flex-wrap">
             <div class="flex items-center gap-2">
-              <button type="button" onclick="setBrushSize('small')" data-bsize="small"
-                class="brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition">
+              <button type="button" onclick="setBrushSize('small')" data-bsize="small" class="brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition">
                 <span class="w-2.5 h-2.5 rounded-full bg-stone-800 inline-block"></span><span>Nhỏ</span>
               </button>
-              <button type="button" onclick="setBrushSize('medium')" data-bsize="medium"
-                class="brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition">
+              <button type="button" onclick="setBrushSize('medium')" data-bsize="medium" class="brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition">
                 <span class="w-4 h-4 rounded-full bg-stone-800 inline-block"></span><span>Vừa</span>
               </button>
-              <button type="button" onclick="setBrushSize('large')" data-bsize="large"
-                class="brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition">
+              <button type="button" onclick="setBrushSize('large')" data-bsize="large" class="brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition">
                 <span class="w-5 h-5 rounded-full bg-stone-800 inline-block"></span><span>To</span>
               </button>
             </div>
 
-            <button type="button" id="draw-eraser-btn" onclick="toggleEraser()"
-              class="px-4 py-2 rounded-2xl border-2 text-xs font-black transition active:scale-95 flex items-center gap-1.5">
+            <button type="button" id="draw-eraser-btn" onclick="toggleEraser()" class="px-4 py-2 rounded-2xl border-2 text-xs font-black transition active:scale-95 flex items-center gap-1.5">
               <span>🧼</span><span>Tẩy</span>
             </button>
           </div>
         </div>
       </div>
-
     </section>
 
   </main>
 
   <!-- ========================================================= -->
-  <!-- THANH ĐIỀU HƯỚNG DƯỚI CÙNG (BOTTOM TAB BAR - 2 TAB LỚN)   -->
+  <!-- THANH ĐIỀU HƯỚNG 3 TAB DƯỚI CÙNG (MOBILE)                 -->
   <!-- ========================================================= -->
   <nav class="md:hidden fixed bottom-0 inset-x-0 z-30 bg-white/95 backdrop-blur-md border-t-2 border-orange-100 shadow-[0_-6px_24px_rgba(0,0,0,0.05)] bottom-nav-safe" aria-label="Điều hướng chính">
-    <div class="grid grid-cols-2 gap-2 h-[72px] max-w-md mx-auto px-3 py-1.5">
+    <div class="grid grid-cols-3 gap-1.5 h-[72px] max-w-md mx-auto px-2.5 py-1.5">
       <button type="button" onclick="switchMainTab('math')" data-mobile-tab="math"
-        class="mobile-tab-btn rounded-2xl flex items-center justify-center gap-2 font-black text-sm transition-all active:scale-95">
+        class="mobile-tab-btn rounded-2xl flex flex-col items-center justify-center gap-0.5 font-black text-[11px] transition-all active:scale-95">
         <span class="text-2xl leading-none">🧮</span>
         <span>Toán Lớp 2</span>
       </button>
+      <button type="button" onclick="switchMainTab('viet')" data-mobile-tab="viet"
+        class="mobile-tab-btn rounded-2xl flex flex-col items-center justify-center gap-0.5 font-black text-[11px] transition-all active:scale-95">
+        <span class="text-2xl leading-none">📖</span>
+        <span>Tiếng Việt</span>
+      </button>
       <button type="button" onclick="switchMainTab('toddler')" data-mobile-tab="toddler"
-        class="mobile-tab-btn rounded-2xl flex items-center justify-center gap-2 font-black text-sm transition-all active:scale-95">
-        <span class="text-2xl leading-none">🎨</span>
+        class="mobile-tab-btn rounded-2xl flex flex-col items-center justify-center gap-0.5 font-black text-[11px] transition-all active:scale-95">
+        <span class="text-2xl leading-none">🧸</span>
         <span>Bé 3 Tuổi</span>
       </button>
     </div>
   </nav>
 
   <!-- ========================================================= -->
-  <!-- MODALS: BẢNG CỬU CHƯƠNG 2-5 & LỊCH SỬ LÀM BÀI             -->
+  <!-- CÁC MODALS                                                -->
   <!-- ========================================================= -->
 
   <!-- Modal Bảng Cửu Chương 2–5 -->
@@ -830,32 +843,35 @@
     <div class="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl space-y-4 max-h-[88vh] flex flex-col">
       <div class="flex items-center justify-between">
         <h3 class="text-lg font-black text-stone-800">📖 Bảng Cửu Chương 2 – 5</h3>
-        <button type="button" onclick="closeModal('modal-times-table')"
-          class="w-9 h-9 rounded-full bg-stone-100 text-stone-500 hover:bg-stone-200 flex items-center justify-center font-black">✕</button>
+        <button type="button" onclick="closeModal('modal-times-table')" class="w-9 h-9 rounded-full bg-stone-100 text-stone-500 hover:bg-stone-200 flex items-center justify-center font-black">✕</button>
       </div>
-
-      <!-- Chuyển Nhân / Chia -->
       <div class="grid grid-cols-2 gap-2 bg-orange-50 p-1 rounded-2xl">
-        <button type="button" id="tt-mode-mul" onclick="renderTimesTable('mul')"
-          class="py-2 rounded-xl text-sm font-black transition bg-indigo-500 text-white">✖️ Bảng Nhân</button>
-        <button type="button" id="tt-mode-div" onclick="renderTimesTable('div')"
-          class="py-2 rounded-xl text-sm font-black transition text-stone-600">➗ Bảng Chia</button>
+        <button type="button" id="tt-mode-mul" onclick="renderTimesTable('mul')" class="py-2 rounded-xl text-sm font-black transition bg-indigo-500 text-white">✖️ Bảng Nhân</button>
+        <button type="button" id="tt-mode-div" onclick="renderTimesTable('div')" class="py-2 rounded-xl text-sm font-black transition text-stone-600">➗ Bảng Chia</button>
       </div>
-
-      <!-- Nội dung 4 bảng 2, 3, 4, 5 -->
       <div id="times-table-content" class="grid grid-cols-2 gap-3 overflow-y-auto pr-1 pb-2"></div>
     </div>
   </div>
 
-  <!-- Modal Lịch Sử Làm Bài Toán -->
-  <div id="modal-math-history" class="fixed inset-0 z-40 hidden items-end sm:items-center justify-center bg-stone-900/45 backdrop-blur-xs p-0 sm:p-4">
+  <!-- Modal Lịch Sử Học Tập (10 bài làm gần nhất - Cả Toán & Tiếng Việt) -->
+  <div id="modal-study-history" class="fixed inset-0 z-40 hidden items-end sm:items-center justify-center bg-stone-900/45 backdrop-blur-xs p-0 sm:p-4">
     <div class="bg-white w-full sm:max-w-md rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl space-y-4 max-h-[85vh] flex flex-col">
       <div class="flex items-center justify-between">
-        <h3 class="text-lg font-black text-stone-800">📜 Lịch sử làm bài</h3>
-        <button type="button" onclick="closeModal('modal-math-history')"
-          class="w-9 h-9 rounded-full bg-stone-100 text-stone-500 hover:bg-stone-200 flex items-center justify-center font-black">✕</button>
+        <h3 class="text-lg font-black text-stone-800">📜 10 bài làm gần nhất</h3>
+        <button type="button" onclick="closeModal('modal-study-history')" class="w-9 h-9 rounded-full bg-stone-100 text-stone-500 hover:bg-stone-200 flex items-center justify-center font-black">✕</button>
       </div>
-      <div id="math-history-list" class="overflow-y-auto space-y-2.5 pr-1 flex-1"></div>
+      <div id="study-history-list" class="overflow-y-auto space-y-2.5 pr-1 flex-1"></div>
+    </div>
+  </div>
+
+  <!-- Modal Chọn Nhanh 25 Hình Mẫu Tập Vẽ -->
+  <div id="modal-draw-templates" class="fixed inset-0 z-40 hidden items-end sm:items-center justify-center bg-stone-900/45 backdrop-blur-xs p-0 sm:p-4">
+    <div class="bg-white w-full sm:max-w-lg rounded-t-3xl sm:rounded-3xl p-5 shadow-2xl space-y-4 max-h-[88vh] flex flex-col">
+      <div class="flex items-center justify-between">
+        <h3 class="text-lg font-black text-stone-800">🖍️ Chọn hình mẫu tập tô (25 mẫu)</h3>
+        <button type="button" onclick="closeModal('modal-draw-templates')" class="w-9 h-9 rounded-full bg-stone-100 text-stone-500 hover:bg-stone-200 flex items-center justify-center font-black">✕</button>
+      </div>
+      <div id="draw-templates-modal-grid" class="grid grid-cols-3 sm:grid-cols-4 gap-2.5 overflow-y-auto pr-1 pb-2"></div>
     </div>
   </div>
 
@@ -864,25 +880,19 @@
   <!-- ========================================================= -->
   <script>
     // =========================================================
-    // 1. TRẠNG THÁI & LOCALSTORAGE
+    // 1. TRẠNG THÁI & LƯU TRỮ LOCALSTORAGE
     // =========================================================
-    const STORAGE_KEY = 'goc_hoc_va_choi_v1';
+    const STORAGE_KEY = 'goc_hoc_va_choi_v3';
 
     function getTodayDateKey() {
       const d = new Date();
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${y}-${m}-${day}`;
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
 
     function getYesterdayDateKey() {
       const d = new Date();
       d.setDate(d.getDate() - 1);
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${y}-${m}-${day}`;
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
     }
 
     function getDefaultState() {
@@ -891,17 +901,18 @@
         activeToddlerSubTab: 'explore',
         soundEnabled: true,
 
-        // Dữ liệu Toán Lớp 2
+        // Thống kê chung cho chị lớn (Toán + Tiếng Việt)
         mathStars: 0,
         mathStreak: 0,
         mathLastStudyDate: null,
         mathTopic: 'addsub100',
         mathAnswerMode: 'choice',
         mathDurationMode: '10q',
-        mathHistory: [],
+        vietTopic: 'initials',
+        studyHistory: [],
 
-        // Dữ liệu Bé 3 Tuổi
-        exploreCategory: 'animals',
+        // Bé 3 Tuổi
+        exploreCategory: 'farm',
         toddlerQuizStars: 0
       };
     }
@@ -909,12 +920,15 @@
     function loadState() {
       const def = getDefaultState();
       try {
-        const raw = localStorage.getItem(STORAGE_KEY);
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('goc_hoc_va_choi_v2') || localStorage.getItem('goc_hoc_va_choi_v1');
         if (!raw) return def;
         const parsed = JSON.parse(raw);
         if (!parsed || typeof parsed !== 'object') return def;
         const merged = Object.assign({}, def, parsed);
-        if (!Array.isArray(merged.mathHistory)) merged.mathHistory = [];
+        // Kế thừa lịch sử cũ nếu nâng cấp từ v2
+        if (!Array.isArray(merged.studyHistory)) {
+          merged.studyHistory = Array.isArray(parsed.mathHistory) ? parsed.mathHistory : [];
+        }
         return merged;
       } catch (e) {
         return def;
@@ -929,7 +943,6 @@
       } catch (e) {}
     }
 
-    // Kiểm tra streak thực tế (nếu bỏ qua hơn 1 ngày thì hiển thị 0 nhưng không xóa tổng sao)
     function getEffectiveStreak() {
       if (!state.mathLastStudyDate) return 0;
       const today = getTodayDateKey();
@@ -944,16 +957,18 @@
       const today = getTodayDateKey();
       const yesterday = getYesterdayDateKey();
       if (state.mathLastStudyDate === today) return;
-      if (state.mathLastStudyDate === yesterday) {
-        state.mathStreak = (state.mathStreak || 0) + 1;
-      } else {
-        state.mathStreak = 1;
-      }
+      state.mathStreak = state.mathLastStudyDate === yesterday ? (state.mathStreak || 0) + 1 : 1;
       state.mathLastStudyDate = today;
     }
 
+    function renderSisterStats() {
+      const streakText = `${getEffectiveStreak()} ngày`;
+      document.querySelectorAll('.sister-streak-val').forEach(el => el.textContent = streakText);
+      document.querySelectorAll('.sister-stars-val').forEach(el => el.textContent = state.mathStars);
+    }
+
     // =========================================================
-    // 2. ÂM THANH (WEB AUDIO + WEB SPEECH API TIẾNG VIỆT) & PHÁO GIẤY
+    // 2. GIỌNG ĐỌC NỮ TIẾNG VIỆT (WEB SPEECH API) & ÂM THANH
     // =========================================================
     let audioCtx = null;
 
@@ -976,95 +991,116 @@
         const now = ctx.currentTime;
 
         if (type === 'ting') {
-          // Tiếng "ting ting" vui nhộn khi làm đúng
           [659.25, 987.77].forEach((freq, i) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = 'sine';
-            const t = now + i * 0.09;
+            const t = now + i * 0.08;
             osc.frequency.setValueAtTime(freq, t);
             gain.gain.setValueAtTime(0.001, t);
-            gain.gain.linearRampToValueAtTime(0.18, t + 0.015);
-            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.28);
+            gain.gain.linearRampToValueAtTime(0.14, t + 0.015);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.24);
             osc.connect(gain);
             gain.connect(ctx.destination);
             osc.start(t);
-            osc.stop(t + 0.3);
+            osc.stop(t + 0.26);
           });
         } else if (type === 'boing') {
-          // Tiếng "boing" êm dịu khi sai
           const osc = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.type = 'triangle';
           osc.frequency.setValueAtTime(280, now);
           osc.frequency.exponentialRampToValueAtTime(160, now + 0.14);
-          osc.frequency.exponentialRampToValueAtTime(220, now + 0.26);
-          gain.gain.setValueAtTime(0.14, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(now);
-          osc.stop(now + 0.3);
-        } else if (type === 'pop') {
-          // Tiếng pop dễ thương khi chạm thẻ bé 3 tuổi
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.setValueAtTime(420, now);
-          osc.frequency.exponentialRampToValueAtTime(760, now + 0.09);
+          osc.frequency.exponentialRampToValueAtTime(220, now + 0.24);
           gain.gain.setValueAtTime(0.12, now);
-          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.start(now);
-          osc.stop(now + 0.12);
+          osc.stop(now + 0.28);
         } else if (type === 'win') {
-          // Hợp âm chiến thắng / vỗ tay vui nhộn
           [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) => {
             const osc = ctx.createOscillator();
             const gain = ctx.createGain();
             osc.type = 'triangle';
-            const t = now + i * 0.085;
+            const t = now + i * 0.08;
             osc.frequency.setValueAtTime(freq, t);
             gain.gain.setValueAtTime(0.001, t);
-            gain.gain.linearRampToValueAtTime(0.16, t + 0.02);
-            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.35);
+            gain.gain.linearRampToValueAtTime(0.15, t + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.001, t + 0.34);
             osc.connect(gain);
             gain.connect(ctx.destination);
             osc.start(t);
-            osc.stop(t + 0.38);
+            osc.stop(t + 0.36);
           });
         }
       } catch (e) {}
     }
 
-    // Đọc tiếng Việt bằng Web Speech API (ưu tiên giọng vi-VN)
-    let cachedViVoice = null;
-    function refreshVietnameseVoice() {
-      if (!('speechSynthesis' in window)) return;
+    // Chọn tuyệt đối GIỌNG NỮ tiếng Việt, loại trừ giọng nam
+    let cachedFemaleViVoice = null;
+
+    function selectBestFemaleVietnameseVoice() {
+      if (!('speechSynthesis' in window)) return null;
       const voices = window.speechSynthesis.getVoices() || [];
-      cachedViVoice = voices.find(v => v.lang && v.lang.toLowerCase().startsWith('vi')) || null;
-    }
-    if ('speechSynthesis' in window) {
-      refreshVietnameseVoice();
-      window.speechSynthesis.onvoiceschanged = refreshVietnameseVoice;
+      if (!voices.length) return null;
+
+      // Lọc các giọng tiếng Việt
+      const viVoices = voices.filter(v => {
+        const lang = (v.lang || '').toLowerCase();
+        const name = (v.name || '').toLowerCase();
+        return lang.startsWith('vi') || name.includes('vietnam') || name.includes('tiếng việt');
+      });
+
+      if (!viVoices.length) return null;
+
+      // Loại trừ hoàn toàn các giọng nam (namminh, nam, male, minh)
+      const isMaleVoice = (v) => {
+        const n = (v.name || '').toLowerCase();
+        return n.includes('namminh') || /\b(nam|male|minh)\b/i.test(n);
+      };
+
+      const nonMaleVi = viVoices.filter(v => !isMaleVoice(v));
+      const pool = nonMaleVi.length > 0 ? nonMaleVi : viVoices;
+
+      // Ưu tiên thứ tự từ khóa giọng nữ tiếng Việt chuẩn trên iOS / macOS / Android / Chrome
+      const femaleKeywords = [
+        'linh', 'hoaimy', 'hoài my', 'my', 'an', 'chi', 'mai', 'lan',
+        'female', 'nữ', 'nu', 'google tiếng việt'
+      ];
+
+      for (const kw of femaleKeywords) {
+        const found = pool.find(v => (v.name || '').toLowerCase().includes(kw));
+        if (found) return found;
+      }
+
+      return pool[0];
     }
 
-    function speakVietnamese(text, fallbackSound) {
+    function refreshFemaleVoice() {
+      cachedFemaleViVoice = selectBestFemaleVietnameseVoice();
+    }
+
+    if ('speechSynthesis' in window) {
+      refreshFemaleVoice();
+      window.speechSynthesis.onvoiceschanged = refreshFemaleVoice;
+    }
+
+    function speakVietnamese(text, soundEffect) {
       if (!state.soundEnabled) return;
+      if (soundEffect) playSound(soundEffect);
       try {
         if ('speechSynthesis' in window) {
           window.speechSynthesis.cancel();
           const utter = new SpeechSynthesisUtterance(text);
           utter.lang = 'vi-VN';
-          utter.rate = 0.92;
+          utter.rate = 0.9;
           utter.pitch = 1.12;
-          if (!cachedViVoice) refreshVietnameseVoice();
-          if (cachedViVoice) utter.voice = cachedViVoice;
+          if (!cachedFemaleViVoice) refreshFemaleVoice();
+          if (cachedFemaleViVoice) utter.voice = cachedFemaleViVoice;
           window.speechSynthesis.speak(utter);
         }
       } catch (e) {}
-      if (fallbackSound) playSound(fallbackSound);
     }
 
     function toggleSound() {
@@ -1074,7 +1110,7 @@
       }
       saveState();
       updateSoundUI();
-      showToast(state.soundEnabled ? '🔊 Đã bật âm thanh' : '🔇 Đã tắt tiếng (yên tĩnh cho bé ngủ)');
+      showToast(state.soundEnabled ? '🔊 Đã bật âm thanh & giọng đọc' : '🔇 Đã tắt tiếng (yên tĩnh cho bé ngủ)');
     }
 
     function updateSoundUI() {
@@ -1084,7 +1120,6 @@
       if (label) label.textContent = state.soundEnabled ? 'Bật tiếng' : 'Đã tắt';
     }
 
-    // Toast & Modal helpers
     function showToast(msg, type) {
       const container = document.getElementById('toast-container');
       if (!container) return;
@@ -1124,7 +1159,7 @@
       }
     });
 
-    // Hiệu ứng Pháo Giấy Confetti
+    // Hiệu ứng Pháo Giấy
     const confettiList = [];
     let confettiRunning = false;
 
@@ -1134,7 +1169,6 @@
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
       const colors = ['#F43F5E', '#FBBF24', '#10B981', '#0EA5E9', '#A855F7', '#FB923C'];
-
       for (let i = 0; i < (count || 45); i++) {
         confettiList.push({
           x: window.innerWidth * (0.15 + Math.random() * 0.7),
@@ -1159,7 +1193,6 @@
       if (!canvas) return;
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
       for (let i = confettiList.length - 1; i >= 0; i--) {
         const p = confettiList[i];
         p.x += p.vx;
@@ -1179,42 +1212,81 @@
         ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size * 0.65);
         ctx.restore();
       }
-
-      if (confettiList.length > 0) {
-        requestAnimationFrame(stepConfetti);
-      } else {
+      if (confettiList.length > 0) requestAnimationFrame(stepConfetti);
+      else {
         confettiRunning = false;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
     }
 
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function getCurrentTimeLabel() {
+      const now = new Date();
+      return `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} • ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}`;
+    }
+
     // =========================================================
-    // 3. ĐIỀU HƯỚNG 2 TAB CHÍNH
+    // 3. ĐIỀU HƯỚNG 3 TAB CHÍNH
     // =========================================================
     function switchMainTab(tab) {
       state.activeMainTab = tab;
       saveState();
 
-      document.getElementById('tab-math').classList.toggle('hidden', tab !== 'math');
-      document.getElementById('tab-toddler').classList.toggle('hidden', tab !== 'toddler');
+      ['math', 'viet', 'toddler'].forEach(t => {
+        document.getElementById('tab-' + t).classList.toggle('hidden', t !== tab);
+      });
 
       document.querySelectorAll('.desktop-tab-btn').forEach(btn => {
         const active = btn.getAttribute('data-desktop-tab') === tab;
         btn.className = active
-          ? 'desktop-tab-btn px-4 py-2 rounded-xl text-sm font-black transition flex items-center gap-2 bg-white text-berry-600 shadow-xs'
-          : 'desktop-tab-btn px-4 py-2 rounded-xl text-sm font-extrabold transition flex items-center gap-2 text-stone-600 hover:text-stone-900';
+          ? 'desktop-tab-btn px-3.5 py-2 rounded-xl text-sm font-black transition flex items-center gap-1.5 bg-white text-berry-600 shadow-xs'
+          : 'desktop-tab-btn px-3.5 py-2 rounded-xl text-sm font-extrabold transition flex items-center gap-1.5 text-stone-600 hover:text-stone-900';
       });
 
       document.querySelectorAll('.mobile-tab-btn').forEach(btn => {
         const active = btn.getAttribute('data-mobile-tab') === tab;
+        const activeColor = tab === 'viet'
+          ? 'from-emerald-500 to-teal-500 shadow-teal-500/20'
+          : tab === 'toddler'
+            ? 'from-pink-500 to-orange-400 shadow-pink-500/20'
+            : 'from-berry-500 to-orange-400 shadow-orange-500/20';
         btn.className = active
-          ? 'mobile-tab-btn rounded-2xl flex items-center justify-center gap-2 font-black text-sm transition-all bg-gradient-to-r from-berry-500 to-orange-400 text-white shadow-md shadow-orange-500/20'
-          : 'mobile-tab-btn rounded-2xl flex items-center justify-center gap-2 font-black text-sm transition-all bg-orange-50/70 text-stone-500';
+          ? `mobile-tab-btn rounded-2xl flex flex-col items-center justify-center gap-0.5 font-black text-[11px] transition-all bg-gradient-to-r ${activeColor} text-white shadow-md`
+          : 'mobile-tab-btn rounded-2xl flex flex-col items-center justify-center gap-0.5 font-black text-[11px] transition-all bg-orange-50/70 text-stone-500';
       });
 
       if (tab === 'toddler' && state.activeToddlerSubTab === 'draw') {
         requestAnimationFrame(() => resizeDrawingCanvas(true));
       }
+    }
+
+    function openStudyHistoryModal() {
+      const list = document.getElementById('study-history-list');
+      if (state.studyHistory.length === 0) {
+        list.innerHTML = `<div class="py-10 text-center text-stone-400 text-sm font-bold">Chưa có lịch sử làm bài. Con hãy bắt đầu lượt đầu tiên nhé!</div>`;
+      } else {
+        list.innerHTML = state.studyHistory.slice(0, 10).map(h => `
+          <div class="p-3 rounded-2xl bg-cream border border-orange-100 flex items-center justify-between gap-2">
+            <div>
+              <div class="font-black text-sm text-stone-800">${h.subjectIcon || '🧮'} ${h.topicLabel}</div>
+              <div class="text-xs font-semibold text-stone-500">${h.modeLabel} • ${h.time}</div>
+            </div>
+            <div class="text-right shrink-0">
+              <div class="font-black text-sm text-emerald-600">${h.correct}/${h.total} đúng</div>
+              <div class="text-xs font-extrabold text-amber-500">+${h.stars} ⭐</div>
+            </div>
+          </div>
+        `).join('');
+      }
+      openModal('modal-study-history');
     }
 
     // =========================================================
@@ -1224,17 +1296,12 @@
     let quizTimerInterval = null;
     let quizLocked = false;
 
-    const TOPIC_LABELS = {
+    const MATH_TOPIC_LABELS = {
       addsub100: 'Cộng trừ phạm vi 100',
       mul25: 'Bảng nhân 2–5',
       div25: 'Bảng chia 2–5',
       mixed: 'Tổng hợp lớp 2'
     };
-
-    function renderMathStats() {
-      document.getElementById('math-streak-val').textContent = `${getEffectiveStreak()} ngày`;
-      document.getElementById('math-stars-val').textContent = state.mathStars;
-    }
 
     function updateMathSetupSelectionUI() {
       document.querySelectorAll('.math-topic-btn').forEach(btn => {
@@ -1243,14 +1310,12 @@
           ? 'math-topic-btn p-3.5 rounded-2xl border-2 text-left transition active:scale-[0.98] flex items-center gap-3 border-indigo-500 bg-indigo-50/70 shadow-xs'
           : 'math-topic-btn p-3.5 rounded-2xl border-2 text-left transition active:scale-[0.98] flex items-center gap-3 border-orange-100 bg-cream/60 hover:border-orange-200';
       });
-
       document.querySelectorAll('.math-ansmode-btn').forEach(btn => {
         const active = btn.getAttribute('data-ansmode') === state.mathAnswerMode;
         btn.className = active
           ? 'math-ansmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95 border-berry-500 bg-berry-50 text-berry-600 shadow-xs'
           : 'math-ansmode-btn p-3 rounded-2xl border-2 text-center transition active:scale-95 border-orange-100 bg-cream/60 text-stone-600';
       });
-
       document.querySelectorAll('.math-durmode-btn').forEach(btn => {
         const active = btn.getAttribute('data-durmode') === state.mathDurationMode;
         btn.className = active
@@ -1259,42 +1324,20 @@
       });
     }
 
-    function selectMathTopic(topic) {
-      state.mathTopic = topic;
-      saveState();
-      updateMathSetupSelectionUI();
-    }
+    function selectMathTopic(topic) { state.mathTopic = topic; saveState(); updateMathSetupSelectionUI(); }
+    function selectMathAnswerMode(mode) { state.mathAnswerMode = mode; saveState(); updateMathSetupSelectionUI(); }
+    function selectMathDurationMode(mode) { state.mathDurationMode = mode; saveState(); updateMathSetupSelectionUI(); }
 
-    function selectMathAnswerMode(mode) {
-      state.mathAnswerMode = mode;
-      saveState();
-      updateMathSetupSelectionUI();
-    }
-
-    function selectMathDurationMode(mode) {
-      state.mathDurationMode = mode;
-      saveState();
-      updateMathSetupSelectionUI();
-    }
-
-    function randInt(min, max) {
-      return Math.floor(Math.random() * (max - min + 1)) + min;
-    }
+    function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
     function generateMathQuestion(topic) {
-      let actualTopic = topic;
-      if (topic === 'mixed') {
-        const pool = ['addsub100', 'mul25', 'div25'];
-        actualTopic = pool[Math.floor(Math.random() * pool.length)];
-      }
-
-      let text = '';
-      let answer = 0;
+      let actualTopic = topic === 'mixed'
+        ? ['addsub100', 'mul25', 'div25'][Math.floor(Math.random() * 3)]
+        : topic;
+      let text = '', answer = 0;
 
       if (actualTopic === 'addsub100') {
-        const isAdd = Math.random() < 0.5;
-        if (isAdd) {
-          // 60% có nhớ, 40% không nhớ trong phạm vi 100
+        if (Math.random() < 0.5) {
           const a = randInt(12, 85);
           const b = randInt(5, 100 - a);
           text = `${a} + ${b} = ?`;
@@ -1306,36 +1349,30 @@
           answer = a - b;
         }
       } else if (actualTopic === 'mul25') {
-        const a = randInt(2, 5);
-        const b = randInt(1, 10);
+        const a = randInt(2, 5), b = randInt(1, 10);
         text = `${a} × ${b} = ?`;
         answer = a * b;
       } else {
-        const divisor = randInt(2, 5);
-        const quotient = randInt(1, 10);
-        const dividend = divisor * quotient;
-        text = `${dividend} : ${divisor} = ?`;
+        const divisor = randInt(2, 5), quotient = randInt(1, 10);
+        text = `${divisor * quotient} : ${divisor} = ?`;
         answer = quotient;
       }
 
-      // Tạo 4 đáp án trắc nghiệm hợp lý
       const choicesSet = new Set([answer]);
       const offsets = [-10, -5, -3, -2, -1, 1, 2, 3, 5, 10];
       let guard = 0;
       while (choicesSet.size < 4 && guard < 60) {
         guard++;
-        const delta = offsets[Math.floor(Math.random() * offsets.length)];
-        const candidate = answer + delta;
-        if (candidate >= 0 && candidate <= 100) {
-          choicesSet.add(candidate);
-        }
+        const cand = answer + offsets[Math.floor(Math.random() * offsets.length)];
+        if (cand >= 0 && cand <= 100) choicesSet.add(cand);
       }
-      while (choicesSet.size < 4) {
-        choicesSet.add(randInt(0, 50));
-      }
+      while (choicesSet.size < 4) choicesSet.add(randInt(0, 50));
 
-      const choices = Array.from(choicesSet).sort(() => Math.random() - 0.5);
-      return { text, answer, choices };
+      return { text, answer, choices: shuffleArray(Array.from(choicesSet)) };
+    }
+
+    function stopQuizTimer() {
+      if (quizTimerInterval) { clearInterval(quizTimerInterval); quizTimerInterval = null; }
     }
 
     function showMathSetup() {
@@ -1345,27 +1382,14 @@
       document.getElementById('math-summary-view').classList.add('hidden');
     }
 
-    function exitMathQuiz() {
-      showMathSetup();
-    }
-
-    function stopQuizTimer() {
-      if (quizTimerInterval) {
-        clearInterval(quizTimerInterval);
-        quizTimerInterval = null;
-      }
-    }
-
     function startMathQuiz() {
       stopQuizTimer();
       quizLocked = false;
       const isTimed = state.mathDurationMode === '3min';
-
       quizSession = {
         topic: state.mathTopic,
         answerMode: state.mathAnswerMode,
         durationMode: state.mathDurationMode,
-        totalQuestions: isTimed ? Infinity : 10,
         answeredCount: 0,
         correctCount: 0,
         earnedStars: 0,
@@ -1377,7 +1401,6 @@
       document.getElementById('math-setup-view').classList.add('hidden');
       document.getElementById('math-summary-view').classList.add('hidden');
       document.getElementById('math-quiz-view').classList.remove('hidden');
-
       document.getElementById('quiz-choices-area').classList.toggle('hidden', state.mathAnswerMode !== 'choice');
       document.getElementById('quiz-keypad-area').classList.toggle('hidden', state.mathAnswerMode !== 'keypad');
 
@@ -1386,20 +1409,15 @@
           if (!quizSession) return;
           quizSession.timeLeftSec--;
           updateQuizHeader();
-          if (quizSession.timeLeftSec <= 0) {
-            finishMathQuiz();
-          }
+          if (quizSession.timeLeftSec <= 0) finishMathQuiz();
         }, 1000);
       }
-
       loadNextMathQuestion();
     }
 
     function formatClock(sec) {
       const s = Math.max(0, sec);
-      const mm = String(Math.floor(s / 60)).padStart(2, '0');
-      const ss = String(s % 60).padStart(2, '0');
-      return `${mm}:${ss}`;
+      return `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`;
     }
 
     function updateQuizHeader() {
@@ -1407,15 +1425,13 @@
       const pill = document.getElementById('quiz-progress-pill');
       const bar = document.getElementById('quiz-progress-bar');
       document.getElementById('quiz-score-pill').textContent = `✅ ${quizSession.correctCount} đúng`;
-
       if (quizSession.durationMode === '3min') {
         pill.textContent = `⏱️ ${formatClock(quizSession.timeLeftSec)}`;
-        const pct = Math.max(0, Math.round((quizSession.timeLeftSec / 180) * 100));
-        bar.style.width = `${pct}%`;
+        bar.style.width = `${Math.max(0, Math.round((quizSession.timeLeftSec / 180) * 100))}%`;
       } else {
-        const currentNum = Math.min(quizSession.answeredCount + 1, 10);
-        pill.textContent = `Câu ${currentNum} / 10`;
-        bar.style.width = `${Math.round((currentNum / 10) * 100)}%`;
+        const cur = Math.min(quizSession.answeredCount + 1, 10);
+        pill.textContent = `Câu ${cur} / 10`;
+        bar.style.width = `${Math.round((cur / 10) * 100)}%`;
       }
     }
 
@@ -1424,18 +1440,15 @@
       quizLocked = false;
       quizSession.currentQuestion = generateMathQuestion(quizSession.topic);
       quizSession.keypadValue = '';
-
       updateQuizHeader();
 
-      const card = document.getElementById('quiz-question-card');
-      card.className = 'rounded-3xl bg-gradient-to-b from-amber-50 to-orange-50/70 border-2 border-amber-200/80 py-7 px-4 text-center space-y-2 transition-colors';
+      document.getElementById('quiz-question-card').className = 'rounded-3xl bg-gradient-to-b from-amber-50 to-orange-50/70 border-2 border-amber-200/80 py-7 px-4 text-center space-y-2 transition-colors';
       document.getElementById('quiz-question-text').textContent = quizSession.currentQuestion.text;
       document.getElementById('quiz-feedback-msg').textContent = '';
       document.getElementById('keypad-display').textContent = '?';
 
       if (quizSession.answerMode === 'choice') {
-        const area = document.getElementById('quiz-choices-area');
-        area.innerHTML = quizSession.currentQuestion.choices.map(val => `
+        document.getElementById('quiz-choices-area').innerHTML = quizSession.currentQuestion.choices.map(val => `
           <button type="button" onclick="submitChoiceAnswer(${val}, this)"
             class="quiz-choice-btn py-5 rounded-3xl bg-white hover:bg-indigo-50 border-2 border-indigo-100 text-3xl font-black text-stone-800 shadow-xs active:scale-95 transition">
             ${val}
@@ -1446,20 +1459,14 @@
 
     function pressKeypad(key) {
       if (!quizSession || quizLocked) return;
-      if (key === 'DEL') {
-        quizSession.keypadValue = quizSession.keypadValue.slice(0, -1);
-      } else if (quizSession.keypadValue.length < 3) {
-        quizSession.keypadValue += key;
-      }
+      if (key === 'DEL') quizSession.keypadValue = quizSession.keypadValue.slice(0, -1);
+      else if (quizSession.keypadValue.length < 3) quizSession.keypadValue += key;
       document.getElementById('keypad-display').textContent = quizSession.keypadValue || '?';
     }
 
     function submitKeypadAnswer() {
       if (!quizSession || quizLocked) return;
-      if (!quizSession.keypadValue) {
-        showToast('Bé hãy bấm số để trả lời nhé!', 'warning');
-        return;
-      }
+      if (!quizSession.keypadValue) { showToast('Con hãy bấm số để trả lời nhé!', 'warning'); return; }
       evaluateMathAnswer(parseInt(quizSession.keypadValue, 10), null);
     }
 
@@ -1471,7 +1478,6 @@
     function evaluateMathAnswer(userVal, clickedBtn) {
       if (!quizSession || quizLocked) return;
       quizLocked = true;
-
       const q = quizSession.currentQuestion;
       const isCorrect = userVal === q.answer;
       quizSession.answeredCount++;
@@ -1484,40 +1490,28 @@
         quizSession.earnedStars++;
         state.mathStars++;
         saveState();
-        renderMathStats();
-
+        renderSisterStats();
         card.className = 'rounded-3xl bg-emerald-50 border-2 border-emerald-400 py-7 px-4 text-center space-y-2 transition-colors animate-bounce-pop';
         feedback.className = 'min-h-[26px] text-sm sm:text-base font-black text-emerald-600';
         feedback.textContent = '🎉 Đúng rồi! +1 ⭐';
-        if (clickedBtn) {
-          clickedBtn.className = 'quiz-choice-btn py-5 rounded-3xl bg-emerald-500 border-2 border-emerald-600 text-3xl font-black text-white shadow-md transition';
-        }
+        if (clickedBtn) clickedBtn.className = 'quiz-choice-btn py-5 rounded-3xl bg-emerald-500 border-2 border-emerald-600 text-3xl font-black text-white shadow-md transition';
         playSound('ting');
-
-        setTimeout(() => {
-          advanceMathQuiz();
-        }, 700);
+        setTimeout(() => advanceMathQuiz(), 700);
       } else {
         card.className = 'rounded-3xl bg-rose-50 border-2 border-rose-300 py-7 px-4 text-center space-y-2 transition-colors animate-shake';
         feedback.className = 'min-h-[26px] text-sm sm:text-base font-black text-rose-600';
         feedback.textContent = `💡 Đáp án đúng là ${q.answer} nhé con!`;
-        if (clickedBtn) {
-          clickedBtn.className = 'quiz-choice-btn py-5 rounded-3xl bg-rose-100 border-2 border-rose-400 text-3xl font-black text-rose-600 transition';
-        }
+        if (clickedBtn) clickedBtn.className = 'quiz-choice-btn py-5 rounded-3xl bg-rose-100 border-2 border-rose-400 text-3xl font-black text-rose-600 transition';
         playSound('boing');
-
-        setTimeout(() => {
-          advanceMathQuiz();
-        }, 1250);
+        setTimeout(() => advanceMathQuiz(), 1250);
       }
       updateQuizHeader();
     }
 
     function advanceMathQuiz() {
       if (!quizSession) return;
-      if (quizSession.durationMode === '10q' && quizSession.answeredCount >= 10) {
-        finishMathQuiz();
-      } else if (quizSession.durationMode === '3min' && quizSession.timeLeftSec <= 0) {
+      if ((quizSession.durationMode === '10q' && quizSession.answeredCount >= 10) ||
+          (quizSession.durationMode === '3min' && quizSession.timeLeftSec <= 0)) {
         finishMathQuiz();
       } else {
         loadNextMathQuestion();
@@ -1527,61 +1521,41 @@
     function finishMathQuiz() {
       stopQuizTimer();
       if (!quizSession) return;
-
       const total = quizSession.answeredCount;
       const correct = quizSession.correctCount;
       const accuracy = total === 0 ? 0 : Math.round((correct / total) * 100);
+      let bonus = (total > 0 && accuracy >= 80) ? 2 : (total > 0 && accuracy >= 50) ? 1 : 0;
 
-      // Thưởng thêm sao nếu làm tốt
-      let bonusStars = 0;
-      if (total > 0 && accuracy >= 80) bonusStars = 2;
-      else if (total > 0 && accuracy >= 50) bonusStars = 1;
-
-      if (bonusStars > 0) {
-        quizSession.earnedStars += bonusStars;
-        state.mathStars += bonusStars;
-      }
+      if (bonus > 0) { quizSession.earnedStars += bonus; state.mathStars += bonus; }
 
       if (total > 0) {
         recordStudyDayForStreak();
-        const now = new Date();
-        const timeStr = `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')} • ${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}`;
-
-        state.mathHistory.unshift({
-          id: 'mh_' + Date.now(),
-          topicLabel: TOPIC_LABELS[quizSession.topic] || 'Toán lớp 2',
+        state.studyHistory.unshift({
+          id: 'sh_' + Date.now(),
+          subjectIcon: '🧮',
+          topicLabel: MATH_TOPIC_LABELS[quizSession.topic] || 'Toán lớp 2',
           modeLabel: quizSession.durationMode === '3min' ? 'Thử thách 3 phút' : 'Luyện 10 câu',
-          correct,
-          total,
+          correct, total,
           stars: quizSession.earnedStars,
-          time: timeStr
+          time: getCurrentTimeLabel()
         });
-        if (state.mathHistory.length > 30) state.mathHistory.pop();
+        if (state.studyHistory.length > 10) state.studyHistory = state.studyHistory.slice(0, 10);
         saveState();
-        renderMathStats();
+        renderSisterStats();
       }
 
-      // Hiển thị tổng kết
-      let praise = 'Cố gắng hơn lượt sau nhé con!';
-      if (accuracy >= 90 && total > 0) praise = 'Xuất sắc quá công chúa ơi! 🌟';
-      else if (accuracy >= 70 && total > 0) praise = 'Giỏi lắm! Con làm rất tốt! 🎉';
-      else if (total > 0) praise = 'Hoan hô tinh thần chăm chỉ của con! 💪';
-
-      document.getElementById('summary-praise').textContent = praise;
-      document.getElementById('summary-subtext').textContent =
-        `${TOPIC_LABELS[quizSession.topic]} • ${quizSession.durationMode === '3min' ? 'Thử thách 3 phút' : 'Luyện 10 câu'}`;
+      document.getElementById('summary-praise').textContent = accuracy >= 90 ? 'Xuất sắc quá công chúa ơi! 🌟' : accuracy >= 70 ? 'Giỏi lắm! Con làm rất tốt! 🎉' : 'Hoan hô tinh thần chăm chỉ của con! 💪';
+      document.getElementById('summary-subtext').textContent = `${MATH_TOPIC_LABELS[quizSession.topic]} • ${quizSession.durationMode === '3min' ? 'Thử thách 3 phút' : 'Luyện 10 câu'}`;
       document.getElementById('summary-correct').textContent = `${correct}/${total}`;
       document.getElementById('summary-stars').textContent = `+${quizSession.earnedStars} ⭐`;
       document.getElementById('summary-accuracy').textContent = `${accuracy}%`;
 
       document.getElementById('math-quiz-view').classList.add('hidden');
       document.getElementById('math-summary-view').classList.remove('hidden');
-
       playSound('win');
       launchConfetti(70);
     }
 
-    // Bảng Cửu Chương 2 - 5
     function renderTimesTable(mode) {
       const isMul = mode === 'mul';
       document.getElementById('tt-mode-mul').className = isMul
@@ -1597,104 +1571,641 @@
         'bg-emerald-50 border-emerald-200 text-emerald-700',
         'bg-sky-50 border-sky-200 text-sky-700'
       ];
-
-      const container = document.getElementById('times-table-content');
-      container.innerHTML = [2, 3, 4, 5].map((num, idx) => {
+      document.getElementById('times-table-content').innerHTML = [2, 3, 4, 5].map((num, idx) => {
         let rows = '';
         for (let i = 1; i <= 10; i++) {
           rows += isMul
             ? `<div class="flex justify-between py-0.5 border-b border-black/5 last:border-0"><span>${num} × ${i}</span><span class="font-black">${num * i}</span></div>`
             : `<div class="flex justify-between py-0.5 border-b border-black/5 last:border-0"><span>${num * i} : ${num}</span><span class="font-black">${i}</span></div>`;
         }
+        return `<div class="rounded-2xl border-2 p-3 ${cardColors[idx]}"><div class="font-black text-center text-sm mb-2">Bảng ${isMul ? 'nhân' : 'chia'} ${num}</div><div class="text-xs sm:text-sm font-bold text-stone-700">${rows}</div></div>`;
+      }).join('');
+    }
+
+    // =========================================================
+    // 5. LOGIC TAB 2: TIẾNG VIỆT LỚP 2 (5 CHỦ ĐỀ - 130+ CÂU HỎI)
+    // =========================================================
+    const VIET_TOPICS = [
+      { id: 'initials', icon: '🔤', name: 'Âm đầu (ch/tr, s/x, l/n, r/d/gi)', desc: 'Điền đúng âm đầu còn thiếu', bg: 'bg-amber-100' },
+      { id: 'tones', icon: '❔', name: 'Dấu Hỏi / Ngã (? / ~)', desc: 'Chọn từ viết đúng chính tả', bg: 'bg-rose-100' },
+      { id: 'rules', icon: '📏', name: 'Quy tắc c/k, g/gh, ng/ngh', desc: 'Luật chính tả đi với i, e, ê', bg: 'bg-sky-100' },
+      { id: 'vocab', icon: '🌸', name: 'Từ loại & Vốn từ lớp 2', desc: 'Sự vật, hoạt động, trái nghĩa', bg: 'bg-purple-100' },
+      { id: 'dictation', icon: '🔊', name: 'Nghe - Chọn Chính Tả', desc: 'Nghe cô đọc rồi chọn từ đúng', bg: 'bg-emerald-100' }
+    ];
+
+    const VIET_BANK = {
+      // 1) PHÂN BIỆT ÂM ĐẦU (36 câu)
+      initials: [
+        { q: '...ong chóng quay đều', opts: ['ch', 'tr'], ans: 'ch', speak: 'chong chóng quay đều', exp: 'Từ đúng là "chong chóng" (viết bằng ch).' },
+        { q: 'con ...âu đang gặm cỏ', opts: ['tr', 'ch'], ans: 'tr', speak: 'con trâu đang gặm cỏ', exp: 'Từ đúng là "con trâu" (viết bằng tr).' },
+        { q: 'quả ...ứng gà', opts: ['tr', 'ch'], ans: 'tr', speak: 'quả trứng gà', exp: 'Từ đúng là "quả trứng" (viết bằng tr).' },
+        { q: 'bức ...anh vẽ đẹp', opts: ['tr', 'ch'], ans: 'tr', speak: 'bức tranh vẽ đẹp', exp: 'Từ đúng là "bức tranh" (viết bằng tr).' },
+        { q: 'đàn ...im hót líu lo', opts: ['ch', 'tr'], ans: 'ch', speak: 'đàn chim hót líu lo', exp: 'Từ đúng là "đàn chim" (viết bằng ch).' },
+        { q: 'mặt ...ời mọc đằng đông', opts: ['tr', 'ch'], ans: 'tr', speak: 'mặt trời mọc đằng đông', exp: 'Từ đúng là "mặt trời" (viết bằng tr).' },
+        { q: '...ăm chỉ học bài', opts: ['ch', 'tr'], ans: 'ch', speak: 'chăm chỉ học bài', exp: 'Từ đúng là "chăm chỉ" (viết bằng ch).' },
+        { q: 'bầu ...ời trong xanh', opts: ['tr', 'ch'], ans: 'tr', speak: 'bầu trời trong xanh', exp: 'Từ đúng là "bầu trời" (viết bằng tr).' },
+        { q: 'quyển ...uyện cổ tích', opts: ['tr', 'ch'], ans: 'tr', speak: 'quyển truyện cổ tích', exp: 'Từ đúng là "quyển truyện" (viết bằng tr).' },
+        { q: 'đôi ...ân chạy nhanh', opts: ['ch', 'tr'], ans: 'ch', speak: 'đôi chân chạy nhanh', exp: 'Từ đúng là "đôi chân" (viết bằng ch).' },
+        { q: 'ngôi ...ao lấp lánh', opts: ['s', 'x'], ans: 's', speak: 'ngôi sao lấp lánh', exp: 'Từ đúng là "ngôi sao" (viết bằng s).' },
+        { q: 'chiếc ...e đạp màu hồng', opts: ['x', 's'], ans: 'x', speak: 'chiếc xe đạp màu hồng', exp: 'Từ đúng là "xe đạp" (viết bằng x).' },
+        { q: 'dòng ...ông hiền hòa', opts: ['s', 'x'], ans: 's', speak: 'dòng sông hiền hòa', exp: 'Từ đúng là "dòng sông" (viết bằng s).' },
+        { q: 'bầu trời ...anh biếc', opts: ['x', 's'], ans: 'x', speak: 'bầu trời xanh biếc', exp: 'Từ đúng là "xanh biếc" (viết bằng x).' },
+        { q: 'quyển ...ách Tiếng Việt', opts: ['s', 'x'], ans: 's', speak: 'quyển sách Tiếng Việt', exp: 'Từ đúng là "quyển sách" (viết bằng s).' },
+        { q: 'mùa ...uân hoa nở', opts: ['x', 's'], ans: 'x', speak: 'mùa xuân hoa nở', exp: 'Từ đúng là "mùa xuân" (viết bằng x).' },
+        { q: 'chim ...ẻ hót trên cành', opts: ['s', 'x'], ans: 's', speak: 'chim sẻ hót trên cành', exp: 'Từ đúng là "chim sẻ" (viết bằng s).' },
+        { q: 'con đường ...a tít tắp', opts: ['x', 's'], ans: 'x', speak: 'con đường xa tít tắp', exp: 'Từ đúng là "xa tít tắp" (viết bằng x).' },
+        { q: 'buổi ...áng tinh mơ', opts: ['s', 'x'], ans: 's', speak: 'buổi sáng tinh mơ', exp: 'Từ đúng là "buổi sáng" (viết bằng s).' },
+        { q: 'bông hoa ...inh đẹp', opts: ['x', 's'], ans: 'x', speak: 'bông hoa xinh đẹp', exp: 'Từ đúng là "xinh đẹp" (viết bằng x).' },
+        { q: 'lấp ...ánh ánh sao', opts: ['l', 'n'], ans: 'l', speak: 'lấp lánh ánh sao', exp: 'Từ đúng là "lấp lánh" (từ láy âm đầu l).' },
+        { q: 'ánh ...ắng ban mai', opts: ['n', 'l'], ans: 'n', speak: 'ánh nắng ban mai', exp: 'Từ đúng là "ánh nắng" (viết bằng n).' },
+        { q: 'chiếc ...á vàng rơi', opts: ['l', 'n'], ans: 'l', speak: 'chiếc lá vàng rơi', exp: 'Từ đúng là "chiếc lá" (viết bằng l).' },
+        { q: 'nước ...óng bốc khói', opts: ['n', 'l'], ans: 'n', speak: 'nước nóng bốc khói', exp: 'Từ đúng là "nước nóng" (viết bằng n).' },
+        { q: '...àm bài tập về nhà', opts: ['l', 'n'], ans: 'l', speak: 'làm bài tập về nhà', exp: 'Từ đúng là "làm bài" (viết bằng l).' },
+        { q: 'bông hoa ...ở rộ', opts: ['n', 'l'], ans: 'n', speak: 'bông hoa nở rộ', exp: 'Từ đúng là "hoa nở" (viết bằng n).' },
+        { q: 'cô bé ngoan ...oãn', opts: ['n', 'l'], ans: 'n', speak: 'cô bé ngoan ngoãn', exp: 'Từ đúng là "ngoan ngoãn" (viết bằng ng/n).' },
+        { q: 'ngọn ...úi cao chót vót', opts: ['n', 'l'], ans: 'n', speak: 'ngọn núi cao chót vót', exp: 'Từ đúng là "ngọn núi" (viết bằng n).' },
+        { q: '...òng sông uốn lượn', opts: ['d', 'gi', 'r'], ans: 'd', speak: 'dòng sông uốn lượn', exp: 'Từ đúng là "dòng sông" (viết bằng d).' },
+        { q: '...ó thổi mát rượi', opts: ['gi', 'd', 'r'], ans: 'gi', speak: 'gió thổi mát rượi', exp: 'Từ đúng là "gió thổi" (viết bằng gi).' },
+        { q: 'khu ...ừng xanh thẳm', opts: ['r', 'd', 'gi'], ans: 'r', speak: 'khu rừng xanh thẳm', exp: 'Từ đúng là "khu rừng" (viết bằng r).' },
+        { q: '...a đình hạnh phúc', opts: ['gi', 'd', 'r'], ans: 'gi', speak: 'gia đình hạnh phúc', exp: 'Từ đúng là "gia đình" (viết bằng gi).' },
+        { q: 'con ...ùa bò chậm', opts: ['r', 'd', 'gi'], ans: 'r', speak: 'con rùa bò chậm', exp: 'Từ đúng là "con rùa" (viết bằng r).' },
+        { q: 'quả ...ưa hấu đỏ', opts: ['d', 'gi', 'r'], ans: 'd', speak: 'quả dưa hấu đỏ', exp: 'Từ đúng là "quả dưa hấu" (viết bằng d).' },
+        { q: 'cô ...áo giảng bài', opts: ['gi', 'd', 'r'], ans: 'gi', speak: 'cô giáo giảng bài', exp: 'Từ đúng là "cô giáo" (viết bằng gi).' },
+        { q: '...ễ thương quá đi', opts: ['d', 'gi', 'r'], ans: 'd', speak: 'dễ thương quá đi', exp: 'Từ đúng là "dễ thương" (viết bằng d).' }
+      ],
+
+      // 2) PHÂN BIỆT DẤU HỎI / NGÃ (26 câu)
+      tones: [
+        { q: 'Chọn từ viết đúng (nghỉ xả hơi):', opts: ['nghỉ ngơi', 'nghĩ ngơi'], ans: 'nghỉ ngơi', speak: 'nghỉ ngơi', exp: '"Nghỉ ngơi" dùng dấu hỏi (?). Còn "suy nghĩ" mới dùng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (đồ uống của bé):', opts: ['sữa tươi', 'sửa tươi'], ans: 'sữa tươi', speak: 'sữa tươi', exp: '"Sữa tươi" dùng dấu ngã (~). Còn "sửa chữa" mới dùng dấu hỏi (?).' },
+        { q: 'Chọn từ viết đúng (một loại củ):', opts: ['củ cải', 'cũ cải'], ans: 'củ cải', speak: 'củ cải', exp: '"Củ cải" dùng dấu hỏi (?). Còn "cũ kỹ" mới dùng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (tạo hình bằng bút màu):', opts: ['vẽ tranh', 'vẻ tranh'], ans: 'vẽ tranh', speak: 'vẽ tranh', exp: '"Vẽ tranh" dùng dấu ngã (~). Còn "vẻ đẹp" dùng dấu hỏi (?).' },
+        { q: 'Chọn từ viết đúng (chỉ hướng):', opts: ['mũi tên', 'mủi tên'], ans: 'mũi tên', speak: 'mũi tên', exp: '"Mũi tên", "cái mũi" đều viết bằng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (giấc ngủ ban đêm):', opts: ['ngủ ngon', 'ngũ ngon'], ans: 'ngủ ngon', speak: 'ngủ ngon', exp: '"Ngủ ngon" viết bằng dấu hỏi (?).' },
+        { q: 'Chọn từ viết đúng (làm việc có ích):', opts: ['chăm chỉ', 'chăm chĩ'], ans: 'chăm chỉ', speak: 'chăm chỉ', exp: '"Chăm chỉ" viết bằng dấu hỏi (?).' },
+        { q: 'Chọn từ viết đúng (bạn bè rất vui):', opts: ['vui vẻ', 'vui vẽ'], ans: 'vui vẻ', speak: 'vui vẻ', exp: '"Vui vẻ" viết bằng dấu hỏi (?).' },
+        { q: 'Chọn từ viết đúng (tinh thần gan dạ):', opts: ['dũng cảm', 'dủng cảm'], ans: 'dũng cảm', speak: 'dũng cảm', exp: '"Dũng cảm" viết bằng dấu ngã (~) ở chữ dũng và dấu hỏi (?) ở chữ cảm.' },
+        { q: 'Chọn từ viết đúng (lễ phép với người lớn):', opts: ['lễ phép', 'lể phép'], ans: 'lễ phép', speak: 'lễ phép', exp: '"Lễ phép" viết bằng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (đồ dùng học tập):', opts: ['quyển vở', 'quyển vỡ'], ans: 'quyển vở', speak: 'quyển vở', exp: '"Quyển vở" dùng dấu hỏi (?). Còn "bị vỡ" dùng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (tính toán trong đầu):', opts: ['suy nghĩ', 'suy nghỉ'], ans: 'suy nghĩ', speak: 'suy nghĩ', exp: '"Suy nghĩ" viết bằng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (trời không có mây):', opts: ['bầu trời quang đãng', 'bầu trời quang đảng'], ans: 'bầu trời quang đãng', speak: 'bầu trời quang đãng', exp: '"Quang đãng" viết bằng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (chỉ đồ đã dùng lâu):', opts: ['cũ kỹ', 'củ kỷ'], ans: 'cũ kỹ', speak: 'cũ kỹ', exp: '"Cũ kỹ" cả hai chữ đều dùng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (bãi cát ven biển):', opts: ['bãi biển', 'bải biển'], ans: 'bãi biển', speak: 'bãi biển', exp: '"Bãi biển" dùng dấu ngã (~) ở chữ bãi và dấu hỏi (?) ở chữ biển.' },
+        { q: 'Chọn từ viết đúng (sạch không có bụi):', opts: ['sạch sẽ', 'sạch sẻ'], ans: 'sạch sẽ', speak: 'sạch sẽ', exp: '"Sạch sẽ" viết bằng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (người giữ gìn trật tự):', opts: ['bảo vệ', 'bão vệ'], ans: 'bảo vệ', speak: 'bảo vệ', exp: '"Bảo vệ" dùng dấu hỏi (?). Còn "cơn bão" mới dùng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (gió to mưa lớn):', opts: ['cơn bão', 'cơn bảo'], ans: 'cơn bão', speak: 'cơn bão', exp: '"Cơn bão" viết bằng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (nhớ bài kỹ):', opts: ['kỹ lưỡng', 'kỷ lưỡng'], ans: 'kỹ lưỡng', speak: 'kỹ lưỡng', exp: '"Kỹ lưỡng" cả hai tiếng đều dùng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (chỉ độ dài thời gian):', opts: ['mãi mãi', 'mải mải'], ans: 'mãi mãi', speak: 'mãi mãi', exp: '"Mãi mãi" viết bằng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (câu chuyện hay):', opts: ['kể chuyện', 'kễ chuyện'], ans: 'kể chuyện', speak: 'kể chuyện', exp: '"Kể chuyện" viết bằng dấu hỏi (?).' },
+        { q: 'Chọn từ viết đúng (cái mũ đội đầu):', opts: ['đội mũ', 'đội mủ'], ans: 'đội mũ', speak: 'đội mũ', exp: '"Đội mũ" viết bằng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (sức khỏe tốt):', opts: ['khỏe mạnh', 'khõe mạnh'], ans: 'khỏe mạnh', speak: 'khỏe mạnh', exp: '"Khỏe mạnh" viết bằng dấu hỏi (?).' },
+        { q: 'Chọn từ viết đúng (dùng tay sửa lại):', opts: ['sửa chữa', 'sữa chửa'], ans: 'sửa chữa', speak: 'sửa chữa', exp: '"Sửa chữa" gồm "sửa" (hỏi) và "chữa" (ngã).' },
+        { q: 'Chọn từ viết đúng (con đường rộng):', opts: ['ngã tư', 'ngả tư'], ans: 'ngã tư', speak: 'ngã tư', exp: '"Ngã tư" (chỗ đường giao nhau) viết bằng dấu ngã (~).' },
+        { q: 'Chọn từ viết đúng (ăn bữa sáng):', opts: ['bữa sáng', 'bửa sáng'], ans: 'bữa sáng', speak: 'bữa sáng', exp: '"Bữa sáng", "bữa cơm" viết bằng dấu ngã (~).' }
+      ],
+
+      // 3) QUY TẮC c/k, g/gh, ng/ngh (22 câu)
+      rules: [
+        { q: '...on cá vàng', opts: ['c', 'k'], ans: 'c', speak: 'con cá vàng', exp: 'Mẹo nhớ: "k" chỉ đi với i, e, ê. Trước chữ "o" ta viết "c" (con cá).' },
+        { q: 'cái ...éo cắt giấy', opts: ['k', 'c'], ans: 'k', speak: 'cái kéo cắt giấy', exp: 'Mẹo nhớ: "k" luôn đứng trước i, e, ê → viết "kéo".' },
+        { q: 'viên ...ẹo ngọt', opts: ['k', 'c'], ans: 'k', speak: 'viên kẹo ngọt', exp: 'Trước chữ "e" luôn dùng "k" → "viên kẹo".' },
+        { q: '...ể chuyện cổ tích', opts: ['k', 'c'], ans: 'k', speak: 'kể chuyện cổ tích', exp: 'Trước chữ "ê" luôn dùng "k" → "kể chuyện".' },
+        { q: 'con ...iến chăm chỉ', opts: ['k', 'c'], ans: 'k', speak: 'con kiến chăm chỉ', exp: 'Trước chữ "i" luôn dùng "k" → "con kiến".' },
+        { q: 'quả ...am chín mọng', opts: ['c', 'k'], ans: 'c', speak: 'quả cam chín mọng', exp: 'Trước chữ "a" ta viết "c" → "quả cam".' },
+        { q: '...ây bàng sân trường', opts: ['c', 'k'], ans: 'c', speak: 'cây bàng sân trường', exp: 'Trước chữ "â" ta viết "c" → "cây bàng".' },
+        { q: 'cái ...ế gỗ', opts: ['gh', 'g'], ans: 'gh', speak: 'cái ghế gỗ', exp: 'Mẹo nhớ: "gh" luôn đi với i, e, ê → "cái ghế".' },
+        { q: 'con ...à mái', opts: ['g', 'gh'], ans: 'g', speak: 'con gà mái', exp: 'Trước chữ "a" không dùng gh, ta viết "g" → "con gà".' },
+        { q: '...i chép cẩn thận', opts: ['gh', 'g'], ans: 'gh', speak: 'ghi chép cẩn thận', exp: 'Trước chữ "i" luôn dùng "gh" → "ghi chép".' },
+        { q: 'con ...ẹ biển', opts: ['gh', 'g'], ans: 'gh', speak: 'con ghẹ biển', exp: 'Trước chữ "e" luôn dùng "gh" → "con ghẹ".' },
+        { q: 'con ...ấu bông', opts: ['g', 'gh'], ans: 'g', speak: 'con gấu bông', exp: 'Trước chữ "â" ta viết "g" → "con gấu".' },
+        { q: '...ép hình thông minh', opts: ['gh', 'g'], ans: 'gh', speak: 'ghép hình thông minh', exp: 'Trước chữ "e" luôn dùng "gh" → "ghép hình".' },
+        { q: 'hạt ...ạo trắng ngần', opts: ['g', 'gh'], ans: 'g', speak: 'hạt gạo trắng ngần', exp: 'Trước chữ "a" ta viết "g" → "hạt gạo".' },
+        { q: 'suy ...ĩ thật kỹ', opts: ['ngh', 'ng'], ans: 'ngh', speak: 'suy nghĩ thật kỹ', exp: 'Mẹo nhớ: "ngh" luôn đi với i, e, ê → "suy nghĩ".' },
+        { q: '...ồi học ngay ngắn', opts: ['ng', 'ngh'], ans: 'ng', speak: 'ngồi học ngay ngắn', exp: 'Trước chữ "ô" ta viết "ng" → "ngồi học".' },
+        { q: 'củ ...ệ vàng tươi', opts: ['ngh', 'ng'], ans: 'ngh', speak: 'củ nghệ vàng tươi', exp: 'Trước chữ "ê" luôn dùng "ngh" → "củ nghệ".' },
+        { q: 'lắng ...e cô giảng', opts: ['ngh', 'ng'], ans: 'ngh', speak: 'lắng nghe cô giảng', exp: 'Trước chữ "e" luôn dùng "ngh" → "lắng nghe".' },
+        { q: '...ủ ngon giấc', opts: ['ng', 'ngh'], ans: 'ng', speak: 'ngủ ngon giấc', exp: 'Trước chữ "u" ta viết "ng" → "ngủ ngon".' },
+        { q: 'kỳ ...ỉ hè vui vẻ', opts: ['ngh', 'ng'], ans: 'ngh', speak: 'kỳ nghỉ hè vui vẻ', exp: 'Trước chữ "i" luôn dùng "ngh" → "kỳ nghỉ".' },
+        { q: 'bắp ...ô nếp dẻo', opts: ['ng', 'ngh'], ans: 'ng', speak: 'bắp ngô nếp dẻo', exp: 'Trước chữ "ô" ta viết "ng" → "bắp ngô".' },
+        { q: 'chú ...é con', opts: ['ngh', 'ng'], ans: 'ngh', speak: 'chú nghé con', exp: 'Trước chữ "e" luôn dùng "ngh" → "chú nghé".' }
+      ],
+
+      // 4) TỪ LOẠI & VỐN TỪ LỚP 2 (26 câu)
+      vocab: [
+        { q: 'Từ "quyển sách" thuộc loại từ nào?', opts: ['Từ chỉ sự vật', 'Từ chỉ hoạt động', 'Từ chỉ đặc điểm'], ans: 'Từ chỉ sự vật', speak: 'Từ quyển sách thuộc loại từ nào?', exp: '"Quyển sách" là đồ vật nên là Từ chỉ sự vật.' },
+        { q: 'Từ "chạy nhảy" thuộc loại từ nào?', opts: ['Từ chỉ hoạt động', 'Từ chỉ sự vật', 'Từ chỉ đặc điểm'], ans: 'Từ chỉ hoạt động', speak: 'Từ chạy nhảy thuộc loại từ nào?', exp: '"Chạy nhảy" chỉ việc làm, cử động nên là Từ chỉ hoạt động.' },
+        { q: 'Từ "xinh đẹp" thuộc loại từ nào?', opts: ['Từ chỉ đặc điểm', 'Từ chỉ sự vật', 'Từ chỉ hoạt động'], ans: 'Từ chỉ đặc điểm', speak: 'Từ xinh đẹp thuộc loại từ nào?', exp: '"Xinh đẹp" miêu tả tính chất, dáng vẻ nên là Từ chỉ đặc điểm.' },
+        { q: 'Từ nào sau đây là Từ chỉ sự vật?', opts: ['Bông hoa', 'Đọc bài', 'Cao lớn', 'Chăm chỉ'], ans: 'Bông hoa', speak: 'Từ nào sau đây là từ chỉ sự vật?', exp: '"Bông hoa" là tên cây cối nên là Từ chỉ sự vật.' },
+        { q: 'Từ nào sau đây là Từ chỉ hoạt động?', opts: ['Viết chữ', 'Cái bàn', 'Xanh biếc', 'Ngọt ngào'], ans: 'Viết chữ', speak: 'Từ nào sau đây là từ chỉ hoạt động?', exp: '"Viết chữ" chỉ việc làm của tay nên là Từ chỉ hoạt động.' },
+        { q: 'Từ nào sau đây là Từ chỉ đặc điểm?', opts: ['Hiền lành', 'Con mèo', 'Tưới cây', 'Cô giáo'], ans: 'Hiền lành', speak: 'Từ nào sau đây là từ chỉ đặc điểm?', exp: '"Hiền lành" chỉ tính nết nên là Từ chỉ đặc điểm.' },
+        { q: 'Từ trái nghĩa với "cao" là gì?', opts: ['thấp', 'dài', 'rộng', 'to'], ans: 'thấp', speak: 'Từ trái nghĩa với cao là gì?', exp: 'Cặp từ trái nghĩa: cao ↔ thấp.' },
+        { q: 'Từ trái nghĩa với "nóng" là gì?', opts: ['lạnh', 'ấm', 'nhanh', 'sáng'], ans: 'lạnh', speak: 'Từ trái nghĩa với nóng là gì?', exp: 'Cặp từ trái nghĩa: nóng ↔ lạnh.' },
+        { q: 'Từ trái nghĩa với "chăm chỉ" là gì?', opts: ['lười biếng', 'ngoan ngoãn', 'vui vẻ', 'cẩn thận'], ans: 'lười biếng', speak: 'Từ trái nghĩa với chăm chỉ là gì?', exp: 'Cặp từ trái nghĩa: chăm chỉ ↔ lười biếng.' },
+        { q: 'Từ trái nghĩa với "sạch sẽ" là gì?', opts: ['bẩn thỉu', 'gọn gàng', 'thơm tho', 'trắng tinh'], ans: 'bẩn thỉu', speak: 'Từ trái nghĩa với sạch sẽ là gì?', exp: 'Cặp từ trái nghĩa: sạch sẽ ↔ bẩn thỉu.' },
+        { q: 'Từ trái nghĩa với "nhanh nhẹn" là gì?', opts: ['chậm chạp', 'vội vàng', 'khỏe mạnh', 'lanh lợi'], ans: 'chậm chạp', speak: 'Từ trái nghĩa với nhanh nhẹn là gì?', exp: 'Cặp từ trái nghĩa: nhanh nhẹn ↔ chậm chạp.' },
+        { q: 'Từ trái nghĩa với "vui vẻ" là gì?', opts: ['buồn bã', 'hạnh phúc', 'tươi cười', 'hào hứng'], ans: 'buồn bã', speak: 'Từ trái nghĩa với vui vẻ là gì?', exp: 'Cặp từ trái nghĩa: vui vẻ ↔ buồn bã.' },
+        { q: 'Từ trái nghĩa với "sáng sủa" là gì?', opts: ['tối tăm', 'rực rỡ', 'chói chang', 'lấp lánh'], ans: 'tối tăm', speak: 'Từ trái nghĩa với sáng sủa là gì?', exp: 'Cặp từ trái nghĩa: sáng sủa ↔ tối tăm.' },
+        { q: 'Từ trái nghĩa với "dũng cảm" là gì?', opts: ['nhút nhát', 'mạnh mẽ', 'kiên cường', 'tự tin'], ans: 'nhút nhát', speak: 'Từ trái nghĩa với dũng cảm là gì?', exp: 'Cặp từ trái nghĩa: dũng cảm ↔ nhút nhát.' },
+        { q: 'Từ trái nghĩa với "rộng rãi" là gì?', opts: ['chật hẹp', 'bao la', 'mênh mông', 'thoáng mát'], ans: 'chật hẹp', speak: 'Từ trái nghĩa với rộng rãi là gì?', exp: 'Cặp từ trái nghĩa: rộng rãi ↔ chật hẹp.' },
+        { q: 'Từ trái nghĩa với "cứng" là gì?', opts: ['mềm', 'chắc', 'nặng', 'dày'], ans: 'mềm', speak: 'Từ trái nghĩa với cứng là gì?', exp: 'Cặp từ trái nghĩa: cứng ↔ mềm.' },
+        { q: 'Điền từ vào câu: "Bé rất ... học bài mỗi tối."', opts: ['chăm chỉ', 'ngọt ngào', 'tròn xoe', 'cao vút'], ans: 'chăm chỉ', speak: 'Bé rất chấm chấm học bài mỗi tối.', exp: 'Câu hoàn chỉnh: "Bé rất chăm chỉ học bài mỗi tối."' },
+        { q: 'Điền từ vào câu: "Ông mặt trời tỏa nắng ... khắp nơi."', opts: ['ấm áp', 'chua loét', 'ồn ào', 'gồ ghề'], ans: 'ấm áp', speak: 'Ông mặt trời tỏa nắng chấm chấm khắp nơi.', exp: 'Câu hoàn chỉnh: "Ông mặt trời tỏa nắng ấm áp khắp nơi."' },
+        { q: 'Điền từ vào câu: "Bầu trời mùa thu trong xanh và ... "', opts: ['cao vút', 'mặn chát', 'đắng ngắt', 'cứng nhắc'], ans: 'cao vút', speak: 'Bầu trời mùa thu trong xanh và chấm chấm.', exp: 'Câu hoàn chỉnh: "Bầu trời mùa thu trong xanh và cao vút."' },
+        { q: 'Điền từ vào câu: "Đàn chim đang ... trên cành cây."', opts: ['hót líu lo', 'bơi lội', 'nở hoa', 'ngủ gật'], ans: 'hót líu lo', speak: 'Đàn chim đang chấm chấm trên cành cây.', exp: 'Chim hót líu lo trên cành cây.' },
+        { q: 'Từ nào chỉ đồ dùng học tập?', opts: ['Thước kẻ', 'Cái nồi', 'Đôi dép', 'Gối ôm'], ans: 'Thước kẻ', speak: 'Từ nào chỉ đồ dùng học tập?', exp: '"Thước kẻ" là đồ dùng học tập của học sinh.' },
+        { q: 'Từ nào chỉ tình cảm gia đình?', opts: ['Yêu thương', 'Bàn ghế', 'Bút chì', 'Màu đỏ'], ans: 'Yêu thương', speak: 'Từ nào chỉ tình cảm gia đình?', exp: '"Yêu thương" chỉ tình cảm gắn bó trong gia đình.' },
+        { q: 'Từ "ngọt ngào" thường dùng để tả vị của quả nào?', opts: ['Quả xoài chín', 'Quả chanh', 'Quả ớt', 'Muối biển'], ans: 'Quả xoài chín', speak: 'Từ ngọt ngào thường dùng để tả vị của quả nào?', exp: 'Quả xoài chín có vị ngọt ngào, còn chanh thì chua.' },
+        { q: 'Từ "đỏ rực" chỉ đặc điểm về gì?', opts: ['Màu sắc', 'Hình dáng', 'Mùi vị', 'Âm thanh'], ans: 'Màu sắc', speak: 'Từ đỏ rực chỉ đặc điểm về gì?', exp: '"Đỏ rực" là từ chỉ đặc điểm về màu sắc.' },
+        { q: 'Từ "tròn xoe" chỉ đặc điểm về gì?', opts: ['Hình dáng', 'Màu sắc', 'Mùi vị', 'Tính nết'], ans: 'Hình dáng', speak: 'Từ tròn xoe chỉ đặc điểm về gì?', exp: '"Tròn xoe" là từ chỉ đặc điểm về hình dáng.' },
+        { q: 'Câu nào dùng dấu chấm hỏi (?) ở cuối?', opts: ['Bạn tên là gì?', 'Em đi học về.', 'Bông hoa đẹp quá!', 'Mẹ đang nấu cơm.'], ans: 'Bạn tên là gì?', speak: 'Câu nào dùng dấu chấm hỏi ở cuối?', exp: 'Câu hỏi dùng để hỏi điều chưa biết nên cuối câu có dấu chấm hỏi (?).' }
+      ],
+
+      // 5) NGHE - CHỌN CHÍNH TẢ (24 câu - Tự động đọc khi vào câu)
+      dictation: [
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['chong chóng', 'trong tróng', 'chong tróng', 'trong chóng'], ans: 'chong chóng', speak: 'chong chóng', exp: 'Viết đúng là "chong chóng" (cả hai tiếng đều bắt đầu bằng ch).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['lấp lánh', 'nấp nánh', 'lấp nánh', 'nấp lánh'], ans: 'lấp lánh', speak: 'lấp lánh', exp: 'Viết đúng là "lấp lánh" (cả hai tiếng đều bắt đầu bằng l).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['ngôi sao', 'ngôi xao', 'nghôi sao', 'ngôi xào'], ans: 'ngôi sao', speak: 'ngôi sao', exp: 'Viết đúng là "ngôi sao" (ng + s).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['nghỉ ngơi', 'nghĩ ngơi', 'ngỉ ngơi', 'nghỉ ngời'], ans: 'nghỉ ngơi', speak: 'nghỉ ngơi', exp: 'Viết đúng là "nghỉ ngơi" (ngh đi với i, dấu hỏi).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['cái ghế', 'cái gế', 'kái ghế', 'cái ghễ'], ans: 'cái ghế', speak: 'cái ghế', exp: 'Viết đúng là "cái ghế" (gh đi với ê).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['cô giáo', 'cô dáo', 'kô giáo', 'cô ráo'], ans: 'cô giáo', speak: 'cô giáo', exp: 'Viết đúng là "cô giáo" (c đi với ô, giáo viết bằng gi).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['dòng sông', 'giòng sông', 'dòng xông', 'ròng sông'], ans: 'dòng sông', speak: 'dòng sông', exp: 'Viết đúng là "dòng sông" (d + s).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['xanh biếc', 'sanh biếc', 'xanh biết', 'sanh biết'], ans: 'xanh biếc', speak: 'xanh biếc', exp: 'Viết đúng là "xanh biếc" (x + vần iêc).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['suy nghĩ', 'suy nghỉ', 'xuy nghĩ', 'suy ngĩ'], ans: 'suy nghĩ', speak: 'suy nghĩ', exp: 'Viết đúng là "suy nghĩ" (s + ngh + dấu ngã).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['quả trứng', 'quả chứng', 'quã trứng', 'quả trừng'], ans: 'quả trứng', speak: 'quả trứng', exp: 'Viết đúng là "quả trứng" (quả dấu hỏi, trứng viết bằng tr).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['lắng nghe', 'nắng nghe', 'lắng nge', 'lắn nghe'], ans: 'lắng nghe', speak: 'lắng nghe', exp: 'Viết đúng là "lắng nghe" (l + ngh đi với e).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['bức tranh', 'bức chanh', 'bứt tranh', 'bức trăn'], ans: 'bức tranh', speak: 'bức tranh', exp: 'Viết đúng là "bức tranh" (tranh viết bằng tr).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['sữa tươi', 'sửa tươi', 'xữa tươi', 'sữa tơi'], ans: 'sữa tươi', speak: 'sữa tươi', exp: 'Viết đúng là "sữa tươi" (s + dấu ngã).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['sạch sẽ', 'sạch sẻ', 'xạch sẽ', 'sạch sẹ'], ans: 'sạch sẽ', speak: 'sạch sẽ', exp: 'Viết đúng là "sạch sẽ" (s + dấu ngã).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['dũng cảm', 'dủng cảm', 'giũng cảm', 'dũng cãm'], ans: 'dũng cảm', speak: 'dũng cảm', exp: 'Viết đúng là "dũng cảm" (d + ngã, cảm + hỏi).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['quyển sách', 'quyển xách', 'quyễn sách', 'quyển sác'], ans: 'quyển sách', speak: 'quyển sách', exp: 'Viết đúng là "quyển sách" (quyển dấu hỏi, sách viết bằng s).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['mùa xuân', 'mùa suân', 'mùa xân', 'mùa sương'], ans: 'mùa xuân', speak: 'mùa xuân', exp: 'Viết đúng là "mùa xuân" (x + vần uân).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['củ nghệ', 'cũ nghệ', 'củ ngệ', 'kủ nghệ'], ans: 'củ nghệ', speak: 'củ nghệ', exp: 'Viết đúng là "củ nghệ" (củ dấu hỏi, ngh đi với ê).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['kể chuyện', 'cể chuyện', 'kễ chuyện', 'kể truyện'], ans: 'kể chuyện', speak: 'kể chuyện', exp: 'Viết đúng là "kể chuyện" (k đi với ê, chuyện viết bằng ch).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['khu rừng', 'khu dừng', 'cu rừng', 'khu giừng'], ans: 'khu rừng', speak: 'khu rừng', exp: 'Viết đúng là "khu rừng" (rừng viết bằng r).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['gió thổi', 'dó thổi', 'ró thổi', 'gió thỗi'], ans: 'gió thổi', speak: 'gió thổi', exp: 'Viết đúng là "gió thổi" (gió viết bằng gi, thổi dấu hỏi).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['vẽ tranh', 'vẻ tranh', 'vẽ chanh', 'vẻ chanh'], ans: 'vẽ tranh', speak: 'vẽ tranh', exp: 'Viết đúng là "vẽ tranh" (vẽ dấu ngã, tranh viết bằng tr).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['cái kéo', 'cái céo', 'kái kéo', 'cái khéo'], ans: 'cái kéo', speak: 'cái kéo', exp: 'Viết đúng là "cái kéo" (c đi với a, k đi với e).' },
+        { q: '🎧 Nghe kỹ và chọn từ viết đúng:', opts: ['bãi biển', 'bải biển', 'bãi biễn', 'bải biễn'], ans: 'bãi biển', speak: 'bãi biển', exp: 'Viết đúng là "bãi biển" (bãi dấu ngã, biển dấu hỏi).' }
+      ]
+    };
+
+    // Shuffle Bag riêng cho từng chủ đề Tiếng Việt để không lặp câu
+    const vietBags = {};
+    let vietSession = null;
+    let vietLocked = false;
+
+    function renderVietTopicGrid() {
+      document.getElementById('viet-topic-grid').innerHTML = VIET_TOPICS.map(t => {
+        const active = state.vietTopic === t.id;
+        const count = VIET_BANK[t.id].length;
         return `
-          <div class="rounded-2xl border-2 p-3 ${cardColors[idx]}">
-            <div class="font-black text-center text-sm mb-2">Bảng ${isMul ? 'nhân' : 'chia'} ${num}</div>
-            <div class="text-xs sm:text-sm font-bold text-stone-700">${rows}</div>
-          </div>
+          <button type="button" onclick="selectVietTopic('${t.id}')"
+            class="p-3.5 rounded-2xl border-2 text-left transition active:scale-[0.98] flex items-center gap-3 ${
+              active
+                ? 'border-teal-500 bg-teal-50/70 shadow-xs'
+                : 'border-emerald-100 bg-cream/60 hover:border-emerald-200'
+            }">
+            <span class="w-11 h-11 rounded-2xl ${t.bg} text-2xl flex items-center justify-center shrink-0">${t.icon}</span>
+            <div class="min-w-0">
+              <div class="font-black text-sm text-stone-800 leading-snug">${t.name}</div>
+              <div class="text-xs font-semibold text-stone-500">${t.desc} (${count} câu)</div>
+            </div>
+          </button>
         `;
       }).join('');
     }
 
-    function openMathHistoryModal() {
-      const list = document.getElementById('math-history-list');
-      if (state.mathHistory.length === 0) {
-        list.innerHTML = `<div class="py-10 text-center text-stone-400 text-sm font-bold">Chưa có lịch sử làm bài. Bé hãy bắt đầu lượt đầu tiên nhé!</div>`;
-      } else {
-        list.innerHTML = state.mathHistory.map(h => `
-          <div class="p-3 rounded-2xl bg-cream border border-orange-100 flex items-center justify-between gap-2">
-            <div>
-              <div class="font-black text-sm text-stone-800">${h.topicLabel}</div>
-              <div class="text-xs font-semibold text-stone-500">${h.modeLabel} • ${h.time}</div>
-            </div>
-            <div class="text-right shrink-0">
-              <div class="font-black text-sm text-emerald-600">${h.correct}/${h.total} đúng</div>
-              <div class="text-xs font-extrabold text-amber-500">+${h.stars} ⭐</div>
-            </div>
-          </div>
-        `).join('');
+    function selectVietTopic(topicId) {
+      state.vietTopic = topicId;
+      saveState();
+      renderVietTopicGrid();
+    }
+
+    function draw10VietQuestions(topicId) {
+      if (!vietBags[topicId] || vietBags[topicId].length < 10) {
+        const existing = vietBags[topicId] || [];
+        const fresh = shuffleArray(VIET_BANK[topicId]).filter(q => !existing.includes(q));
+        vietBags[topicId] = [...existing, ...fresh];
       }
-      openModal('modal-math-history');
+      return vietBags[topicId].splice(0, 10);
+    }
+
+    function showVietSetup() {
+      document.getElementById('viet-setup-view').classList.remove('hidden');
+      document.getElementById('viet-quiz-view').classList.add('hidden');
+      document.getElementById('viet-summary-view').classList.add('hidden');
+    }
+
+    function startVietQuiz() {
+      const topicObj = VIET_TOPICS.find(t => t.id === state.vietTopic) || VIET_TOPICS[0];
+      vietLocked = false;
+      vietSession = {
+        topicId: topicObj.id,
+        topicName: topicObj.name,
+        questions: draw10VietQuestions(topicObj.id),
+        index: 0,
+        correctCount: 0,
+        earnedStars: 0
+      };
+
+      document.getElementById('viet-setup-view').classList.add('hidden');
+      document.getElementById('viet-summary-view').classList.add('hidden');
+      document.getElementById('viet-quiz-view').classList.remove('hidden');
+      renderCurrentVietQuestion();
+    }
+
+    function renderCurrentVietQuestion() {
+      if (!vietSession) return;
+      vietLocked = false;
+      const q = vietSession.questions[vietSession.index];
+      const curNum = vietSession.index + 1;
+      const total = vietSession.questions.length;
+
+      document.getElementById('viet-progress-pill').textContent = `Câu ${curNum} / ${total}`;
+      document.getElementById('viet-score-pill').textContent = `✅ ${vietSession.correctCount} đúng`;
+      document.getElementById('viet-progress-bar').style.width = `${Math.round((curNum / total) * 100)}%`;
+      document.getElementById('viet-topic-badge').textContent = vietSession.topicName;
+
+      const card = document.getElementById('viet-question-card');
+      card.className = 'rounded-3xl bg-gradient-to-b from-teal-50/90 to-emerald-50/60 border-2 border-teal-200/80 p-5 sm:p-6 text-center space-y-3 transition-colors';
+
+      const isDictation = vietSession.topicId === 'dictation';
+      const isInitialOrRule = vietSession.topicId === 'initials' || vietSession.topicId === 'rules';
+
+      document.getElementById('viet-question-prompt').textContent = isInitialOrRule
+        ? 'Điền chữ cái đúng vào chỗ chấm:'
+        : isDictation
+          ? 'Bấm loa để nghe lại và chọn từ viết đúng chính tả:'
+          : 'Con hãy đọc kỹ và chọn đáp án đúng:';
+
+      document.getElementById('viet-question-main').textContent = isDictation ? '🎧 Nghe cô đọc nhé!' : q.q;
+      document.getElementById('viet-speak-label').textContent = isDictation ? 'Nghe lại từ mẫu' : 'Nghe cô đọc';
+      document.getElementById('viet-explain-box').classList.add('hidden');
+
+      const shuffledOpts = shuffleArray(q.opts);
+      const gridCols = shuffledOpts.length === 3 ? 'grid-cols-1 sm:grid-cols-3' : 'grid-cols-2';
+      const optionsGrid = document.getElementById('viet-options-grid');
+      optionsGrid.className = `grid ${gridCols} gap-3`;
+      optionsGrid.innerHTML = shuffledOpts.map(opt => {
+        const safeOpt = opt.replace(/'/g, "\\'");
+        return `
+          <button type="button" onclick="answerVietQuestion('${safeOpt}', this)"
+            class="viet-opt-btn py-4 px-3 rounded-3xl bg-white hover:bg-teal-50 border-2 border-teal-100 text-lg sm:text-xl font-black text-stone-800 shadow-xs active:scale-95 transition break-words">
+            ${opt}
+          </button>
+        `;
+      }).join('');
+
+      // Tự động đọc ở chế độ Nghe - Chọn Chính Tả
+      if (isDictation) {
+        setTimeout(() => speakCurrentVietQuestion(), 220);
+      }
+    }
+
+    function speakCurrentVietQuestion() {
+      if (!vietSession) return;
+      const q = vietSession.questions[vietSession.index];
+      if (!q) return;
+      speakVietnamese(q.speak || q.q);
+    }
+
+    function answerVietQuestion(selected, btnEl) {
+      if (!vietSession || vietLocked) return;
+      vietLocked = true;
+      const q = vietSession.questions[vietSession.index];
+      const isCorrect = selected === q.ans;
+
+      const card = document.getElementById('viet-question-card');
+      const explainBox = document.getElementById('viet-explain-box');
+      const explainIcon = document.getElementById('viet-explain-icon');
+      const explainTitle = document.getElementById('viet-explain-title');
+      const explainText = document.getElementById('viet-explain-text');
+      const nextBtn = document.getElementById('viet-next-btn');
+
+      // Tô màu đáp án đúng/sai
+      document.querySelectorAll('.viet-opt-btn').forEach(b => {
+        if (b.textContent.trim() === q.ans) {
+          b.className = 'viet-opt-btn py-4 px-3 rounded-3xl bg-emerald-500 border-2 border-emerald-600 text-lg sm:text-xl font-black text-white shadow-md transition break-words';
+        }
+      });
+
+      if (isCorrect) {
+        vietSession.correctCount++;
+        vietSession.earnedStars++;
+        state.mathStars++;
+        saveState();
+        renderSisterStats();
+        document.getElementById('viet-score-pill').textContent = `✅ ${vietSession.correctCount} đúng`;
+
+        card.className = 'rounded-3xl bg-emerald-50 border-2 border-emerald-400 p-5 sm:p-6 text-center space-y-3 transition-colors animate-bounce-pop';
+        explainBox.className = 'rounded-2xl p-4 border-2 bg-emerald-50/80 border-emerald-200 space-y-3';
+        explainIcon.textContent = '🎉';
+        explainTitle.className = 'font-black text-sm sm:text-base text-emerald-700';
+        explainTitle.textContent = 'Đúng rồi! Con giỏi quá (+1 ⭐)';
+        playSound('ting');
+      } else {
+        btnEl.className = 'viet-opt-btn py-4 px-3 rounded-3xl bg-rose-100 border-2 border-rose-400 text-lg sm:text-xl font-black text-rose-600 transition break-words';
+        card.className = 'rounded-3xl bg-rose-50 border-2 border-rose-300 p-5 sm:p-6 text-center space-y-3 transition-colors animate-shake';
+        explainBox.className = 'rounded-2xl p-4 border-2 bg-amber-50/90 border-amber-200 space-y-3';
+        explainIcon.textContent = '💡';
+        explainTitle.className = 'font-black text-sm sm:text-base text-amber-700';
+        explainTitle.textContent = `Đáp án đúng là "${q.ans}" nhé con!`;
+        playSound('boing');
+      }
+
+      explainText.textContent = q.exp;
+      nextBtn.textContent = vietSession.index >= vietSession.questions.length - 1 ? 'Xem kết quả 🏆' : 'Câu tiếp theo →';
+      explainBox.classList.remove('hidden');
+    }
+
+    function advanceVietQuiz() {
+      if (!vietSession) return;
+      vietSession.index++;
+      if (vietSession.index >= vietSession.questions.length) {
+        finishVietQuiz();
+      } else {
+        renderCurrentVietQuestion();
+      }
+    }
+
+    function finishVietQuiz() {
+      if (!vietSession) return;
+      const total = vietSession.questions.length;
+      const correct = vietSession.correctCount;
+      const accuracy = Math.round((correct / total) * 100);
+      let bonus = accuracy >= 80 ? 2 : accuracy >= 50 ? 1 : 0;
+      if (bonus > 0) { vietSession.earnedStars += bonus; state.mathStars += bonus; }
+
+      recordStudyDayForStreak();
+      state.studyHistory.unshift({
+        id: 'sh_' + Date.now(),
+        subjectIcon: '📖',
+        topicLabel: vietSession.topicName,
+        modeLabel: 'Tiếng Việt lớp 2',
+        correct, total,
+        stars: vietSession.earnedStars,
+        time: getCurrentTimeLabel()
+      });
+      if (state.studyHistory.length > 10) state.studyHistory = state.studyHistory.slice(0, 10);
+      saveState();
+      renderSisterStats();
+
+      document.getElementById('viet-summary-praise').textContent = accuracy >= 90 ? 'Xuất sắc quá công chúa ơi! 🌟' : accuracy >= 70 ? 'Con giỏi Tiếng Việt quá! 🎉' : 'Hoan hô con đã hoàn thành bài học! 💪';
+      document.getElementById('viet-summary-subtext').textContent = `${vietSession.topicName} • 10 câu`;
+      document.getElementById('viet-summary-correct').textContent = `${correct}/${total}`;
+      document.getElementById('viet-summary-stars').textContent = `+${vietSession.earnedStars} ⭐`;
+      document.getElementById('viet-summary-accuracy').textContent = `${accuracy}%`;
+
+      document.getElementById('viet-quiz-view').classList.add('hidden');
+      document.getElementById('viet-summary-view').classList.remove('hidden');
+      playSound('win');
+      launchConfetti(70);
     }
 
     // =========================================================
-    // 5. LOGIC TAB 2: GÓC BÉ 3 TUỔI (KHÁM PHÁ + ĐỐ BÉ TÌM)
+    // 6. TAB 3: BÉ 3 TUỔI — KHO 170 THẺ (86 LOÀI VẬT ĐA DẠNG SINH HỌC)
     // =========================================================
+    const EXPLORE_GROUPS = [
+      { id: 'farm', label: 'Nông trại', icon: '🐮' },
+      { id: 'wild', label: 'Thú rừng', icon: '🦁' },
+      { id: 'sea', label: 'Biển cả', icon: '🐙' },
+      { id: 'birds', label: 'Chim chóc', icon: '🦜' },
+      { id: 'insects', label: 'Côn trùng & Bò sát', icon: '🦋' },
+      { id: 'fruits', label: 'Hoa quả & Rau củ', icon: '🍓' },
+      { id: 'vehicles', label: 'Phương tiện', icon: '🚗' },
+      { id: 'colors', label: 'Màu & Hình', icon: '🌈' },
+      { id: 'objects', label: 'Đồ vật & Thiên nhiên', icon: '🏠' }
+    ];
+
     const TODDLER_DATA = {
-      animals: [
-        { id: 'a1', name: 'Con mèo', emoji: '🐱', speak: 'Con mèo, meo meo!', bg: 'bg-rose-50 border-rose-200' },
-        { id: 'a2', name: 'Con chó', emoji: '🐶', speak: 'Con chó, gâu gâu!', bg: 'bg-amber-50 border-amber-200' },
-        { id: 'a3', name: 'Con vịt', emoji: '🦆', speak: 'Con vịt, cạp cạp!', bg: 'bg-yellow-50 border-yellow-200' },
-        { id: 'a4', name: 'Con gà trống', emoji: '🐓', speak: 'Con gà trống, ò ó o!', bg: 'bg-orange-50 border-orange-200' },
-        { id: 'a5', name: 'Con bò sữa', emoji: '🐮', speak: 'Con bò sữa, ùm bò!', bg: 'bg-sky-50 border-sky-200' },
-        { id: 'a6', name: 'Con lợn', emoji: '🐷', speak: 'Con lợn, ụt ịt!', bg: 'bg-pink-50 border-pink-200' },
-        { id: 'a7', name: 'Con voi', emoji: '🐘', speak: 'Con voi có cái vòi dài!', bg: 'bg-indigo-50 border-indigo-200' },
-        { id: 'a8', name: 'Con sư tử', emoji: '🦁', speak: 'Con sư tử, gầm gừ!', bg: 'bg-amber-50 border-amber-200' },
-        { id: 'a9', name: 'Con khỉ', emoji: '🐵', speak: 'Con khỉ, khẹc khẹc!', bg: 'bg-orange-50 border-orange-200' },
-        { id: 'a10', name: 'Con thỏ', emoji: '🐰', speak: 'Con thỏ trắng nhảy lò cò!', bg: 'bg-purple-50 border-purple-200' },
-        { id: 'a11', name: 'Con ếch', emoji: '🐸', speak: 'Con ếch, ộp ộp!', bg: 'bg-emerald-50 border-emerald-200' },
-        { id: 'a12', name: 'Con cá', emoji: '🐠', speak: 'Con cá bơi dưới nước!', bg: 'bg-cyan-50 border-cyan-200' }
+      // 1) NÔNG TRẠI & THÚ NUÔI (16 loài)
+      farm: [
+        { id: 'fm01', name: 'Con chó', emoji: '🐶', habitat: 'Trong nhà', speak: 'Con chó, gâu gâu, là bạn thân trung thành của bé!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'fm02', name: 'Con mèo', emoji: '🐱', habitat: 'Trong nhà', speak: 'Con mèo, meo meo, rất thích bắt chuột và nằm sưởi nắng!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'fm03', name: 'Gà trống', emoji: '🐓', habitat: 'Nông trại', speak: 'Gà trống, ò ó o, gọi mọi người thức dậy buổi sáng!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'fm04', name: 'Gà mái', emoji: '🐔', habitat: 'Nông trại', speak: 'Gà mái, cục tác cục tác, đẻ trứng thơm ngon cho bé!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'fm05', name: 'Gà con', emoji: '🐥', habitat: 'Nông trại', speak: 'Gà con lông vàng, chiếp chiếp, chạy lon ton theo mẹ!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'fm06', name: 'Con vịt', emoji: '🦆', habitat: 'Ao hồ', speak: 'Con vịt, cạp cạp, bơi lội thật giỏi dưới ao!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'fm07', name: 'Con lợn', emoji: '🐷', habitat: 'Nông trại', speak: 'Con lợn hồng, ụt ịt, có chiếc mũi tròn xoe!', bg: 'bg-pink-50 border-pink-200' },
+        { id: 'fm08', name: 'Bò sữa', emoji: '🐮', habitat: 'Đồng cỏ', speak: 'Bò sữa, ùm bò, cho sữa tươi trắng ngọt mỗi ngày!', bg: 'bg-slate-50 border-slate-200' },
+        { id: 'fm09', name: 'Con trâu', emoji: '🐃', habitat: 'Đồng ruộng', speak: 'Con trâu khỏe mạnh, giúp bác nông dân cày ruộng!', bg: 'bg-stone-50 border-stone-200' },
+        { id: 'fm10', name: 'Con dê', emoji: '🐐', habitat: 'Nông trại', speak: 'Con dê có chòm râu nhỏ, kêu be be!', bg: 'bg-lime-50 border-lime-200' },
+        { id: 'fm11', name: 'Con cừu', emoji: '🐑', habitat: 'Đồng cỏ', speak: 'Con cừu có bộ lông trắng bông mềm mại, be be!', bg: 'bg-stone-50 border-stone-200' },
+        { id: 'fm12', name: 'Con ngựa', emoji: '🐴', habitat: 'Thảo nguyên', speak: 'Con ngựa phi nước đại thật nhanh, hí hí!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'fm13', name: 'Con thỏ', emoji: '🐰', habitat: 'Nông trại', speak: 'Con thỏ tai dài nhảy lò cò, rất thích ăn cà rốt!', bg: 'bg-purple-50 border-purple-200' },
+        { id: 'fm14', name: 'Chuột hamster', emoji: '🐹', habitat: 'Thú cưng', speak: 'Chuột hamster má phúng phính, chạy bánh xe rất nhanh!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'fm15', name: 'Gà tây', emoji: '🦃', habitat: 'Nông trại', speak: 'Gà tây có chiếc đuôi xòe rộng như cái quạt!', bg: 'bg-red-50 border-red-200' },
+        { id: 'fm16', name: 'Con ngỗng', emoji: '🪿', habitat: 'Ao hồ', speak: 'Con ngỗng cổ cao, đi lạch bạch và bơi rất cừ!', bg: 'bg-cyan-50 border-cyan-200' }
       ],
+
+      // 2) THÚ RỪNG & THẢO NGUYÊN (26 loài)
+      wild: [
+        { id: 'wd01', name: 'Sư tử', emoji: '🦁', habitat: 'Thảo nguyên', speak: 'Sư tử chúa sơn lâm có bờm lớn, gầm gừ thật oai!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'wd02', name: 'Con hổ', emoji: '🐯', habitat: 'Rừng rậm', speak: 'Con hổ có bộ lông vằn cam đen, gào gào!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'wd03', name: 'Báo đốm', emoji: '🐆', habitat: 'Thảo nguyên', speak: 'Báo đốm có nhiều đốm tròn, chạy nhanh nhất khu rừng!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'wd04', name: 'Con voi', emoji: '🐘', habitat: 'Rừng xanh', speak: 'Con voi to lớn, có chiếc vòi dài phun nước thật vui!', bg: 'bg-indigo-50 border-indigo-200' },
+        { id: 'wd05', name: 'Hươu cao cổ', emoji: '🦒', habitat: 'Thảo nguyên', speak: 'Hươu cao cổ có chiếc cổ siêu cao để ăn lá trên ngọn cây!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'wd06', name: 'Ngựa vằn', emoji: '🦓', habitat: 'Thảo nguyên', speak: 'Ngựa vằn mặc chiếc áo kẻ sọc đen trắng rất nổi bật!', bg: 'bg-stone-50 border-stone-200' },
+        { id: 'wd07', name: 'Con khỉ', emoji: '🐵', habitat: 'Rừng cây', speak: 'Con khỉ tinh nghịch leo trèo giỏi, rất thích ăn chuối!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'wd08', name: 'Khỉ đột', emoji: '🦍', habitat: 'Rừng rậm', speak: 'Khỉ đột to khỏe, sống ở trong rừng sâu!', bg: 'bg-slate-50 border-slate-200' },
+        { id: 'wd09', name: 'Gấu nâu', emoji: '🐻', habitat: 'Rừng núi', speak: 'Gấu nâu to tròn, rất thích ăn mật ong ngọt!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'wd10', name: 'Gấu trúc', emoji: '🐼', habitat: 'Rừng tre', speak: 'Gấu trúc đen trắng đáng yêu, thích ăn măng và lá tre!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'wd11', name: 'Gấu Bắc Cực', emoji: '🐻‍❄️', habitat: 'Vùng băng tuyết', speak: 'Gấu Bắc Cực có bộ lông trắng muốt, sống ở vùng băng tuyết!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'wd12', name: 'Con cáo', emoji: '🦊', habitat: 'Rừng cây', speak: 'Con cáo thông minh có chiếc đuôi xù màu cam!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'wd13', name: 'Chó sói', emoji: '🐺', habitat: 'Rừng núi', speak: 'Chó sói sống theo đàn trong rừng sâu, hú dưới ánh trăng!', bg: 'bg-slate-50 border-slate-200' },
+        { id: 'wd14', name: 'Hươu sao', emoji: '🦌', habitat: 'Rừng xanh', speak: 'Hươu sao hiền lành, chạy nhảy nhẹ nhàng trong rừng!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'wd15', name: 'Tê giác', emoji: '🦏', habitat: 'Thảo nguyên', speak: 'Tê giác to khỏe, có chiếc sừng cứng ở trên mũi!', bg: 'bg-stone-50 border-stone-200' },
+        { id: 'wd16', name: 'Hà mã', emoji: '🦛', habitat: 'Sông hồ', speak: 'Con hà mã mũm mĩm, rất thích ngâm mình dưới nước mát!', bg: 'bg-purple-50 border-purple-200' },
+        { id: 'wd17', name: 'Chuột túi Kangaroo', emoji: '🦘', habitat: 'Thảo nguyên', speak: 'Chuột túi Kangaroo nhảy bật xa, địu em bé trong túi trước bụng!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'wd18', name: 'Gấu túi Koala', emoji: '🐨', habitat: 'Rừng bạch đàn', speak: 'Gấu túi Koala ôm chặt thân cây ngủ ngon lành!', bg: 'bg-gray-50 border-gray-200' },
+        { id: 'wd19', name: 'Lạc đà', emoji: '🐪', habitat: 'Sa mạc', speak: 'Lạc đà có cái bướu trên lưng, đi bộ giỏi trên sa mạc cát!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'wd20', name: 'Con nhím', emoji: '🦔', habitat: 'Rừng cây', speak: 'Con nhím nhỏ xinh, cuộn tròn lại với bộ lông gai bảo vệ!', bg: 'bg-stone-50 border-stone-200' },
+        { id: 'wd21', name: 'Con sóc', emoji: '🐿️', habitat: 'Trên cây', speak: 'Con sóc đuôi xù nhanh nhẹn, thích gom hạt dẻ về tổ!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'wd22', name: 'Con lười', emoji: '🦥', habitat: 'Rừng nhiệt đới', speak: 'Con lười treo mình trên cành cây và di chuyển thật chậm rãi!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'wd23', name: 'Rái cá', emoji: '🦦', habitat: 'Ven sông', speak: 'Con rái cá bơi ngửa trên mặt nước rất đáng yêu!', bg: 'bg-cyan-50 border-cyan-200' },
+        { id: 'wd24', name: 'Chồn hôi', emoji: '🦨', habitat: 'Rừng cây', speak: 'Con chồn hôi có sọc trắng dài trên lưng!', bg: 'bg-stone-50 border-stone-200' },
+        { id: 'wd25', name: 'Con lửng', emoji: '🦡', habitat: 'Rừng núi', speak: 'Con lửng đào hang giỏi, sống ẩn mình trong rừng!', bg: 'bg-slate-50 border-slate-200' },
+        { id: 'wd26', name: 'Chuột đồng', emoji: '🐭', habitat: 'Đồng ruộng', speak: 'Chuột đồng bé xíu, kêu chít chít!', bg: 'bg-amber-50 border-amber-200' }
+      ],
+
+      // 3) BIỂN CẢ & DƯỚI NƯỚC (19 loài)
+      sea: [
+        { id: 'se01', name: 'Cá voi', emoji: '🐳', habitat: 'Đại dương', speak: 'Cá voi khổng lồ sống ngoài đại dương, phun nước thật cao!', bg: 'bg-blue-50 border-blue-200' },
+        { id: 'se02', name: 'Cá heo', emoji: '🐬', habitat: 'Biển cả', speak: 'Cá heo thông minh, thích nhảy múa qua những con sóng!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'se03', name: 'Cá mập', emoji: '🦈', habitat: 'Biển sâu', speak: 'Cá mập bơi cực nhanh với chiếc vây lớn trên lưng!', bg: 'bg-slate-50 border-slate-200' },
+        { id: 'se04', name: 'Bạch tuộc', emoji: '🐙', habitat: 'Biển sâu', speak: 'Con bạch tuộc có tám chiếc xúc tu mềm dẻo!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'se05', name: 'Mực ống', emoji: '🦑', habitat: 'Biển sâu', speak: 'Con mực ống sống ở dưới biển sâu, phun mực rất giỏi!', bg: 'bg-pink-50 border-pink-200' },
+        { id: 'se06', name: 'Sứa biển', emoji: '🪼', habitat: 'Đại dương', speak: 'Con sứa biển trong suốt trôi bồng bềnh như chiếc ô nhỏ!', bg: 'bg-purple-50 border-purple-200' },
+        { id: 'se07', name: 'Con cua', emoji: '🦀', habitat: 'Bãi biển', speak: 'Con cua có hai chiếc càng to, bò ngang thật ngộ nghĩnh!', bg: 'bg-red-50 border-red-200' },
+        { id: 'se08', name: 'Tôm hùm', emoji: '🦞', habitat: 'Đáy biển', speak: 'Tôm hùm đỏ rực có hai càng lớn và bộ râu dài!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'se09', name: 'Con tôm', emoji: '🦐', habitat: 'Sông biển', speak: 'Con tôm bơi giật lùi rất nhanh dưới nước!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'se10', name: 'Sao biển', emoji: '⭐', habitat: 'Đáy biển', speak: 'Sao biển có năm cánh đẹp như ngôi sao dưới đáy đại dương!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'se11', name: 'Rùa biển', emoji: '🐢', habitat: 'Đại dương', speak: 'Rùa biển có mai cứng, bơi xa hàng nghìn cây số ngoài biển!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'se12', name: 'Hải cẩu', emoji: '🦭', habitat: 'Bờ biển', speak: 'Hải cẩu dễ thương, thích phơi nắng trên bãi đá và vỗ vây!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'se13', name: 'Cá ngựa', emoji: '🐠', habitat: 'Rạn san hô', speak: 'Cá ngựa bơi thẳng đứng, bám đuôi vào rong biển thật khéo!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'se14', name: 'Cá nhiệt đới', emoji: '🐟', habitat: 'Rạn san hô', speak: 'Cá nhiệt đới nhiều màu sắc rực rỡ, bơi tung tăng thành đàn!', bg: 'bg-cyan-50 border-cyan-200' },
+        { id: 'se15', name: 'Cá nóc', emoji: '🐡', habitat: 'Biển cả', speak: 'Cá nóc biết phồng tròn như quả bóng gai khi gặp nguy hiểm!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'se16', name: 'Sò ngọc trai', emoji: '🦪', habitat: 'Đáy biển', speak: 'Con sò nằm dưới đáy biển, giấu viên ngọc trai lấp lánh bên trong!', bg: 'bg-indigo-50 border-indigo-200' },
+        { id: 'se17', name: 'San hô', emoji: '🪸', habitat: 'Đáy biển', speak: 'Rạn san hô rực rỡ là ngôi nhà xinh đẹp của các bạn cá!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'se18', name: 'Cá sấu', emoji: '🐊', habitat: 'Sông đầm', speak: 'Cá sấu có hàm răng chắc khỏe, nằm phơi nắng bên bờ sông!', bg: 'bg-green-50 border-green-200' },
+        { id: 'se19', name: 'Con ếch', emoji: '🐸', habitat: 'Ao hồ', speak: 'Con ếch xanh nhảy tõm xuống ao, kêu ộp ộp!', bg: 'bg-lime-50 border-lime-200' }
+      ],
+
+      // 4) CHIM CHÓC & BẦU TRỜI (12 loài)
+      birds: [
+        { id: 'bd01', name: 'Chim bồ câu', emoji: '🕊️', habitat: 'Bầu trời', speak: 'Chim bồ câu trắng hiền hòa, bay lượn trên bầu trời xanh!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'bd02', name: 'Đại bàng', emoji: '🦅', habitat: 'Núi cao', speak: 'Đại bàng sải cánh rộng lớn, bay vút lên tận mây xanh!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'bd03', name: 'Cú mèo', emoji: '🦉', habitat: 'Rừng cây', speak: 'Cú mèo có đôi mắt to tròn, thức giấc vào ban đêm, hú hú!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'bd04', name: 'Con vẹt', emoji: '🦜', habitat: 'Rừng nhiệt đới', speak: 'Con vẹt bộ lông sặc sỡ, bắt chước tiếng người nói rất giỏi!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'bd05', name: 'Con công', emoji: '🦚', habitat: 'Khu vườn', speak: 'Con công xòe bộ đuôi lộng lẫy như chiếc quạt cầu vồng!', bg: 'bg-teal-50 border-teal-200' },
+        { id: 'bd06', name: 'Hồng hạc', emoji: '🦩', habitat: 'Hồ nước', speak: 'Chim hồng hạc lông màu hồng phấn, thích đứng bằng một chân!', bg: 'bg-pink-50 border-pink-200' },
+        { id: 'bd07', name: 'Chim cánh cụt', emoji: '🐧', habitat: 'Nam Cực', speak: 'Chim cánh cụt đi lạch bạch trên tuyết và bơi cực giỏi!', bg: 'bg-blue-50 border-blue-200' },
+        { id: 'bd08', name: 'Thiên nga', emoji: '🦢', habitat: 'Hồ nước', speak: 'Thiên nga trắng cổ cong mềm mại, lướt nhẹ trên mặt hồ!', bg: 'bg-slate-50 border-slate-200' },
+        { id: 'bd09', name: 'Chim sẻ', emoji: '🐦', habitat: 'Vườn cây', speak: 'Chim sẻ nhỏ nhắn, nhảy nhót và hót chíp chíp vui tai!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'bd10', name: 'Chim non', emoji: '🐤', habitat: 'Trên tổ', speak: 'Chim non bé bỏng nằm ngoan trong tổ chờ mẹ mang mồi về!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'bd11', name: 'Con dơi', emoji: '🦇', habitat: 'Hang động', speak: 'Con dơi bay ra kiếm ăn vào buổi tối và treo ngược khi ngủ!', bg: 'bg-purple-50 border-purple-200' },
+        { id: 'bd12', name: 'Mòng biển', emoji: '🐦‍⬛', habitat: 'Bờ biển', speak: 'Chim mòng biển chao liệng trên bãi biển đón gió mát!', bg: 'bg-cyan-50 border-cyan-200' }
+      ],
+
+      // 5) CÔN TRÙNG & BÒ SÁT NHỎ (13 loài)
+      insects: [
+        { id: 'in01', name: 'Con bướm', emoji: '🦋', habitat: 'Vườn hoa', speak: 'Con bướm xinh đẹp vỗ cánh bay rập rờn trên vườn hoa!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'in02', name: 'Ong mật', emoji: '🐝', habitat: 'Vườn hoa', speak: 'Ong mật bay vù vù chăm chỉ đi hút mật hoa!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'in03', name: 'Con kiến', emoji: '🐜', habitat: 'Mặt đất', speak: 'Con kiến bé xíu nhưng rất khỏe, chăm chỉ tha mồi về tổ!', bg: 'bg-stone-50 border-stone-200' },
+        { id: 'in04', name: 'Bọ rùa', emoji: '🐞', habitat: 'Vườn cây', speak: 'Bọ rùa mặc áo đỏ có những chấm tròn đen thật xinh!', bg: 'bg-red-50 border-red-200' },
+        { id: 'in05', name: 'Chuồn chuồn', emoji: '🪰', habitat: 'Ao hồ', speak: 'Chuồn chuồn có bốn cánh mỏng, bay lượn nhẹ nhàng trên mặt nước!', bg: 'bg-cyan-50 border-cyan-200' },
+        { id: 'in06', name: 'Ốc sên', emoji: '🐌', habitat: 'Vườn cây', speak: 'Ốc sên bò chậm rãi, cõng cả ngôi nhà xoắn ốc trên lưng!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'in07', name: 'Sâu bướm', emoji: '🐛', habitat: 'Trên lá', speak: 'Sâu bướm ăn lá xanh rồi lớn lên biến thành bướm xinh!', bg: 'bg-lime-50 border-lime-200' },
+        { id: 'in08', name: 'Con nhện', emoji: '🕷️', habitat: 'Góc vườn', speak: 'Con nhện có tám chân, giăng tơ tạo thành mạng nhện khéo léo!', bg: 'bg-slate-50 border-slate-200' },
+        { id: 'in09', name: 'Dế mèn', emoji: '🦗', habitat: 'Bãi cỏ', speak: 'Dế mèn nhảy xa và gảy đàn kêu ri rích buổi tối!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'in10', name: 'Bọ cánh cứng', emoji: '🪲', habitat: 'Thân cây', speak: 'Bọ cánh cứng có lớp vỏ bóng loáng như áo giáp!', bg: 'bg-teal-50 border-teal-200' },
+        { id: 'in11', name: 'Con rắn', emoji: '🐍', habitat: 'Bãi cỏ', speak: 'Con rắn thân dài trườn uốn lượn nhẹ nhàng!', bg: 'bg-green-50 border-green-200' },
+        { id: 'in12', name: 'Thằn lằn', emoji: '🦎', habitat: 'Bờ tường', speak: 'Con thằn lằn bò thoăn thoắt trên tường để bắt muỗi!', bg: 'bg-lime-50 border-lime-200' },
+        { id: 'in13', name: 'Rùa cạn', emoji: '🐢', habitat: 'Bãi cỏ', speak: 'Rùa cạn bước đi chầm chậm, thích ăn rau xanh và hoa quả!', bg: 'bg-amber-50 border-amber-200' }
+      ],
+
+      // 6) HOA QUẢ & RAU CỦ (28 thẻ)
       fruits: [
-        { id: 'fr1', name: 'Quả dâu tây', emoji: '🍓', speak: 'Quả dâu tây đỏ ngọt!', bg: 'bg-rose-50 border-rose-200' },
-        { id: 'fr2', name: 'Quả táo', emoji: '🍎', speak: 'Quả táo đỏ!', bg: 'bg-red-50 border-red-200' },
-        { id: 'fr3', name: 'Quả chuối', emoji: '🍌', speak: 'Quả chuối vàng!', bg: 'bg-yellow-50 border-yellow-200' },
-        { id: 'fr4', name: 'Quả cam', emoji: '🍊', speak: 'Quả cam mọng nước!', bg: 'bg-orange-50 border-orange-200' },
-        { id: 'fr5', name: 'Quả dưa hấu', emoji: '🍉', speak: 'Quả dưa hấu mát lành!', bg: 'bg-emerald-50 border-emerald-200' },
-        { id: 'fr6', name: 'Chùm nho', emoji: '🍇', speak: 'Chùm nho tím!', bg: 'bg-purple-50 border-purple-200' },
-        { id: 'fr7', name: 'Quả xoài', emoji: '🥭', speak: 'Quả xoài chín vàng!', bg: 'bg-amber-50 border-amber-200' },
-        { id: 'fr8', name: 'Quả dứa', emoji: '🍍', speak: 'Quả dứa thơm lừng!', bg: 'bg-lime-50 border-lime-200' },
-        { id: 'fr9', name: 'Quả đào', emoji: '🍑', speak: 'Quả đào hồng!', bg: 'bg-pink-50 border-pink-200' },
-        { id: 'fr10', name: 'Quả bơ', emoji: '🥑', speak: 'Quả bơ béo ngậy!', bg: 'bg-green-50 border-green-200' }
+        { id: 'f01', name: 'Quả táo', emoji: '🍎', speak: 'Quả táo đỏ giòn ngọt!', bg: 'bg-red-50 border-red-200' },
+        { id: 'f02', name: 'Quả chuối', emoji: '🍌', speak: 'Quả chuối chín vàng thơm ngon!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'f03', name: 'Quả cam', emoji: '🍊', speak: 'Quả cam mọng nước nhiều vitamin!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'f04', name: 'Dâu tây', emoji: '🍓', speak: 'Quả dâu tây đỏ ngọt lịm!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'f05', name: 'Dưa hấu', emoji: '🍉', speak: 'Quả dưa hấu ruột đỏ mát lành!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'f06', name: 'Chùm nho', emoji: '🍇', speak: 'Chùm nho tím mọng tròn xoe!', bg: 'bg-purple-50 border-purple-200' },
+        { id: 'f07', name: 'Quả dứa', emoji: '🍍', speak: 'Quả dứa thơm lừng!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'f08', name: 'Quả xoài', emoji: '🥭', speak: 'Quả xoài chín vàng ngọt thơm!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'f09', name: 'Quả đào', emoji: '🍑', speak: 'Quả đào má hồng xinh xắn!', bg: 'bg-pink-50 border-pink-200' },
+        { id: 'f10', name: 'Quả lê', emoji: '🍐', speak: 'Quả lê giòn tan mát ngọt!', bg: 'bg-lime-50 border-lime-200' },
+        { id: 'f11', name: 'Anh đào', emoji: '🍒', speak: 'Quả anh đào cherry đỏ mọng!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'f12', name: 'Quả kiwi', emoji: '🥝', speak: 'Quả kiwi xanh chua ngọt!', bg: 'bg-green-50 border-green-200' },
+        { id: 'f13', name: 'Chanh vàng', emoji: '🍋', speak: 'Quả chanh vàng chua quá đi!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'f14', name: 'Quả dừa', emoji: '🥥', speak: 'Quả dừa nhiều nước ngọt mát!', bg: 'bg-stone-50 border-stone-200' },
+        { id: 'f15', name: 'Quả bơ', emoji: '🥑', speak: 'Quả bơ mềm dẻo béo ngậy!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'f16', name: 'Việt quất', emoji: '🫐', speak: 'Quả việt quất xanh tím bé xinh!', bg: 'bg-indigo-50 border-indigo-200' },
+        { id: 'f17', name: 'Cà rốt', emoji: '🥕', speak: 'Củ cà rốt cam, bạn thỏ rất thích!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'f18', name: 'Bắp ngô', emoji: '🌽', speak: 'Bắp ngô vàng nhiều hạt đều tăm tắp!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'f19', name: 'Cà chua', emoji: '🍅', speak: 'Quả cà chua chín đỏ tròn xoe!', bg: 'bg-red-50 border-red-200' },
+        { id: 'f20', name: 'Súp lơ xanh', emoji: '🥦', speak: 'Súp lơ xanh giống cái cây nhỏ!', bg: 'bg-green-50 border-green-200' },
+        { id: 'f21', name: 'Dưa chuột', emoji: '🥒', speak: 'Quả dưa chuột xanh ăn giòn rụm!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'f22', name: 'Cà tím', emoji: '🍆', speak: 'Quả cà tím bóng mượt!', bg: 'bg-purple-50 border-purple-200' },
+        { id: 'f23', name: 'Khoai tây', emoji: '🥔', speak: 'Củ khoai tây bùi bùi thơm ngon!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'f24', name: 'Cây nấm', emoji: '🍄', speak: 'Cây nấm giống chiếc ô bé xíu!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'f25', name: 'Đậu Hà Lan', emoji: '🫛', speak: 'Quả đậu Hà Lan xanh mướt!', bg: 'bg-lime-50 border-lime-200' },
+        { id: 'f26', name: 'Ớt chuông', emoji: '🫑', speak: 'Quả ớt chuông giòn không bị cay!', bg: 'bg-green-50 border-green-200' },
+        { id: 'f27', name: 'Củ hành', emoji: '🧅', speak: 'Củ hành thơm lừng trong gian bếp!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'f28', name: 'Bí ngô', emoji: '🎃', speak: 'Quả bí ngô màu cam to tròn!', bg: 'bg-orange-50 border-orange-200' }
       ],
+
+      // 7) PHƯƠNG TIỆN (20 thẻ)
       vehicles: [
-        { id: 'v1', name: 'Ô tô con', emoji: '🚗', speak: 'Ô tô con, bíp bíp!', bg: 'bg-rose-50 border-rose-200' },
-        { id: 'v2', name: 'Xe buýt', emoji: '🚌', speak: 'Xe buýt chở mọi người!', bg: 'bg-amber-50 border-amber-200' },
-        { id: 'v3', name: 'Xe cứu hỏa', emoji: '🚒', speak: 'Xe cứu hỏa, ò í e!', bg: 'bg-red-50 border-red-200' },
-        { id: 'v4', name: 'Xe cảnh sát', emoji: '🚓', speak: 'Xe cảnh sát, tít tít!', bg: 'bg-sky-50 border-sky-200' },
-        { id: 'v5', name: 'Máy bay', emoji: '✈️', speak: 'Máy bay bay trên bầu trời!', bg: 'bg-indigo-50 border-indigo-200' },
-        { id: 'v6', name: 'Tàu hỏa', emoji: '🚂', speak: 'Tàu hỏa, tu tu xình xịch!', bg: 'bg-emerald-50 border-emerald-200' },
-        { id: 'v7', name: 'Xe đạp', emoji: '🚲', speak: 'Xe đạp, kính coong!', bg: 'bg-cyan-50 border-cyan-200' },
-        { id: 'v8', name: 'Tàu thủy', emoji: '🚢', speak: 'Tàu thủy chạy trên biển!', bg: 'bg-blue-50 border-blue-200' }
+        { id: 'v01', name: 'Ô tô con', emoji: '🚗', speak: 'Ô tô con, bíp bíp!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'v02', name: 'Xe buýt', emoji: '🚌', speak: 'Xe buýt chở mọi người đi chơi!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'v03', name: 'Xe cứu hỏa', emoji: '🚒', speak: 'Xe cứu hỏa, ò í e!', bg: 'bg-red-50 border-red-200' },
+        { id: 'v04', name: 'Xe cảnh sát', emoji: '🚓', speak: 'Xe cảnh sát, tít tít!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'v05', name: 'Xe cứu thương', emoji: '🚑', speak: 'Xe cứu thương, ò e ò e!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'v06', name: 'Xe taxi', emoji: '🚕', speak: 'Xe taxi màu vàng chạy bon bon!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'v07', name: 'Xe tải', emoji: '🚚', speak: 'Xe tải to lớn chở nhiều hàng hóa!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'v08', name: 'Máy kéo', emoji: '🚜', speak: 'Máy kéo chạy trên cánh đồng!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'v09', name: 'Xe đạp', emoji: '🚲', speak: 'Xe đạp, kính coong kính coong!', bg: 'bg-cyan-50 border-cyan-200' },
+        { id: 'v10', name: 'Xe máy', emoji: '🛵', speak: 'Xe máy, bíp bíp vi vu!', bg: 'bg-indigo-50 border-indigo-200' },
+        { id: 'v11', name: 'Tàu hỏa', emoji: '🚂', speak: 'Tàu hỏa, tu tu xình xịch!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'v12', name: 'Tàu điện ngầm', emoji: '🚇', speak: 'Tàu điện ngầm chạy thật nhanh!', bg: 'bg-blue-50 border-blue-200' },
+        { id: 'v13', name: 'Máy bay', emoji: '✈️', speak: 'Máy bay bay vút trên bầu trời!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'v14', name: 'Trực thăng', emoji: '🚁', speak: 'Trực thăng cánh quạt quay vù vù!', bg: 'bg-purple-50 border-purple-200' },
+        { id: 'v15', name: 'Tên lửa', emoji: '🚀', speak: 'Tên lửa bay lên vũ trụ, vèo vèo!', bg: 'bg-indigo-50 border-indigo-200' },
+        { id: 'v16', name: 'Thuyền buồm', emoji: '⛵', speak: 'Thuyền buồm căng gió lướt trên sóng!', bg: 'bg-cyan-50 border-cyan-200' },
+        { id: 'v17', name: 'Tàu thủy', emoji: '🚢', speak: 'Tàu thủy khổng lồ chạy ngoài biển!', bg: 'bg-blue-50 border-blue-200' },
+        { id: 'v18', name: 'Ca nô', emoji: '🚤', speak: 'Ca nô lướt nước siêu nhanh!', bg: 'bg-teal-50 border-teal-200' },
+        { id: 'v19', name: 'Khinh khí cầu', emoji: '🎈', speak: 'Khinh khí cầu bay bổng trên mây!', bg: 'bg-pink-50 border-pink-200' },
+        { id: 'v20', name: 'Xe cần cẩu', emoji: '🏗️', speak: 'Xe cần cẩu xây những ngôi nhà cao tầng!', bg: 'bg-amber-50 border-amber-200' }
       ],
+
+      // 8) MÀU SẮC (12) & HÌNH KHỐI (8) = 20 thẻ
       colors: [
-        { id: 'c1', name: 'Màu đỏ', speak: 'Màu đỏ rực rỡ!', bg: 'bg-red-50 border-red-200', svg: '<circle cx="50" cy="50" r="36" fill="#EF4444"/>' },
-        { id: 'c2', name: 'Màu vàng', speak: 'Màu vàng tươi!', bg: 'bg-yellow-50 border-yellow-200', svg: '<circle cx="50" cy="50" r="36" fill="#FACC15"/>' },
-        { id: 'c3', name: 'Màu xanh dương', speak: 'Màu xanh dương!', bg: 'bg-sky-50 border-sky-200', svg: '<circle cx="50" cy="50" r="36" fill="#3B82F6"/>' },
-        { id: 'c4', name: 'Màu xanh lá', speak: 'Màu xanh lá cây!', bg: 'bg-emerald-50 border-emerald-200', svg: '<circle cx="50" cy="50" r="36" fill="#22C55E"/>' },
-        { id: 'c5', name: 'Màu hồng', speak: 'Màu hồng dễ thương!', bg: 'bg-pink-50 border-pink-200', svg: '<circle cx="50" cy="50" r="36" fill="#EC4899"/>' },
-        { id: 'c6', name: 'Hình tròn', speak: 'Hình tròn xoe!', bg: 'bg-orange-50 border-orange-200', svg: '<circle cx="50" cy="50" r="34" fill="#FB923C" stroke="#EA580C" stroke-width="5"/>' },
-        { id: 'c7', name: 'Hình vuông', speak: 'Hình vuông có 4 cạnh bằng nhau!', bg: 'bg-indigo-50 border-indigo-200', svg: '<rect x="18" y="18" width="64" height="64" rx="8" fill="#6366F1" stroke="#4338CA" stroke-width="5"/>' },
-        { id: 'c8', name: 'Hình tam giác', speak: 'Hình tam giác có 3 cạnh!', bg: 'bg-teal-50 border-teal-200', svg: '<polygon points="50,14 86,82 14,82" fill="#14B8A6" stroke="#0F766E" stroke-width="5" stroke-linejoin="round"/>' },
-        { id: 'c9', name: 'Hình ngôi sao', speak: 'Hình ngôi sao lấp lánh!', bg: 'bg-amber-50 border-amber-200', svg: '<polygon points="50,10 62,36 90,39 69,58 75,86 50,72 25,86 31,58 10,39 38,36" fill="#FBBF24" stroke="#D97706" stroke-width="4" stroke-linejoin="round"/>' },
-        { id: 'c10', name: 'Hình trái tim', speak: 'Hình trái tim yêu thương!', bg: 'bg-rose-50 border-rose-200', svg: '<path d="M50 84 C20 62 12 42 18 28 C24 14 42 14 50 28 C58 14 76 14 82 28 C88 42 80 62 50 84 Z" fill="#F43F5E" stroke="#BE123C" stroke-width="4"/>' }
+        { id: 'c01', name: 'Màu Đỏ', speak: 'Màu đỏ rực rỡ!', bg: 'bg-red-50 border-red-200', swatch: '#EF4444' },
+        { id: 'c02', name: 'Màu Xanh dương', speak: 'Màu xanh dương như bầu trời!', bg: 'bg-sky-50 border-sky-200', swatch: '#2563EB' },
+        { id: 'c03', name: 'Màu Vàng', speak: 'Màu vàng tươi như nắng mai!', bg: 'bg-yellow-50 border-yellow-200', swatch: '#FACC15' },
+        { id: 'c04', name: 'Màu Xanh lá', speak: 'Màu xanh lá cây tươi mát!', bg: 'bg-emerald-50 border-emerald-200', swatch: '#22C55E' },
+        { id: 'c05', name: 'Màu Cam', speak: 'Màu cam tươi tắn!', bg: 'bg-orange-50 border-orange-200', swatch: '#F97316' },
+        { id: 'c06', name: 'Màu Tím', speak: 'Màu tím mộng mơ!', bg: 'bg-purple-50 border-purple-200', swatch: '#9333EA' },
+        { id: 'c07', name: 'Màu Hồng', speak: 'Màu hồng siêu dễ thương!', bg: 'bg-pink-50 border-pink-200', swatch: '#EC4899' },
+        { id: 'c08', name: 'Màu Nâu', speak: 'Màu nâu ấm áp!', bg: 'bg-amber-50 border-amber-200', swatch: '#92400E' },
+        { id: 'c09', name: 'Màu Đen', speak: 'Màu đen huyền bí!', bg: 'bg-stone-100 border-stone-300', swatch: '#1C1917' },
+        { id: 'c10', name: 'Màu Trắng', speak: 'Màu trắng tinh khôi như đám mây!', bg: 'bg-slate-50 border-slate-300', swatch: '#FFFFFF', swatchBorder: '#CBD5E1' },
+        { id: 'c11', name: 'Màu Xám', speak: 'Màu xám nhẹ nhàng!', bg: 'bg-gray-50 border-gray-300', swatch: '#6B7280' },
+        { id: 'c12', name: 'Màu Xanh ngọc', speak: 'Màu xanh ngọc trong veo!', bg: 'bg-teal-50 border-teal-200', swatch: '#14B8A6' },
+        { id: 'c13', name: 'Hình Tròn', speak: 'Hình tròn xoe như quả bóng!', bg: 'bg-orange-50 border-orange-200', svg: '<circle cx="50" cy="50" r="35" fill="#FB923C" stroke="#EA580C" stroke-width="5"/>' },
+        { id: 'c14', name: 'Hình Vuông', speak: 'Hình vuông có bốn cạnh bằng nhau!', bg: 'bg-indigo-50 border-indigo-200', svg: '<rect x="17" y="17" width="66" height="66" rx="8" fill="#6366F1" stroke="#4338CA" stroke-width="5"/>' },
+        { id: 'c15', name: 'Hình Tam giác', speak: 'Hình tam giác có ba góc nhọn!', bg: 'bg-teal-50 border-teal-200', svg: '<polygon points="50,13 87,83 13,83" fill="#14B8A6" stroke="#0F766E" stroke-width="5" stroke-linejoin="round"/>' },
+        { id: 'c16', name: 'Hình Chữ nhật', speak: 'Hình chữ nhật có hai cạnh dài và hai cạnh ngắn!', bg: 'bg-sky-50 border-sky-200', svg: '<rect x="10" y="25" width="80" height="50" rx="8" fill="#0EA5E9" stroke="#0369A1" stroke-width="5"/>' },
+        { id: 'c17', name: 'Hình Ngôi sao', speak: 'Hình ngôi sao năm cánh lấp lánh!', bg: 'bg-amber-50 border-amber-200', svg: '<polygon points="50,10 62,36 90,39 69,58 75,86 50,72 25,86 31,58 10,39 38,36" fill="#FBBF24" stroke="#D97706" stroke-width="4" stroke-linejoin="round"/>' },
+        { id: 'c18', name: 'Hình Trái tim', speak: 'Hình trái tim yêu thương!', bg: 'bg-rose-50 border-rose-200', svg: '<path d="M50 85 C20 62 12 42 18 28 C24 14 42 14 50 28 C58 14 76 14 82 28 C88 42 80 62 50 85 Z" fill="#F43F5E" stroke="#BE123C" stroke-width="4"/>' },
+        { id: 'c19', name: 'Hình Thoi', speak: 'Hình thoi giống chiếc diều bay!', bg: 'bg-purple-50 border-purple-200', svg: '<polygon points="50,12 84,50 50,88 16,50" fill="#A855F7" stroke="#7E22CE" stroke-width="5" stroke-linejoin="round"/>' },
+        { id: 'c20', name: 'Hình Bầu dục', speak: 'Hình bầu dục giống quả trứng!', bg: 'bg-lime-50 border-lime-200', svg: '<ellipse cx="50" cy="50" rx="38" ry="25" fill="#84CC16" stroke="#4D7C0F" stroke-width="5"/>' }
+      ],
+
+      // 9) ĐỒ VẬT & THIÊN NHIÊN (16 thẻ)
+      objects: [
+        { id: 'o01', name: 'Mặt trời', emoji: '☀️', speak: 'Ông mặt trời tỏa nắng ấm áp!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'o02', name: 'Mặt trăng', emoji: '🌙', speak: 'Mặt trăng cong cong tỏa sáng ban đêm!', bg: 'bg-indigo-50 border-indigo-200' },
+        { id: 'o03', name: 'Ngôi sao', emoji: '⭐', speak: 'Ngôi sao nhỏ lấp lánh trên trời!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'o04', name: 'Đám mây', emoji: '☁️', speak: 'Đám mây trắng bồng bềnh trôi!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'o05', name: 'Cầu vồng', emoji: '🌈', speak: 'Cầu vồng bảy sắc rực rỡ sau cơn mưa!', bg: 'bg-pink-50 border-pink-200' },
+        { id: 'o06', name: 'Bông hoa', emoji: '🌸', speak: 'Bông hoa nở tươi thơm ngát!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'o07', name: 'Cái cây', emoji: '🌳', speak: 'Cái cây xanh tỏa bóng mát!', bg: 'bg-emerald-50 border-emerald-200' },
+        { id: 'o08', name: 'Ngôi nhà', emoji: '🏠', speak: 'Ngôi nhà ấm áp của gia đình mình!', bg: 'bg-orange-50 border-orange-200' },
+        { id: 'o09', name: 'Chiếc ô', emoji: '☂️', speak: 'Chiếc ô che nắng che mưa!', bg: 'bg-purple-50 border-purple-200' },
+        { id: 'o10', name: 'Quả bóng', emoji: '⚽', speak: 'Quả bóng tròn lăn đi lăn lại!', bg: 'bg-lime-50 border-lime-200' },
+        { id: 'o11', name: 'Gấu bông', emoji: '🧸', speak: 'Bạn gấu bông mềm mại để bé ôm!', bg: 'bg-amber-50 border-amber-200' },
+        { id: 'o12', name: 'Quyển sách', emoji: '📖', speak: 'Quyển sách hay có nhiều câu chuyện!', bg: 'bg-sky-50 border-sky-200' },
+        { id: 'o13', name: 'Cây bút chì', emoji: '✏️', speak: 'Cây bút chì dùng để tập vẽ và viết!', bg: 'bg-yellow-50 border-yellow-200' },
+        { id: 'o14', name: 'Đồng hồ', emoji: '⏰', speak: 'Đồng hồ tích tắc, báo giờ cho bé!', bg: 'bg-rose-50 border-rose-200' },
+        { id: 'o15', name: 'Đèn pin', emoji: '🔦', speak: 'Đèn pin chiếu sáng trong bóng tối!', bg: 'bg-cyan-50 border-cyan-200' },
+        { id: 'o16', name: 'Bàn chải đánh răng', emoji: '🪥', speak: 'Bàn chải đánh răng giúp răng trắng sạch!', bg: 'bg-teal-50 border-teal-200' }
       ]
     };
 
-    function getCardVisualHtml(item, sizeClass) {
-      if (item.svg) {
-        return `<svg viewBox="0 0 100 100" class="${sizeClass || 'w-16 h-16 sm:w-20 sm:h-20'} mx-auto drop-shadow-xs">${item.svg}</svg>`;
+    const ANIMAL_GROUP_KEYS = ['farm', 'wild', 'sea', 'birds', 'insects'];
+    const ALL_TODDLER_ITEMS = [];
+    Object.keys(TODDLER_DATA).forEach(catKey => {
+      TODDLER_DATA[catKey].forEach(item => {
+        item.category = catKey;
+        ALL_TODDLER_ITEMS.push(item);
+      });
+    });
+
+    function getCardVisualHtml(item, isLarge) {
+      if (item.swatch) {
+        const sizeCls = isLarge ? 'w-20 h-20 sm:w-24 sm:h-24' : 'w-16 h-16';
+        const borderStyle = item.swatchBorder ? `border: 3px solid ${item.swatchBorder};` : 'border: 3px solid rgba(255,255,255,0.85);';
+        return `<div class="${sizeCls} rounded-full mx-auto shadow-md" style="background-color: ${item.swatch}; ${borderStyle}"></div>`;
       }
-      return `<div class="${sizeClass ? 'text-6xl sm:text-7xl' : 'text-5xl sm:text-6xl'} leading-none drop-shadow-xs">${item.emoji}</div>`;
+      if (item.svg) {
+        const sizeCls = isLarge ? 'w-20 h-20 sm:w-24 sm:h-24' : 'w-16 h-16 sm:w-18 sm:h-18';
+        return `<svg viewBox="0 0 100 100" class="${sizeCls} mx-auto drop-shadow-xs">${item.svg}</svg>`;
+      }
+      const textCls = isLarge ? 'text-6xl sm:text-7xl' : 'text-5xl sm:text-6xl';
+      return `<div class="${textCls} leading-none drop-shadow-xs">${item.emoji}</div>`;
     }
 
     function switchToddlerSubTab(sub) {
@@ -1709,32 +2220,42 @@
           : 'py-3 px-2 rounded-2xl font-black text-xs sm:text-sm transition flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-1.5 text-stone-500 hover:bg-orange-50';
       });
 
-      if (sub === 'quiz' && !currentToddlerTarget) {
-        nextToddlerQuizRound(false);
-      }
-      if (sub === 'draw') {
-        requestAnimationFrame(() => resizeDrawingCanvas(true));
-      }
+      if (sub === 'quiz' && !currentToddlerTarget) nextToddlerQuizRound(false);
+      if (sub === 'draw') requestAnimationFrame(() => resizeDrawingCanvas(true));
+    }
+
+    function renderExploreCategoryBar() {
+      document.getElementById('explore-category-bar').innerHTML = EXPLORE_GROUPS.map(g => {
+        const active = state.exploreCategory === g.id;
+        const count = TODDLER_DATA[g.id].length;
+        return `
+          <button type="button" onclick="selectExploreCategory('${g.id}')"
+            class="px-3.5 py-2.5 rounded-2xl font-black text-xs sm:text-sm border-2 whitespace-nowrap shrink-0 transition active:scale-95 flex items-center gap-1.5 ${
+              active
+                ? 'bg-berry-500 text-white border-berry-500 shadow-sm'
+                : 'bg-white text-stone-700 border-orange-100 hover:bg-orange-50'
+            }">
+            <span class="text-base">${g.icon}</span>
+            <span>${g.label}</span>
+            <span class="px-1.5 py-0.5 rounded-full text-[11px] ${active ? 'bg-white/25 text-white' : 'bg-orange-100 text-stone-600'}">${count}</span>
+          </button>
+        `;
+      }).join('');
     }
 
     function selectExploreCategory(cat) {
+      if (!TODDLER_DATA[cat]) cat = 'farm';
       state.exploreCategory = cat;
       saveState();
+      renderExploreCategoryBar();
 
-      document.querySelectorAll('.exp-cat-btn').forEach(btn => {
-        const active = btn.getAttribute('data-exp-cat') === cat;
-        btn.className = active
-          ? 'exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5 bg-berry-500 text-white border-berry-500 shadow-sm'
-          : 'exp-cat-btn py-3 px-3 rounded-2xl font-black text-sm border-2 transition active:scale-95 flex items-center justify-center gap-1.5 bg-white text-stone-700 border-orange-100';
-      });
-
-      const items = TODDLER_DATA[cat] || TODDLER_DATA.animals;
-      const grid = document.getElementById('explore-cards-grid');
-      grid.innerHTML = items.map(item => `
+      const items = TODDLER_DATA[cat];
+      document.getElementById('explore-cards-grid').innerHTML = items.map(item => `
         <button type="button" onclick="tapExploreCard('${cat}', '${item.id}', this)"
-          class="rounded-3xl p-4 sm:p-5 border-2 ${item.bg} shadow-xs hover:shadow-md active:scale-95 transition flex flex-col items-center justify-center gap-2.5 min-h-[142px]">
-          ${getCardVisualHtml(item)}
-          <span class="font-black text-base sm:text-lg text-stone-800 leading-tight">${item.name}</span>
+          class="rounded-3xl p-4 sm:p-5 border-2 ${item.bg} shadow-xs hover:shadow-md active:scale-95 transition flex flex-col items-center justify-center gap-2 min-h-[152px]">
+          ${getCardVisualHtml(item, false)}
+          <span class="font-black text-sm sm:text-base text-stone-800 leading-tight text-center">${item.name}</span>
+          ${item.habitat ? `<span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-white/75 text-stone-500 border border-black/5">${item.habitat}</span>` : ''}
         </button>
       `).join('');
     }
@@ -1742,108 +2263,159 @@
     function tapExploreCard(cat, itemId, btnEl) {
       const item = (TODDLER_DATA[cat] || []).find(i => i.id === itemId);
       if (!item) return;
-
       btnEl.classList.remove('animate-bounce-pop');
       void btnEl.offsetWidth;
       btnEl.classList.add('animate-bounce-pop');
-
-      speakVietnamese(item.speak || item.name, 'pop');
+      speakVietnamese(item.speak || item.name, 'ting');
     }
 
-    // MỤC 2B: ĐỐ BÉ TÌM
+    // MỤC 3B: ĐỐ BÉ TÌM (SHUFFLE BAG CHỐNG LẶP)
+    const PRAISE_PHRASES = ['Giỏi quá!', 'Đúng rồi!', 'Hoan hô bé yêu!', 'Xuất sắc quá đi!'];
+    const shuffleBags = {};
     let currentToddlerTarget = null;
     let toddlerQuizLocked = false;
 
-    function getToddlerQuizPool() {
-      const cat = document.getElementById('toddler-quiz-category')?.value || 'all';
-      if (cat === 'all') {
-        return [
-          ...TODDLER_DATA.animals,
-          ...TODDLER_DATA.fruits,
-          ...TODDLER_DATA.vehicles,
-          ...TODDLER_DATA.colors
-        ];
+    function getPoolForQuizCategory(cat) {
+      if (cat === 'all') return ALL_TODDLER_ITEMS;
+      if (cat === 'all_animals') return ANIMAL_GROUP_KEYS.flatMap(k => TODDLER_DATA[k]);
+      if (cat === 'birds_insects') return [...TODDLER_DATA.birds, ...TODDLER_DATA.insects];
+      return TODDLER_DATA[cat] || TODDLER_DATA.farm;
+    }
+
+    function getOrCreateShuffleBag(cat) {
+      const pool = getPoolForQuizCategory(cat);
+      if (!shuffleBags[cat] || shuffleBags[cat].total !== pool.length) {
+        shuffleBags[cat] = { queue: shuffleArray(pool), total: pool.length, completed: 0 };
       }
-      return TODDLER_DATA[cat] || TODDLER_DATA.animals;
+      return shuffleBags[cat];
+    }
+
+    function onToddlerQuizCategoryChange() { nextToddlerQuizRound(true); }
+
+    function updateToddlerQuizHeaderUI(cat) {
+      const bag = getOrCreateShuffleBag(cat);
+      document.getElementById('toddler-quiz-progress').textContent = `Đã tìm: ${bag.completed} / ${bag.total}`;
+      document.getElementById('toddler-quiz-stars').textContent = `⭐ ${state.toddlerQuizStars}`;
     }
 
     function nextToddlerQuizRound(autoSpeak = true) {
       toddlerQuizLocked = false;
-      const pool = getToddlerQuizPool();
-      const shuffled = [...pool].sort(() => Math.random() - 0.5).slice(0, 4);
-      currentToddlerTarget = shuffled[Math.floor(Math.random() * shuffled.length)];
+      const cat = document.getElementById('toddler-quiz-category')?.value || 'all_animals';
+      const bag = getOrCreateShuffleBag(cat);
 
-      document.getElementById('toddler-quiz-stars').textContent = `⭐ ${state.toddlerQuizStars}`;
-      document.getElementById('toddler-quiz-question').textContent = `Bé ơi, ${currentToddlerTarget.name} ở đâu?`;
+      if (bag.queue.length === 0) {
+        bag.queue = shuffleArray(getPoolForQuizCategory(cat));
+        bag.completed = 0;
+        showToast('🎉 Bé đã tìm hết 100% thẻ! Bắt đầu vòng mới nhé!', 'success');
+      }
+
+      currentToddlerTarget = bag.queue.pop();
+      updateToddlerQuizHeaderUI(cat);
+
+      // Chọn 3 đáp án nhiễu cùng nhóm với thẻ đáp án
+      const sameGroupPool = (TODDLER_DATA[currentToddlerTarget.category] || ALL_TODDLER_ITEMS)
+        .filter(item => item.id !== currentToddlerTarget.id);
+      const distractors = shuffleArray(sameGroupPool).slice(0, 3);
+      const options = shuffleArray([currentToddlerTarget, ...distractors]);
+
+      document.getElementById('toddler-quiz-question').textContent = `Bé hãy tìm... ${currentToddlerTarget.name} ở đâu nào?`;
       document.getElementById('toddler-quiz-feedback').textContent = '';
 
-      const optionsEl = document.getElementById('toddler-quiz-options');
-      optionsEl.innerHTML = shuffled.map(item => `
+      document.getElementById('toddler-quiz-options').innerHTML = options.map(item => `
         <button type="button" onclick="pickToddlerQuizOption('${item.id}', this)"
           class="rounded-3xl p-5 sm:p-6 border-4 ${item.bg} shadow-sm active:scale-95 transition flex flex-col items-center justify-center gap-3 min-h-[168px]">
-          ${getCardVisualHtml(item, 'w-20 h-20 sm:w-24 sm:h-24')}
-          <span class="font-black text-base sm:text-lg text-stone-700">${item.name}</span>
+          ${getCardVisualHtml(item, true)}
+          <span class="font-black text-base sm:text-lg text-stone-700 text-center leading-tight">${item.name}</span>
         </button>
       `).join('');
 
-      if (autoSpeak) {
-        speakToddlerQuizPrompt();
-      }
+      if (autoSpeak) speakToddlerQuizPrompt();
     }
 
     function speakToddlerQuizPrompt() {
       if (!currentToddlerTarget) return;
-      speakVietnamese(`Bé ơi, ${currentToddlerTarget.name} ở đâu?`);
+      speakVietnamese(`Bé hãy tìm, ${currentToddlerTarget.name} ở đâu nào?`);
     }
 
     function pickToddlerQuizOption(itemId, btnEl) {
       if (!currentToddlerTarget || toddlerQuizLocked) return;
       const fb = document.getElementById('toddler-quiz-feedback');
+      const cat = document.getElementById('toddler-quiz-category')?.value || 'all_animals';
 
       if (itemId === currentToddlerTarget.id) {
         toddlerQuizLocked = true;
+        const bag = getOrCreateShuffleBag(cat);
+        bag.completed++;
         state.toddlerQuizStars++;
         saveState();
-        document.getElementById('toddler-quiz-stars').textContent = `⭐ ${state.toddlerQuizStars}`;
+        updateToddlerQuizHeaderUI(cat);
 
+        const praise = PRAISE_PHRASES[Math.floor(Math.random() * PRAISE_PHRASES.length)];
         btnEl.classList.add('ring-4', 'ring-emerald-400', 'animate-bounce-pop');
         fb.className = 'min-h-[28px] text-lg font-black text-emerald-600';
-        fb.textContent = '🎉 Giỏi quá! Đúng rồi bé ơi!';
-
-        playSound('win');
-        speakVietnamese('Giỏi quá! Đúng rồi!');
-        launchConfetti(35);
-
-        setTimeout(() => {
-          nextToddlerQuizRound(true);
-        }, 1450);
+        fb.textContent = `🎉 ${praise}`;
+        speakVietnamese(praise, 'win');
+        launchConfetti(32);
+        setTimeout(() => nextToddlerQuizRound(true), 1200);
       } else {
         btnEl.classList.remove('animate-shake');
         void btnEl.offsetWidth;
         btnEl.classList.add('animate-shake');
         fb.className = 'min-h-[28px] text-base font-black text-orange-500';
-        fb.textContent = '💛 Bé thử lại nhé!';
-        playSound('boing');
-        speakVietnamese('Bé thử lại nhé!');
+        fb.textContent = '💛 Thử lại nhé!';
+        speakVietnamese('Thử lại nhé!', 'boing');
       }
     }
 
     // =========================================================
-    // 6. MỤC 2C: BẢNG VẼ CẢM ỨNG MƯỢT (HTML5 CANVAS)
+    // 7. MỤC 3C: TẬP VẼ (24 HÌNH MẪU NÉT ĐỨT MỜ + GIẤY TRẮNG)
     // =========================================================
     const DRAW_COLORS = [
       { id: 'red', hex: '#EF4444', name: 'Đỏ' },
       { id: 'orange', hex: '#F97316', name: 'Cam' },
       { id: 'yellow', hex: '#FACC15', name: 'Vàng' },
       { id: 'green', hex: '#22C55E', name: 'Xanh lá' },
-      { id: 'sky', hex: '#0EA5E9', name: 'Xanh dương' },
-      { id: 'purple', hex: '#A855F7', name: 'Tím' },
+      { id: 'teal', hex: '#14B8A6', name: 'Xanh ngọc' },
+      { id: 'blue', hex: '#2563EB', name: 'Xanh dương' },
+      { id: 'purple', hex: '#9333EA', name: 'Tím' },
       { id: 'pink', hex: '#EC4899', name: 'Hồng' },
+      { id: 'brown', hex: '#92400E', name: 'Nâu' },
       { id: 'black', hex: '#292524', name: 'Đen' },
       { id: 'rainbow', hex: 'rainbow', name: 'Cầu vồng' }
     ];
-
     const BRUSH_SIZES = { small: 5, medium: 12, large: 24 };
+
+    function wrapDashedSvg(innerContent) {
+      return `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-[330px] max-h-[330px]"><g fill="none" stroke="#CBD5E1" stroke-width="5.5" stroke-dasharray="10 8" stroke-linecap="round" stroke-linejoin="round">${innerContent}</g></svg>`;
+    }
+
+    const DRAW_TEMPLATES = [
+      { id: 'blank', name: 'Giấy trắng', icon: '📄', svg: '' },
+      { id: 'house', name: 'Ngôi nhà', icon: '🏠', svg: wrapDashedSvg('<polygon points="150,42 48,136 252,136"/><rect x="72" y="136" width="156" height="122" rx="8"/><rect x="128" y="184" width="44" height="74" rx="6"/><rect x="88" y="156" width="30" height="30" rx="4"/><rect x="182" y="156" width="30" height="30" rx="4"/><rect x="194" y="56" width="24" height="44"/>') },
+      { id: 'sun', name: 'Mặt trời', icon: '☀️', svg: wrapDashedSvg('<circle cx="150" cy="150" r="62"/><line x1="150" y1="28" x2="150" y2="66"/><line x1="150" y1="234" x2="150" y2="272"/><line x1="28" y1="150" x2="66" y2="150"/><line x1="234" y1="150" x2="272" y2="150"/><line x1="64" y1="64" x2="92" y2="92"/><line x1="208" y1="208" x2="236" y2="236"/><line x1="236" y1="64" x2="208" y2="92"/><line x1="92" y1="208" x2="64" y2="236"/><path d="M126 164 Q150 186 174 164"/><circle cx="130" cy="136" r="5"/><circle cx="170" cy="136" r="5"/>') },
+      { id: 'flower', name: 'Bông hoa', icon: '🌸', svg: wrapDashedSvg('<circle cx="150" cy="112" r="30"/><circle cx="150" cy="58" r="27"/><circle cx="201" cy="95" r="27"/><circle cx="182" cy="155" r="27"/><circle cx="118" cy="155" r="27"/><circle cx="99" cy="95" r="27"/><line x1="150" y1="182" x2="150" y2="276"/><path d="M150 228 Q198 202 206 236 Q172 254 150 228 Z"/><path d="M150 246 Q102 220 94 254 Q128 272 150 246 Z"/>') },
+      { id: 'cloud', name: 'Đám mây', icon: '☁️', svg: wrapDashedSvg('<path d="M84 214 H218 C248 214 266 194 266 168 C266 144 248 126 226 124 C222 86 188 62 152 66 C122 69 98 90 92 118 C62 120 38 142 38 170 C38 196 58 214 84 214 Z"/><path d="M126 168 Q150 188 174 168"/><circle cx="128" cy="144" r="5"/><circle cx="172" cy="144" r="5"/>') },
+      { id: 'rainbow', name: 'Cầu vồng', icon: '🌈', svg: wrapDashedSvg('<path d="M36 210 A114 114 0 0 1 264 210"/><path d="M62 210 A88 88 0 0 1 238 210"/><path d="M88 210 A62 62 0 0 1 212 210"/><path d="M114 210 A36 36 0 0 1 186 210"/><path d="M24 234 H102 C106 214 92 200 76 202 C68 188 46 190 42 204 C26 206 18 220 24 234 Z"/><path d="M198 234 H276 C282 220 274 206 258 204 C254 190 232 188 224 202 C208 200 194 214 198 234 Z"/>') },
+      { id: 'pinetree', name: 'Cây thông', icon: '🌲', svg: wrapDashedSvg('<polygon points="150,34 92,106 208,106"/><polygon points="150,86 72,168 228,168"/><polygon points="150,142 54,230 246,230"/><rect x="130" y="230" width="40" height="44" rx="6"/>') },
+      { id: 'fish', name: 'Con cá', icon: '🐠', svg: wrapDashedSvg('<ellipse cx="136" cy="150" rx="84" ry="52"/><polygon points="214,150 268,104 268,196"/><path d="M108 104 Q138 66 170 104"/><path d="M118 198 Q144 232 172 196"/><path d="M98 112 Q114 150 98 188"/><circle cx="82" cy="136" r="8"/><path d="M56 160 Q72 170 84 162"/>') },
+      { id: 'butterfly', name: 'Con bướm', icon: '🦋', svg: wrapDashedSvg('<ellipse cx="150" cy="160" rx="14" ry="58"/><circle cx="150" cy="88" r="16"/><path d="M142 74 Q124 44 108 54"/><path d="M158 74 Q176 44 192 54"/><path d="M138 128 C72 60, 24 128, 74 166 C94 178, 124 170, 138 158"/><path d="M162 128 C228 60, 276 128, 226 166 C206 178, 176 170, 162 158"/><path d="M138 168 C78 182, 62 246, 114 238 C128 236, 138 214, 140 198"/><path d="M162 168 C222 182, 238 246, 186 238 C172 236, 162 214, 160 198"/>') },
+      { id: 'cat', name: 'Con mèo', icon: '🐱', svg: wrapDashedSvg('<circle cx="150" cy="164" r="82"/><polygon points="82,118 74,46 130,86"/><polygon points="218,118 226,46 170,86"/><circle cx="122" cy="150" r="8"/><circle cx="178" cy="150" r="8"/><polygon points="150,174 140,162 160,162"/><path d="M150 174 Q138 192 126 184"/><path d="M150 174 Q162 192 174 184"/><line x1="50" y1="162" x2="96" y2="168"/><line x1="52" y1="184" x2="96" y2="180"/><line x1="250" y1="162" x2="204" y2="168"/><line x1="248" y1="184" x2="204" y2="180"/>') },
+      { id: 'duck', name: 'Con vịt', icon: '🦆', svg: wrapDashedSvg('<circle cx="116" cy="96" r="40"/><path d="M80 96 C54 94 46 106 54 116 C64 122 82 118 88 112"/><circle cx="104" cy="86" r="5"/><path d="M138 128 C178 128 224 134 252 154 C244 198 206 230 148 230 C96 230 74 202 78 168 C82 146 96 134 108 130"/><path d="M126 168 Q166 156 196 178 Q164 202 124 190"/><path d="M52 248 Q84 236 116 248 T180 248 T248 248"/>') },
+      { id: 'turtle', name: 'Con rùa', icon: '🐢', svg: wrapDashedSvg('<path d="M68 188 C68 110 212 110 212 188 Z"/><line x1="68" y1="188" x2="212" y2="188"/><path d="M114 132 L140 154 L166 132"/><line x1="140" y1="154" x2="140" y2="188"/><circle cx="242" cy="158" r="24"/><circle cx="248" cy="152" r="4"/><rect x="86" y="188" width="28" height="36" rx="12"/><rect x="166" y="188" width="28" height="36" rx="12"/><path d="M68 184 L46 176"/>') },
+      { id: 'bee', name: 'Con ong', icon: '🐝', svg: wrapDashedSvg('<ellipse cx="154" cy="166" rx="76" ry="50"/><line x1="136" y1="118" x2="136" y2="214"/><line x1="168" y1="118" x2="168" y2="214"/><line x1="198" y1="126" x2="198" y2="206"/><ellipse cx="136" cy="84" rx="28" ry="38" transform="rotate(-20 136 84)"/><ellipse cx="176" cy="84" rx="28" ry="38" transform="rotate(20 176 84)"/><circle cx="102" cy="154" r="6"/><path d="M92 178 Q104 190 118 180"/><path d="M96 122 Q82 94 68 100"/><path d="M114 118 Q106 88 94 90"/><polygon points="230,166 254,158 254,174"/>') },
+      { id: 'rabbit', name: 'Con thỏ', icon: '🐰', svg: wrapDashedSvg('<ellipse cx="118" cy="84" rx="20" ry="54" transform="rotate(-10 118 84)"/><ellipse cx="182" cy="84" rx="20" ry="54" transform="rotate(10 182 84)"/><circle cx="150" cy="184" r="74"/><circle cx="124" cy="170" r="7"/><circle cx="176" cy="170" r="7"/><ellipse cx="150" cy="190" rx="10" ry="7"/><path d="M150 197 Q138 214 126 206"/><path d="M150 197 Q162 214 174 206"/>') },
+      { id: 'car', name: 'Ô tô', icon: '🚗', svg: wrapDashedSvg('<path d="M56 184 L68 134 C72 118 86 108 104 108 H190 C208 108 220 118 228 134 L244 152 H260 C268 152 272 160 272 170 V196 C272 204 266 210 258 210 H42 C34 210 28 204 28 196 V184 Z"/><rect x="92" y="122" width="46" height="32" rx="6"/><rect x="150" y="122" width="52" height="32" rx="6"/><circle cx="88" cy="212" r="28"/><circle cx="88" cy="212" r="10"/><circle cx="212" cy="212" r="28"/><circle cx="212" cy="212" r="10"/>') },
+      { id: 'sailboat', name: 'Thuyền buồm', icon: '⛵', svg: wrapDashedSvg('<polygon points="50,192 250,192 220,242 80,242"/><line x1="150" y1="42" x2="150" y2="192"/><polygon points="150,48 150,178 66,178"/><polygon points="164,74 164,178 232,178"/><path d="M36 262 Q74 248 112 262 T188 262 T264 262"/>') },
+      { id: 'rocket', name: 'Tên lửa', icon: '🚀', svg: wrapDashedSvg('<path d="M150 32 C192 78 196 146 188 208 H112 C104 146 108 78 150 32 Z"/><circle cx="150" cy="126" r="22"/><path d="M112 166 L74 208 L112 208"/><path d="M188 166 L226 208 L188 208"/><path d="M128 208 Q150 268 172 208"/>') },
+      { id: 'apple', name: 'Quả táo', icon: '🍎', svg: wrapDashedSvg('<path d="M150 96 C110 74 62 104 68 162 C74 220 116 258 150 242 C184 258 226 220 232 162 C238 104 190 74 150 96 Z"/><path d="M150 96 Q152 60 168 46"/><path d="M156 70 Q196 48 204 78 Q178 96 156 70 Z"/>') },
+      { id: 'watermelon', name: 'Dưa hấu', icon: '🍉', svg: wrapDashedSvg('<path d="M40 120 H260 A110 110 0 0 1 40 120 Z"/><path d="M62 120 A88 88 0 0 0 238 120"/><ellipse cx="110" cy="152" rx="5" ry="9"/><ellipse cx="150" cy="166" rx="5" ry="9"/><ellipse cx="190" cy="152" rx="5" ry="9"/><ellipse cx="130" cy="186" rx="5" ry="9"/><ellipse cx="170" cy="186" rx="5" ry="9"/>') },
+      { id: 'icecream', name: 'Kem ốc quế', icon: '🍦', svg: wrapDashedSvg('<polygon points="100,152 200,152 150,274"/><line x1="116" y1="184" x2="184" y2="184"/><line x1="130" y1="220" x2="170" y2="220"/><circle cx="118" cy="128" r="34"/><circle cx="182" cy="128" r="34"/><circle cx="150" cy="88" r="38"/><circle cx="150" cy="40" r="12"/>') },
+      { id: 'cake', name: 'Bánh sinh nhật', icon: '🎂', svg: wrapDashedSvg('<rect x="64" y="156" width="172" height="96" rx="12"/><path d="M64 188 Q86 206 108 188 T152 188 T196 188 T236 188"/><rect x="102" y="100" width="18" height="56" rx="4"/><rect x="141" y="92" width="18" height="64" rx="4"/><rect x="180" y="100" width="18" height="56" rx="4"/><path d="M111 94 Q102 74 111 64 Q120 74 111 94 Z"/><path d="M150 86 Q141 66 150 56 Q159 66 150 86 Z"/><path d="M189 94 Q180 74 189 64 Q198 74 189 94 Z"/>') },
+      { id: 'balloon', name: 'Bóng bay', icon: '🎈', svg: wrapDashedSvg('<ellipse cx="150" cy="116" rx="68" ry="82"/><polygon points="150,198 138,214 162,214"/><path d="M150 214 Q170 236 144 254 T156 280"/><path d="M112 86 Q120 66 138 60"/>') },
+      { id: 'umbrella', name: 'Chiếc ô', icon: '☂️', svg: wrapDashedSvg('<path d="M44 156 A106 106 0 0 1 256 156"/><path d="M44 156 Q79 134 114 156 Q150 134 186 156 Q221 134 256 156"/><line x1="150" y1="36" x2="150" y2="50"/><path d="M150 148 V244 C150 264 124 264 124 246"/>') },
+      { id: 'star', name: 'Ngôi sao', icon: '⭐', svg: wrapDashedSvg('<polygon points="150,32 184,106 266,116 204,172 220,254 150,214 80,254 96,172 34,116 116,106"/>') },
+      { id: 'heart', name: 'Trái tim', icon: '❤️', svg: wrapDashedSvg('<path d="M150 256 C62 192 34 132 52 88 C70 46 122 46 150 90 C178 46 230 46 248 88 C266 132 238 192 150 256 Z"/>') }
+    ];
 
     let drawColor = '#EF4444';
     let isRainbowBrush = false;
@@ -1854,80 +2426,51 @@
     let isDrawing = false;
     let lastDrawPt = null;
     let undoStack = [];
-    const MAX_UNDO = 20;
+    const MAX_UNDO = 25;
 
-    // SVG mẫu tập tô nét đứt mờ (dùng chung cho hiển thị nền & xuất file PNG)
-    const TEMPLATE_SVGS = {
-      blank: '',
-      sun: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-[320px] max-h-[320px]">
-        <g fill="none" stroke="#CBD5E1" stroke-width="5" stroke-dasharray="10 8" stroke-linecap="round">
-          <circle cx="150" cy="150" r="64"/>
-          <line x1="150" y1="30" x2="150" y2="66"/>
-          <line x1="150" y1="234" x2="150" y2="270"/>
-          <line x1="30" y1="150" x2="66" y2="150"/>
-          <line x1="234" y1="150" x2="270" y2="150"/>
-          <line x1="65" y1="65" x2="92" y2="92"/>
-          <line x1="208" y1="208" x2="235" y2="235"/>
-          <line x1="235" y1="65" x2="208" y2="92"/>
-          <line x1="92" y1="208" x2="65" y2="235"/>
-          <path d="M126 164 Q150 186 174 164"/>
-        </g>
-        <circle cx="130" cy="136" r="6" fill="#CBD5E1"/>
-        <circle cx="170" cy="136" r="6" fill="#CBD5E1"/>
-      </svg>`,
-      flower: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-[320px] max-h-[320px]">
-        <g fill="none" stroke="#CBD5E1" stroke-width="5" stroke-dasharray="10 8" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="150" cy="115" r="32"/>
-          <circle cx="150" cy="60" r="28"/>
-          <circle cx="202" cy="96" r="28"/>
-          <circle cx="184" cy="158" r="28"/>
-          <circle cx="116" cy="158" r="28"/>
-          <circle cx="98" cy="96" r="28"/>
-          <line x1="150" y1="184" x2="150" y2="278"/>
-          <path d="M150 232 Q196 204 206 238 Q174 256 150 232 Z"/>
-          <path d="M150 248 Q104 220 94 254 Q126 272 150 248 Z"/>
-        </g>
-      </svg>`,
-      house: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-[320px] max-h-[320px]">
-        <g fill="none" stroke="#CBD5E1" stroke-width="5" stroke-dasharray="10 8" stroke-linecap="round" stroke-linejoin="round">
-          <polygon points="150,40 45,135 255,135"/>
-          <rect x="70" y="135" width="160" height="125" rx="8"/>
-          <rect x="128" y="185" width="44" height="75" rx="6"/>
-          <rect x="88" y="155" width="30" height="30" rx="4"/>
-          <rect x="182" y="155" width="30" height="30" rx="4"/>
-          <rect x="195" y="55" width="24" height="44"/>
-        </g>
-      </svg>`,
-      butterfly: `<svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" class="w-full h-full max-w-[320px] max-h-[320px]">
-        <g fill="none" stroke="#CBD5E1" stroke-width="5" stroke-dasharray="10 8" stroke-linecap="round" stroke-linejoin="round">
-          <ellipse cx="150" cy="160" rx="14" ry="58"/>
-          <circle cx="150" cy="88" r="16"/>
-          <path d="M142 74 Q124 44 108 54"/>
-          <path d="M158 74 Q176 44 192 54"/>
-          <path d="M138 128 C72 60, 24 128, 74 166 C94 178, 124 170, 138 158"/>
-          <path d="M162 128 C228 60, 276 128, 226 166 C206 178, 176 170, 162 158"/>
-          <path d="M138 168 C78 182, 62 246, 114 238 C128 236, 138 214, 140 198"/>
-          <path d="M162 168 C222 182, 238 246, 186 238 C172 236, 162 214, 160 198"/>
-        </g>
-      </svg>`
-    };
+    function renderDrawTemplatesUI() {
+      const currentObj = DRAW_TEMPLATES.find(t => t.id === currentDrawTemplate) || DRAW_TEMPLATES[0];
+      document.getElementById('current-tpl-name').textContent = currentObj.name;
+
+      document.getElementById('draw-template-strip').innerHTML = DRAW_TEMPLATES.map(t => {
+        const active = t.id === currentDrawTemplate;
+        return `
+          <button type="button" onclick="setDrawTemplate('${t.id}')"
+            class="px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition active:scale-95 flex items-center gap-1 ${
+              active ? 'bg-indigo-500 border-indigo-500 text-white shadow-xs' : 'bg-cream border-orange-100 text-stone-600 hover:bg-orange-50'
+            }">
+            <span>${t.icon}</span><span>${t.name}</span>
+          </button>`;
+      }).join('');
+
+      document.getElementById('draw-templates-modal-grid').innerHTML = DRAW_TEMPLATES.map(t => {
+        const active = t.id === currentDrawTemplate;
+        return `
+          <button type="button" onclick="pickDrawTemplateFromModal('${t.id}')"
+            class="p-3 rounded-2xl border-2 flex flex-col items-center justify-center gap-1.5 transition active:scale-95 ${
+              active ? 'bg-indigo-50 border-indigo-500 text-indigo-700' : 'bg-cream border-orange-100 text-stone-700 hover:bg-orange-50'
+            }">
+            <span class="text-3xl leading-none">${t.icon}</span>
+            <span class="text-xs font-black text-center leading-tight">${t.name}</span>
+          </button>`;
+      }).join('');
+    }
+
+    function pickDrawTemplateFromModal(tplId) { setDrawTemplate(tplId); closeModal('modal-draw-templates'); }
 
     function renderDrawToolbar() {
-      const bar = document.getElementById('draw-colors-bar');
-      bar.innerHTML = DRAW_COLORS.map(c => {
+      document.getElementById('draw-colors-bar').innerHTML = DRAW_COLORS.map(c => {
         const selected = !isEraser && ((c.hex === 'rainbow' && isRainbowBrush) || (!isRainbowBrush && drawColor === c.hex));
         const style = c.hex === 'rainbow'
           ? 'background: conic-gradient(#EF4444, #F59E0B, #22C55E, #0EA5E9, #A855F7, #EC4899, #EF4444);'
           : `background-color: ${c.hex};`;
         return `
-          <button type="button" onclick="selectDrawColor('${c.hex}')" title="${c.name}" aria-label="${c.name}"
-            style="${style}"
-            class="w-9 h-9 sm:w-10 sm:h-10 rounded-full transition active:scale-90 flex items-center justify-center ${
+          <button type="button" onclick="selectDrawColor('${c.hex}')" title="${c.name}" aria-label="${c.name}" style="${style}"
+            class="w-8 h-8 sm:w-9 sm:h-9 rounded-full transition active:scale-90 flex items-center justify-center ${
               selected ? 'ring-4 ring-offset-2 ring-indigo-500 scale-110 shadow-md' : 'border-2 border-white shadow-xs'
             }">
-            ${c.hex === 'rainbow' ? '<span class="text-sm drop-shadow">🌈</span>' : ''}
-          </button>
-        `;
+            ${c.hex === 'rainbow' ? '<span class="text-xs drop-shadow">🌈</span>' : ''}
+          </button>`;
       }).join('');
 
       document.querySelectorAll('.brush-size-btn').forEach(btn => {
@@ -1937,44 +2480,20 @@
           : 'brush-size-btn px-3 py-2 rounded-2xl border-2 flex items-center gap-1.5 text-xs font-extrabold transition border-orange-100 bg-cream text-stone-600';
       });
 
-      const eraserBtn = document.getElementById('draw-eraser-btn');
-      eraserBtn.className = isEraser
+      document.getElementById('draw-eraser-btn').className = isEraser
         ? 'px-4 py-2 rounded-2xl border-2 text-xs font-black transition active:scale-95 flex items-center gap-1.5 bg-pink-500 border-pink-500 text-white shadow-sm'
         : 'px-4 py-2 rounded-2xl border-2 text-xs font-black transition active:scale-95 flex items-center gap-1.5 bg-cream border-orange-200 text-stone-700';
-
-      document.querySelectorAll('.draw-tpl-btn').forEach(btn => {
-        const active = btn.getAttribute('data-tpl') === currentDrawTemplate;
-        btn.className = active
-          ? 'draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-black border-2 whitespace-nowrap shrink-0 transition bg-indigo-500 border-indigo-500 text-white'
-          : 'draw-tpl-btn px-3 py-2 rounded-2xl text-xs font-extrabold border-2 whitespace-nowrap shrink-0 transition bg-cream border-orange-100 text-stone-600';
-      });
     }
 
-    function selectDrawColor(hex) {
-      isEraser = false;
-      if (hex === 'rainbow') {
-        isRainbowBrush = true;
-      } else {
-        isRainbowBrush = false;
-        drawColor = hex;
-      }
-      renderDrawToolbar();
-    }
+    function selectDrawColor(hex) { isEraser = false; isRainbowBrush = (hex === 'rainbow'); if (!isRainbowBrush) drawColor = hex; renderDrawToolbar(); }
+    function setBrushSize(sizeKey) { currentBrushSizeKey = sizeKey; renderDrawToolbar(); }
+    function toggleEraser() { isEraser = !isEraser; renderDrawToolbar(); }
 
-    function setBrushSize(sizeKey) {
-      currentBrushSizeKey = sizeKey;
-      renderDrawToolbar();
-    }
-
-    function toggleEraser() {
-      isEraser = !isEraser;
-      renderDrawToolbar();
-    }
-
-    function setDrawTemplate(tplKey) {
-      currentDrawTemplate = tplKey;
-      document.getElementById('drawing-template-layer').innerHTML = TEMPLATE_SVGS[tplKey] || '';
-      renderDrawToolbar();
+    function setDrawTemplate(tplId) {
+      currentDrawTemplate = tplId;
+      const tpl = DRAW_TEMPLATES.find(t => t.id === tplId) || DRAW_TEMPLATES[0];
+      document.getElementById('drawing-template-layer').innerHTML = tpl.svg || '';
+      renderDrawTemplatesUI();
     }
 
     function resizeDrawingCanvas(preserveContent) {
@@ -1983,11 +2502,9 @@
       if (!stage || !canvas) return;
       const rect = stage.getBoundingClientRect();
       if (rect.width < 10 || rect.height < 10) return;
-
       const dpr = window.devicePixelRatio || 1;
       const targetW = Math.floor(rect.width * dpr);
       const targetH = Math.floor(rect.height * dpr);
-
       if (canvas.width === targetW && canvas.height === targetH) return;
 
       let snapshot = null;
@@ -1997,32 +2514,23 @@
         snapshot.height = canvas.height;
         snapshot.getContext('2d').drawImage(canvas, 0, 0);
       }
-
       canvas.width = targetW;
       canvas.height = targetH;
-
-      if (snapshot) {
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(snapshot, 0, 0, targetW, targetH);
-      }
+      if (snapshot) canvas.getContext('2d').drawImage(snapshot, 0, 0, targetW, targetH);
     }
 
     function pushUndoSnapshot() {
       const canvas = document.getElementById('drawing-canvas');
       if (!canvas || canvas.width === 0 || canvas.height === 0) return;
-      const ctx = canvas.getContext('2d');
       try {
-        undoStack.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        undoStack.push(canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height));
         if (undoStack.length > MAX_UNDO) undoStack.shift();
       } catch (e) {}
     }
 
     function undoDrawing() {
       const canvas = document.getElementById('drawing-canvas');
-      if (!canvas || undoStack.length === 0) {
-        showToast('Chưa có nét vẽ nào để hoàn tác');
-        return;
-      }
+      if (!canvas || undoStack.length === 0) { showToast('Chưa có nét vẽ nào để hoàn tác'); return; }
       const prev = undoStack.pop();
       const ctx = canvas.getContext('2d');
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -2033,25 +2541,20 @@
       const canvas = document.getElementById('drawing-canvas');
       if (!canvas) return;
       pushUndoSnapshot();
-      const ctx = canvas.getContext('2d');
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      showToast('Đã lau sạch bảng vẽ!');
+      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      showToast('Đã xóa sạch nét vẽ!');
     }
 
     function getCanvasPointerPos(e) {
       const canvas = document.getElementById('drawing-canvas');
       const rect = canvas.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
-      return {
-        x: (e.clientX - rect.left) * dpr,
-        y: (e.clientY - rect.top) * dpr
-      };
+      return { x: (e.clientX - rect.left) * dpr, y: (e.clientY - rect.top) * dpr };
     }
 
     function initDrawingEvents() {
       const canvas = document.getElementById('drawing-canvas');
       if (!canvas) return;
-
       canvas.addEventListener('pointerdown', (e) => {
         e.preventDefault();
         resizeDrawingCanvas(true);
@@ -2061,7 +2564,6 @@
         lastDrawPt = getCanvasPointerPos(e);
         drawSegment(lastDrawPt, lastDrawPt);
       });
-
       canvas.addEventListener('pointermove', (e) => {
         if (!isDrawing) return;
         e.preventDefault();
@@ -2069,11 +2571,7 @@
         drawSegment(lastDrawPt, pt);
         lastDrawPt = pt;
       });
-
-      const stopDraw = () => {
-        isDrawing = false;
-        lastDrawPt = null;
-      };
+      const stopDraw = () => { isDrawing = false; lastDrawPt = null; };
       canvas.addEventListener('pointerup', stopDraw);
       canvas.addEventListener('pointercancel', stopDraw);
     }
@@ -2083,11 +2581,9 @@
       const ctx = canvas.getContext('2d');
       const dpr = window.devicePixelRatio || 1;
       const baseWidth = BRUSH_SIZES[currentBrushSizeKey] || 12;
-
       ctx.save();
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-
       if (isEraser) {
         ctx.globalCompositeOperation = 'destination-out';
         ctx.lineWidth = baseWidth * 2.2 * dpr;
@@ -2097,12 +2593,11 @@
         ctx.lineWidth = baseWidth * dpr;
         if (isRainbowBrush) {
           rainbowHue = (rainbowHue + 4) % 360;
-          ctx.strokeStyle = `hsl(${rainbowHue}, 92%, 56%)`;
+          ctx.strokeStyle = `hsl(${rainbowHue}, 92%, 55%)`;
         } else {
           ctx.strokeStyle = drawColor;
         }
       }
-
       ctx.beginPath();
       ctx.moveTo(p1.x, p1.y);
       ctx.lineTo(p2.x, p2.y);
@@ -2110,17 +2605,13 @@
       ctx.restore();
     }
 
-    // Lưu tranh (.PNG) gồm nền trắng + hình mẫu mờ (nếu có) + nét vẽ của bé
     function saveDrawingPng() {
       const canvas = document.getElementById('drawing-canvas');
       if (!canvas || canvas.width === 0) return;
-
       const exportCanvas = document.createElement('canvas');
       exportCanvas.width = canvas.width;
       exportCanvas.height = canvas.height;
       const ectx = exportCanvas.getContext('2d');
-
-      // Nền trắng sạch
       ectx.fillStyle = '#FFFFFF';
       ectx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
 
@@ -2140,21 +2631,17 @@
         }
       };
 
-      const svgMarkup = TEMPLATE_SVGS[currentDrawTemplate];
-      if (svgMarkup) {
+      const tplObj = DRAW_TEMPLATES.find(t => t.id === currentDrawTemplate);
+      if (tplObj && tplObj.svg) {
         const img = new Image();
-        const svgBlob = new Blob([svgMarkup], { type: 'image/svg+xml;charset=utf-8' });
-        const url = URL.createObjectURL(svgBlob);
+        const url = URL.createObjectURL(new Blob([tplObj.svg], { type: 'image/svg+xml;charset=utf-8' }));
         img.onload = () => {
           const size = Math.min(exportCanvas.width, exportCanvas.height) * 0.82;
           ectx.drawImage(img, (exportCanvas.width - size) / 2, (exportCanvas.height - size) / 2, size, size);
           URL.revokeObjectURL(url);
           finalizeDownload();
         };
-        img.onerror = () => {
-          URL.revokeObjectURL(url);
-          finalizeDownload();
-        };
+        img.onerror = () => { URL.revokeObjectURL(url); finalizeDownload(); };
         img.src = url;
       } else {
         finalizeDownload();
@@ -2162,7 +2649,7 @@
     }
 
     // =========================================================
-    // 7. KHỞI TẠO ỨNG DỤNG
+    // 8. KHỞI TẠO ỨNG DỤNG
     // =========================================================
     window.addEventListener('resize', () => {
       if (state.activeMainTab === 'toddler' && state.activeToddlerSubTab === 'draw') {
@@ -2171,23 +2658,22 @@
     });
 
     window.onload = function () {
-      // Gắn icon ứng dụng tự vẽ vào Header
       if (window.__APP_ICON_URL__) {
         const img = document.getElementById('header-app-icon');
         const fb = document.getElementById('header-app-fallback');
-        if (img) {
-          img.src = window.__APP_ICON_URL__;
-          img.classList.remove('hidden');
-        }
+        if (img) { img.src = window.__APP_ICON_URL__; img.classList.remove('hidden'); }
         if (fb) fb.classList.add('hidden');
       }
 
+      refreshFemaleVoice();
       updateSoundUI();
-      renderMathStats();
+      renderSisterStats();
       updateMathSetupSelectionUI();
       renderTimesTable('mul');
+      renderVietTopicGrid();
 
-      selectExploreCategory(state.exploreCategory || 'animals');
+      selectExploreCategory(state.exploreCategory || 'farm');
+      renderDrawTemplatesUI();
       renderDrawToolbar();
       initDrawingEvents();
       switchToddlerSubTab(state.activeToddlerSubTab || 'explore');
